@@ -24,11 +24,12 @@ struct loop
         {
             return -1;
         }
-        unsigned long long f1 = 1, f2 = 0;
+        unsigned long long f1 = 1, f2 = 0, tmp;
         while (n--)
         {
+            tmp = f1;
             f1 = f1 + f2;
-            f2 = f1 - f2;
+            f2 = tmp;
         }
         return f1;
     }
@@ -55,15 +56,15 @@ public:
         return fibonacciHelper(n, 1, 0);
     }
 };
-// TODO: 
-// At https://www.ics.uci.edu/~eppstein/161/960109.html, an algorithm using matrices is analyzed. Complexity boils down to logarithmic/
-// ({{1, 1}, {1, 0}} ^ n)[0,1] = fibonacci(n); 
+
+// At https://www.ics.uci.edu/~eppstein/161/960109.html, an algorithm using matrices is analyzed. Complexity boils down to logarithmic.
+// ({{1, 1}, {1, 0}} ^ n)[0,0] = fibonacci(n+1); 
 // See algorithm #5. 
-// Matrix multiplication can be done using the Gnu Scientific Library (using double, not unsigned long long):
+// Matrix multiplication can be done using the Gnu Scientific Library. Unfortunately, it uses double, not unsigned long long.
 // http://www.gnu.org/software/gsl/manual/html_node/Matrices.html#Matrices
 // http://www.network-theory.co.uk/docs/gslref/BLASExamples.html
 // http://www.gnu.org/software/gsl/manual/html_node/Level-3-GSL-BLAS-Interface.html
-// If not using gsl (nor MATLAB), this may come handy:
+// If not using gsl, this may come handy:
 // http://www.kerrywong.com/2009/03/07/matrix-multiplication-performance-in-c/
 
 namespace matrixMultiplication
@@ -81,6 +82,7 @@ namespace matrixMultiplication
                 buffer[i] = 0;
             }
         }
+        // Setter, getter. A good compiler should inline these. 
         void At(size_t r, size_t c, T value)
         {
             // Not checking overflow or nothing. 
@@ -90,9 +92,12 @@ namespace matrixMultiplication
         {
             return  buffer[r * ROWS + c];
         }
+        // Matrix multiplication. 
+        // See http://www.kerrywong.com/2009/03/07/matrix-multiplication-performance-in-c/
         template <typename T2>
         Matrix<ROWS, ROWS, T> operator * (const Matrix<COLS, ROWS, T2> &that) const
         {
+            // Yep. Twice rows. You multiply two rectangles and get a square. 
             Matrix<ROWS, ROWS, T> result;
             for (long i=0; i<ROWS; i++)
             {
@@ -116,23 +121,23 @@ namespace matrixMultiplication
         
 /*
 https://www.ics.uci.edu/~eppstein/161/960109.html
-Algorithm 5:
+Algorithm 5, O(log n):
 
     int M[2][2] = {{1,0}{0,1}}
 
     int fib(int n)
     {
-    matpow(n-1);
-    return M[0][0];
+        matpow(n-1);
+        return M[0][0];
     }
 
     void matpow(int n)
     {
-    if (n > 1) {
-        matpow(n/2);
-        M = M*M;
-    }
-    if (n is odd) M = M*{{1,1}{1,0}}
+        if (n > 1) {
+            matpow(n/2);
+            M = M*M;
+        }
+        if (n is odd) M = M*{{1,1}{1,0}}
     }
 */
 private:
@@ -151,7 +156,8 @@ private:
             }
         }
 
-public:        
+public:    
+        // O(log n)
         static unsigned long long fibonacci(uint_fast16_t n) 
         {
             matrix_t one;
@@ -164,7 +170,7 @@ public:
             matpow(one, factor, n);
             return one.At(0, 0);
         }   
-
+        // O(n), less efficient implementation. 
         static unsigned long long fibonacciNaive(uint_fast16_t n) 
         {
             Matrix<2, 2, unsigned long long> base;
@@ -179,22 +185,6 @@ public:
             }
             return base.At(0, 0);
         }
-        /*
-        static void test(void)
-        {
-            Matrix<2, 2, unsigned long long> base;
-            base.At(0, 0, 1);
-            base.At(0, 1, 1);
-            base.At(1, 0, 1);
-            Matrix<2, 2, unsigned long long> factor = base;
-
-            for (uint_fast16_t i = 1; i < 40; ++i)
-            {
-                base = base * factor;
-                cout << "[" << i << "] {{" << base.At(0,0) << "," << base.At(0,1) << "},{" <<  base.At(1,0) << "," <<  base.At(1,1) << "}}" << endl;
-            }
-        }
-        //*/
     }; 
 }
 
@@ -203,6 +193,7 @@ namespace UsingTheFormula
     // Accurate only up to 77. 
     // This is because a double has 64 bits in total, and some are used for the mantissa and sign; the unsigned long long has 64 bits for the number. 
     // http://www.codeproject.com/Tips/508629/Fibonacci-Without-Loops-or-Recursion
+    // It is also apparently inefficient. This makes sense: pow(double) is heavier that a few additions. 
     unsigned long long fibonacci(uint_fast16_t n)
     {
         return (unsigned long long) (0.5 + 0.44721359549995682 * pow(1.6180339887498949, n + 1));
@@ -211,9 +202,11 @@ namespace UsingTheFormula
 
 namespace metaprogrammed
 {
+    // Shorthand.
     typedef unsigned long long ull;
     
-    // Template metaprogramming and class enums allow us to compute the Fibonacci series at compile time.
+    // Template metaprogramming and class enums allow us to compute the Fibonacci series at compile time: O(1)
+    // Before C++11, we couldn't define 64-bit enums. There was a hack (defining a 'unsigned long long getValue()' function), but it was ugly. 
     template <uint_fast16_t n>
     struct Fibonacci 
     {
@@ -233,6 +226,7 @@ namespace metaprogrammed
     // An array of 93 integers, 64 bits each, takes 744 bytes. They are calculated at _compile_ _time_.
     // The compiled size of any of the functions (loop, recursion), even if smaller, cannot 'pay' for the run time overhead. 
     // O(1) always wins.
+    // The array could also have been initialized with literals downloaded from http://ibiblio.org/pub/docs/books/gutenberg/etext01/fbncc10.txt (among many others)
     static const ull  Values [] = {
         (ull) Fibonacci<0>::Element::value,  
         (ull) Fibonacci<1>::Element::value,  
