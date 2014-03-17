@@ -155,8 +155,7 @@ int main()
 {
     ShowResults();
     TestPerformance();
- //   matrixMultiplication::UsingMatrix::test();
-   // TestEvil();
+    TestEvil();
     return 0;
 }
 

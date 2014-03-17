@@ -34,8 +34,8 @@ http://support.cloud9ide.com/entries/21285626-How-do-I-push-my-Cloud9-project-to
 
 // https://github.com/Pablo-Aliskevicius/cpp11test
 // git remote add origin git@github.com:C9Support/testPush.git 
-
-git remote add origin git@github.com:C9Support/Pablo-Aliskevicius/cpp11test 
+git init -- maybe only once? 
+git remote add origin git@github.com:Pablo-Aliskevicius/cpp11test 
 
 Add files and commit them:
 git add . 

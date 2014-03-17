@@ -179,6 +179,7 @@ public:
             }
             return base.At(0, 0);
         }
+        /*
         static void test(void)
         {
             Matrix<2, 2, unsigned long long> base;
@@ -193,19 +194,19 @@ public:
                 cout << "[" << i << "] {{" << base.At(0,0) << "," << base.At(0,1) << "},{" <<  base.At(1,0) << "," <<  base.At(1,1) << "}}" << endl;
             }
         }
+        //*/
     }; 
 }
 
 namespace UsingTheFormula 
 {
-    //*
-    // TODO: Convert to C++. Accurate only up to 77. 
+    // Accurate only up to 77. 
+    // This is because a double has 64 bits in total, and some are used for the mantissa and sign; the unsigned long long has 64 bits for the number. 
     // http://www.codeproject.com/Tips/508629/Fibonacci-Without-Loops-or-Recursion
     unsigned long long fibonacci(uint_fast16_t n)
     {
         return (unsigned long long) (0.5 + 0.44721359549995682 * pow(1.6180339887498949, n + 1));
     }  
-    //*/
 }
 
 namespace metaprogrammed
