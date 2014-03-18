@@ -26,9 +26,20 @@ using namespace std;
 // They should be identical. Where they ain't, paint red.  
 // Colorization is done using the ANSI escape sequences: http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
 void CompareResults()
-{ 
+{  
     typedef unsigned long long (*fibo_t) (uint_fast16_t);
     fibo_t functors [] { loop::fibonacci, goodRecursion::fibonacci, metaprogrammed::ConstantTime::fibonacci, matrixMultiplication::UsingMatrix::fibonacci, withoutLoopsOrRecursion::fibonacci };
+    cout << "     ";
+    for (auto n: {  
+        "\033[31;1mgoodRecursion\033[0m", 
+        "\033[32;1mloop\033[0m", 
+        "\033[33;1mConstantTime\033[0m", 
+        "\033[36;1mUsingMatrix\033[0m",
+        "\033[34;1mwithoutLoopsOrRecursion\033[0m"
+    }) {
+        cout << setw(34) << n << "   "; 
+    }
+    cout << endl;
     std::vector<unsigned long long> results(sizeof(functors) / sizeof(functors[0]));
     const string red = "\033[31;1m";
     const string empty = "";
@@ -42,7 +53,7 @@ void CompareResults()
             results[i] = f(n);
             cout 
                  << (results[i] == results[0] ? empty: red) 
-                 << setw(21) 
+                 << setw(23) 
                  << results[i] 
                  << (results[i] == results[0] ? empty: reset) 
                  << "   ";
@@ -54,7 +65,7 @@ void CompareResults()
     for (int i = 0; i < sizeof(functors) / sizeof(functors[0]); ++i)
     {
         fibo_t f = functors[i];
-        cout << setw(21) << f(92) + f(91) <<  "   ";
+        cout << setw(23) << f(92) + f(91) <<  "   ";
     }
     cout << reset << endl; 
 } // void ShowResults()
@@ -77,11 +88,12 @@ void ComparePerformance()
         tests[i].param = n;
         ++histogram[n];
     }
-    // Show the histogram of expected tests per value.     
+    // Show the histogram of expected tests per value.  
+     cout << "\033[34m" << "Number of tests, in random order, to run for each of the 93 possible parameter values (0 to 92)" << "\033[0m" << endl;
     for (int i = 0; i < 93; ++i)
     {
         cout << "[" << setw(2) << i << "]: " << setw(4) <<  histogram[i] << "    ";
-        if (4 == (i % 5)) cout << endl;
+        if (9 == (i % 10)) cout << endl;
     }
     cout << endl;
     
@@ -114,6 +126,7 @@ void ComparePerformance()
     const int loops = 5;
     // multiset<> is automatically sorted. 
     multiset<result> results;
+    cout << "\033[34m" << "Time to compute Fibonacci values, ordered by speed (fastest to the top)" << "\033[0m" << endl;
     for (int k = 0; k < loops; ++k)
     {
         // For each tested function
@@ -128,7 +141,7 @@ void ComparePerformance()
             {
                 test.result = 0;
             }
-            StopWatch sw;
+            StopWatch sw;   
             // Now fill the results in the vector 
             for (auto test: tests)
             {
@@ -160,6 +173,7 @@ void TestBadAndInefficient()
             << (elapsed_seconds > 1.0 ? "\033[31;1m": "")
             << setw(10) << fixed << setprecision(6) 
             << elapsed_seconds << "\033[0m seconds to run just ONCE " << endl;
+        // I don't want to wait for too long. The first time a single function calls takes more than 10 seconds, we're done. 
         if (elapsed_seconds > 10.0) 
         {
             break; // for

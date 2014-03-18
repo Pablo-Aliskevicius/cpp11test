@@ -7,7 +7,7 @@ struct evilBadAndInefficient
     //    http://pages.cs.wisc.edu/~calvin/cs110/RECURSION.html 
     static unsigned long long fibonacci(uint_fast16_t n)
     {
-        if (n < 3) return 1;
+        if (n < 2) return 1;
         if (n > 92) return -1;
         // Bad, bad code!
         return fibonacci(n-1) + fibonacci(n-2);
