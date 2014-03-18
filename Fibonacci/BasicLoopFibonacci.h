@@ -7,8 +7,12 @@ struct loop
         {
             return -1;
         }
-        unsigned long long f1 = 1, f2 = 0, tmp;
-        while (n--)
+        if (0 == n)
+        {
+            return 1;
+        }
+        unsigned long long f1 = 1, f2 = 1, tmp;
+        while (--n)
         {
             tmp = f1;
             f1 = f1 + f2;

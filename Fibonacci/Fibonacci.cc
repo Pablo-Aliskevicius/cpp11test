@@ -10,8 +10,10 @@
 #include <cmath>
 #include <set>
 
+
+#include "StopWatch.h"
 using namespace std;
-typedef  chrono::time_point<std::chrono::high_resolution_clock>  timePoint; // could also use steady_clock. 
+
 #include "HorribleRecursiveFibonacci.h"
 #include "BasicLoopFibonacci.h"
 #include "BasicRecursiveFibonacci.h"
@@ -54,14 +56,16 @@ void ShowResults()
         fibo_t f = functors[i];
         cout << setw(21) << f(92) + f(91) <<  "   ";
     }
-    cout << reset << endl;
+    cout << reset << endl; 
 } // void ShowResults()
  
 void TestPerformance() 
 {
-    // Set up some random tests, to make optimizing the tests away hard to the compiler.   
-    const int testCount = 100000; 
+    // Set up some random tests, to make optimizing the tests away hard to the compiler. 
+    // Above a certain limit, testCount will throw. 
+    const int testCount = 250000; 
     struct test { uint_fast16_t param; unsigned long long result; };
+    // If testCount is too big, the destructor of this vector throws.
     vector<test> tests(testCount);
     vector<uint_fast16_t > histogram(93, 0); 
     // C++ 11 Random number generator: another good thing that was added in C++11.
@@ -91,7 +95,7 @@ void TestPerformance()
         "\033[32;1mloop::fibonacci\033[0m", 
         "\033[33;1mmetaprogrammed::ConstantTime::fibonacci\033[0m", 
         "\033[36;1mmatrixMultiplication::UsingMatrix::fibonacci\033[0m",
-        "\033[35;1mwithoutLoopsOrRecursion::fibonacci\033[0m"
+        "\033[34;1mwithoutLoopsOrRecursion::fibonacci\033[0m"
     };
     
     // Pick the function in random order. 
@@ -124,15 +128,14 @@ void TestPerformance()
             {
                 test.result = 0;
             }
-            timePoint start = chrono::high_resolution_clock::now();
+            StopWatch sw;
             // Now fill the results in the vector 
             for (auto test: tests)
             {
                 test.result = f(test.param);
             }
-            timePoint end = chrono::high_resolution_clock::now();
-            chrono::nanoseconds elapsed_nanoseconds = chrono::duration_cast<chrono::nanoseconds>(end-start);	
-            results.insert(result(elapsed_nanoseconds.count(), name));
+            sw.Stop();
+            results.insert(result(sw.GetElapsedNanoseconds().count(), name));
         } //i 
     } // k  
     // This should be sorted by elapsed seconds count. 
@@ -148,16 +151,16 @@ void TestBadAndInefficient()
     cout << "\033[34m" << "Now we'll spend a minute or two running the slow, bad version of Fibonacci" << "\033[0m" << endl;
     for (uint_fast16_t n = 0; n < 93; ++n)
     {
-        timePoint start =chrono::high_resolution_clock::now();
+        StopWatch sw;
         unsigned long long fibo = evilBadAndInefficient::fibonacci(n);
-        timePoint end = chrono::high_resolution_clock::now();
-        chrono::duration<double> elapsed_seconds = end-start;
+        sw.Stop();
+        double elapsed_seconds = sw.GetElapsedSeconds().count();
         cout << "[" << n << "]:\t" << setw(22) << fibo;
         cout << " took " 
-            << (elapsed_seconds.count() > 1.0 ? "\033[31;1m": "")
+            << (elapsed_seconds > 1.0 ? "\033[31;1m": "")
             << setw(10) << fixed << setprecision(6) 
-            << elapsed_seconds.count() << "\033[0m seconds to run just ONCE " << endl;
-        if (elapsed_seconds.count() > 10.0) 
+            << elapsed_seconds << "\033[0m seconds to run just ONCE " << endl;
+        if (elapsed_seconds > 10.0) 
         {
             break; // for
         }

@@ -1,16 +1,13 @@
-all: ../output/Fibonacci 
+objects = ../output/Fibonacci.o ../output/FibonacciInConstantTime.o 
 
-../output/Fibonacci: Fibonacci.cc FibonacciInConstantTime.h HorribleRecursiveFibonacci.h BasicLoopFibonacci.h BasicRecursiveFibonacci.h LogarithmicFibonacciUsingMatrices.h FibonacciWithoutLoopsOrRecursion.h 
-	g++ -std=c++11 -O2 $< -o $@
+../output/Fibonacci: $(objects)
+	g++ -o ../output/Fibonacci $(objects) 
+    
+../output/Fibonacci.o: Fibonacci.cc FibonacciInConstantTime.h HorribleRecursiveFibonacci.h BasicLoopFibonacci.h BasicRecursiveFibonacci.h LogarithmicFibonacciUsingMatrices.h FibonacciWithoutLoopsOrRecursion.h 
+	g++ -c -std=c++11 -O2 $< -o $@ 
 
-Fibonacci: Fibonacci.cc FibonacciInConstantTime.h HorribleRecursiveFibonacci.h BasicLoopFibonacci.h BasicRecursiveFibonacci.h LogarithmicFibonacciUsingMatrices.h FibonacciWithoutLoopsOrRecursion.h 
-	g++ -std=c++11 -O2 $< -o ../output/$@
+../output/FibonacciInConstantTime.o : FibonacciInConstantTime.cc FibonacciInConstantTime.h
+	g++ -c -std=c++11 -O2 $< -o ../output/$@ 
 	
-%: %.cc
-	g++ -std=c++11 -O2 -lpthread $< -o ../output/$@
-
-../output/%: %.cc
-	g++ -std=c++11 -O2 -lpthread $< -o $@
-
 
 
