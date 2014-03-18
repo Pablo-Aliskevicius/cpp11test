@@ -25,7 +25,7 @@ using namespace std;
 // Show the results of most of the implementations, side by side, on the console. 
 // They should be identical. Where they ain't, paint red.  
 // Colorization is done using the ANSI escape sequences: http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-void ShowResults()
+void CompareResults()
 { 
     typedef unsigned long long (*fibo_t) (uint_fast16_t);
     fibo_t functors [] { loop::fibonacci, goodRecursion::fibonacci, metaprogrammed::ConstantTime::fibonacci, matrixMultiplication::UsingMatrix::fibonacci, withoutLoopsOrRecursion::fibonacci };
@@ -59,7 +59,7 @@ void ShowResults()
     cout << reset << endl; 
 } // void ShowResults()
  
-void TestPerformance() 
+void ComparePerformance() 
 {
     // Set up some random tests, to make optimizing the tests away hard to the compiler. 
     // Above a certain limit, testCount will throw. 
@@ -169,8 +169,8 @@ void TestBadAndInefficient()
 
 int main()
 {
-    ShowResults();
-    TestPerformance();
+    CompareResults();
+    ComparePerformance();
     TestBadAndInefficient();
     return 0;
 }

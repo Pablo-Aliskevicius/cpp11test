@@ -82,7 +82,7 @@ See there Algorithm 5, O(log n):
         if (n is odd) M = M*{{1,1}{1,0}}
     }
 */
-private:
+private: 
         typedef Matrix<2, 2, unsigned long long> matrix_t;  
         // Recursive matrix power. 
         static void matpow(matrix_t &em, const matrix_t &factor, uint_fast16_t n)
