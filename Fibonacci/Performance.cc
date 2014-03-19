@@ -19,7 +19,7 @@ using namespace std;
 #include "LogarithmicFibonacciUsingMatrices.h"
 #include "FibonacciWithoutLoopsOrRecursion.h"
 #include "FibonacciInConstantTime.h"
-
+#include "ansi.h"
 #include "Performance.h"
 
  // Short functions are more visible to objdump. 
@@ -106,7 +106,7 @@ using namespace std;
     void Performance::Show(const vector<uint_fast16_t> &histogram)
     {
         // Show the histogram of expected tests per value.  
-        cout << "\033[34m" << "Number of tests, in random order, to run for each of the 93 possible parameter values (0 to 92)" << "\033[0m" << endl;
+        cout << BeginTitle << "Number of tests, in random order, to run for each of the 93 possible parameter values (0 to 92)" << EndTitle << endl;
         int last = histogram.size();
         for (int i = 0; i < last; ++i)
         {
@@ -176,7 +176,7 @@ using namespace std;
         const int loops = 5;
         // multiset<> is automatically sorted. 
         multiset<result> results;
-        cout << "\033[34m" << "Time to compute Fibonacci values, ordered by speed (fastest to the top)" << "\033[0m" << endl;
+        cout << BeginTitle << "Time to compute Fibonacci values, ordered by speed (fastest to the top)" << EndTitle << endl;
         for (int k = 0; k < loops; ++k)
         {
             // For each tested function
@@ -192,11 +192,13 @@ using namespace std;
             } //i 
         } // k  
         // Without the 'pointer to function' overhead. These are interesting when you look at the disassambly.
+        cout << "\033[1;30m";
         results.insert(result(UnfairTest(tests), "\033[1;43m Potentially inlined array lookup\033[0m"));
         results.insert(result(InlinedStandardLoop(tests), "\033[1;42m Potentially inlined standard loop\033[0m"));
         results.insert(result(InlinedMatrix(tests), "\033[1;46m Potentially inlined matrix potentiation\033[0m"));
         results.insert(result(InlinedWithoutLoopsOrRecursion(tests), "\033[1;44m Potentially inlined floating point version\033[0m"));
         results.insert(result(InlinedRecursion(tests), "\033[1;41m Potentially inlined recursion\033[0m"));
+        cout << Reset;
         // This should be sorted by elapsed seconds count. 
         for (auto result:results) result.show();
     } // void Compare() 

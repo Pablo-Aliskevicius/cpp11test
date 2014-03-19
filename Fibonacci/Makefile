@@ -8,13 +8,13 @@ implementations = FibonacciInConstantTime.h HorribleRecursiveFibonacci.h BasicLo
 ../output/Fibonacci: $(objects)
 	g++ -o ../output/Fibonacci $(objects) 
 
-../output/Fibonacci.o: Fibonacci.cc  Performance.h $(implementations)
+../output/Fibonacci.o: Fibonacci.cc  Performance.h ansi.h $(implementations) 
 	g++ -c -std=c++11 -O2 $< -o $@ 
 
 ../output/FibonacciInConstantTime.o: FibonacciInConstantTime.cc FibonacciInConstantTime.h  
 	g++ -c -std=c++11 -O2 $< -o $@
 	
-../output/Performance.o: Performance.cc Performance.h $(implementations)
+../output/Performance.o: Performance.cc Performance.h ansi.h $(implementations)
 	g++ -c -std=c++11 -O2 $< -o $@ 	
 
 # Make the program, then run it immediately.
