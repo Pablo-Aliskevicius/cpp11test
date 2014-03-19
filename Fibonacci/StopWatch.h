@@ -9,8 +9,9 @@ public:
     void Start() {
         start_ = clock_t::now();
     }
-    void Stop() {
+    StopWatch & Stop() {
         end_ = clock_t::now();
+        return *this;
     }
     StopWatch() {
         Start();
