@@ -54,8 +54,7 @@ void CompareResults()
         {
             fibo_t f = functors[i];
             results[i] = f(n);
-            cout 
-                 << (results[i] == results[0] ? Empty: Red) 
+            cout << (results[i] == results[0] ? Empty: Red) 
                  << setw(23) 
                  << results[i] 
                  << (results[i] == results[0] ? Empty: Reset) 
@@ -76,7 +75,6 @@ void CompareResults()
 
 void TestBadAndInefficient() 
 {
-    // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
     cout << BeginTitle << "Now we'll spend a minute or two running the slow, bad version of Fibonacci" << EndTitle << endl;
     for (uint_fast16_t n = 0; n < 93; ++n)
     {

@@ -12,7 +12,7 @@ class Performance
     
     // Short functions are more visible to objdump. 
     static long long TestPerformanceOfOneFunction(vector<test> &tests, fibo_t f); 
-    static long long UnfairTest(vector<test> &tests); 
+    static long long InlinedArrayLookup(vector<test> &tests); 
     static long long InlinedStandardLoop(const vector<test> &tests); 
     static long long InlinedRecursion(vector<test> &tests); 
     static long long InlinedMatrix(vector<test> &tests); 
@@ -20,7 +20,7 @@ class Performance
     static void Show(const vector<uint_fast16_t> &histogram);
     static void SetupTests(vector<test> &tests, vector<uint_fast16_t> &histogram);
 
-    public: 
+  public: 
     static void Compare(); 
     
 };
