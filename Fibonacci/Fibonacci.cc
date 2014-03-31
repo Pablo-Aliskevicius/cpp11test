@@ -9,10 +9,10 @@
 #include <cstdint>
 #include <cmath>
 
-#include "StopWatch.h"
+#include "StopWatch.h"    
 using namespace std;
 
-#include "HorribleRecursiveFibonacci.h"
+#include "HorribleRecursiveFibonacci.h"  
 #include "BasicLoopFibonacci.h"
 #include "BasicRecursiveFibonacci.h"
 #include "LogarithmicFibonacciUsingMatrices.h"
@@ -42,8 +42,8 @@ void CompareResults()
         "\033[33;1mConstantTime\033[0m", 
         "\033[36;1mUsingMatrix\033[0m",
         "\033[34;1mwithoutLoopsOrRecursion\033[0m"
-    }) {
-        cout << setw(37) << n; 
+    }) { 
+        cout << setw(37) << n;   
     }
     cout << endl;
     std::vector<unsigned long long> results(sizeof(functors) / sizeof(functors[0]));

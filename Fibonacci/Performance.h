@@ -2,13 +2,19 @@
 #include <cstdint>
 
 // I tried "auto functors [] { ...", but GCC didn't deduce the type. 
-typedef unsigned long long (*fibo_t) (uint_fast16_t);
+// In C++98, we had to define a function pointer like this: typedef unsigned long long (*fibo_t) (uint_fast16_t);
+// C++11 does it for us:
+using fibo_t = decltype(&loop::fibonacci);
 
 class Performance
 {
     struct test { uint_fast16_t param; unsigned long long result; };
-    // Above a certain value of testCount, the destructor of the vector of tests will throw. 
+    // Above a certain value of testCount, the destructor of the vector of tests will throw.
+#ifdef __LP64__     
     static const int testCount = 250000; 
+#else
+    static const int testCount = 250000; 
+#endif
     
     // Short functions are more visible to objdump. 
     static long long TestPerformanceOfOneFunction(vector<test> &tests, fibo_t f); 

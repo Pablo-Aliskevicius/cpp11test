@@ -17,14 +17,13 @@ namespace metaprogrammed
     template <>
     struct Fibonacci<1u>
     {
-        enum class Element: ull { value = 1L };
+        enum class Element: ull { value = 1ULL };
     };
     template <>
     struct Fibonacci<0u>
     {
-        enum class Element: ull { value = 1L };
+        enum class Element: ull { value = 1ULL };
     };
-        
     
     // An array of 93 integers, 64 bits each, takes 744 bytes. They are calculated at _compile_ _time_.
     // The compiled size of any of the functions (loop, recursion), even if smaller, cannot 'pay' for the run time overhead. 
@@ -134,10 +133,8 @@ namespace metaprogrammed
         (ull) Fibonacci<91>::Element::value,  
         (ull) Fibonacci<92>::Element::value
     };
-    void fake()
+    void bogus()
     {
-        // Protection from human error (this is done at compile time, and disappears at run time).
-        static_assert(93 == sizeof(Values) / sizeof(Values[0]), "The size of the array is not the expected (93): there may be a duplicate or missing value.");        
-        // Ideally, this file will be compiled once in a lifetime.
+        static_assert(93 == sizeof(Values) / sizeof(Values[0]), "The size of the array is not the expected (93): there may be a duplicate or missing value.");   
     }
 }

@@ -128,6 +128,24 @@ using namespace std;
             ++histogram[n];
         }
     }
+    vector<int> GenerateRandomOrder(size_t size)
+    {
+        // Fill and shuffle a vector of integers. 
+        vector<int> randomOrder(size);
+        // Available starting C++11
+        std::iota(randomOrder.begin(), randomOrder.end(), 0); 
+        /*
+        // If a more elaborate algorithm is required, consider std::generate instead of std::iota.
+        int tmp = 0;
+        std::generate(randomOrder.begin(), randomOrder.end(), [&tmp]{ return tmp++; });
+        */
+        unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+        shuffle (randomOrder.begin(), randomOrder.end(), default_random_engine(seed));
+        cout << "Random order:";
+        for (auto r: randomOrder) { cout << " " << r; }
+        cout << endl;
+        return randomOrder;
+    }
     void Performance::Compare() 
     {
         // If testCount is too big, the destructor of this vector throws.
@@ -155,10 +173,6 @@ using namespace std;
             "\033[34;1mwithoutLoopsOrRecursion::fibonacci\033[0m"
         };
         
-        // Pick the function in random order. 
-        vector<int> randomOrder { 0, 1, 2, 3, 4 };
-        unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-        shuffle (randomOrder.begin(), randomOrder.end(), default_random_engine(seed));
         // The test results will be stored, and later shown ordered by duration. 
         struct result 
         {
@@ -177,6 +191,8 @@ using namespace std;
         // multiset<> is automatically sorted. 
         multiset<result> results;
         cout << BeginTitle << "Time to compute Fibonacci values, ordered by speed (fastest to the top)" << EndTitle << endl;
+        // Pick the function in random order. 
+        vector<int> randomOrder = GenerateRandomOrder(sizeof(functors) / sizeof(functors[0]));
         for (int k = 0; k < loops; ++k)
         {
             // For each tested function

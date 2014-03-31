@@ -11,6 +11,7 @@ public:
     }
     StopWatch & Stop() {
         end_ = clock_t::now();
+        // Allow chaining calls.
         return *this;
     }
     StopWatch() {

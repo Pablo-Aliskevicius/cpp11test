@@ -4,20 +4,16 @@ template <typename T>
 struct goodRecursionBase
 {
 private:
-    static T fibonacciHelper(uint_fast16_t n, T last, T previous)
+    static constexpr T fibonacciHelper(uint_fast16_t n, T last, T previous) noexcept
     {
         // When the last line in a recursive function is a call to itself, the compiler can apply 'tail recursion optimization'. 
         // That is, it can convert the recursion into an optimized loop. 
         return (n == 0) ? last: fibonacciHelper(--n, last + previous, last);
     }
 public:
-    static T fibonacci(uint_fast16_t n)
+    static constexpr T fibonacci(uint_fast16_t n) noexcept
     {
-        if (n > 92)
-        {
-            return -1;
-        }
-        return fibonacciHelper(n, 1, 0);
+        return (n > 92) ? T(-1) : fibonacciHelper(n, 1, 0);
     }
 };
 

@@ -5,11 +5,9 @@ struct evilBadAndInefficient
     // Among others: 
     //    http://www.programmingsimplified.com/c-program-generate-fibonacci-series
     //    http://pages.cs.wisc.edu/~calvin/cs110/RECURSION.html 
-    static unsigned long long fibonacci(uint_fast16_t n)
+    static constexpr unsigned long long fibonacci(uint_fast16_t n) noexcept
     {
-        if (n < 2) return 1;
-        if (n > 92) return -1;
         // Bad, bad code!
-        return fibonacci(n-1) + fibonacci(n-2);
+        return (n > 92) ? -1 : (n < 2) ? 1 : fibonacci(n-1) + fibonacci(n-2);
     }
 };
