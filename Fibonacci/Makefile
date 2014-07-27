@@ -18,7 +18,6 @@ else
 	flags=-std=c++0x -O3
 endif
 
-# versions of g++ earlier than 4.8 may require std=c++0x
 # The default target is the executable
 # Note the output folder is not the source folder.
 ../output/Fibonacci: $(objects)
@@ -59,3 +58,7 @@ asm: ../output/Fibonacci
 clean: 
 	# remove the compilation results
 	rm $(objects) ../output/Fibonacci *.s *.asm *.dump 
+	
+guid:
+	# in case you don't remember the command: upper case UUID with underscores as separators. 
+	uuidgen -r | tr '[:lower:]\-' '[:upper:]_'

@@ -119,11 +119,11 @@ using namespace std;
     void Performance::SetupTests(vector<test> &tests, vector<uint_fast16_t> &histogram)
     {
         // C++ 11 Random number generator: another good thing that was added in C++11.
-        uniform_int_distribution<uint_fast16_t> uint_dist10(0,93);
+        uniform_int_distribution<uint_fast16_t> uint_dist(0,93);
         mt19937 rng;// the Mersenne Twister with a popular choice of parameters
         for (int i = 0; i < testCount; ++i )
         {
-            uint_fast16_t n = uint_dist10(rng);
+            uint_fast16_t n = uint_dist(rng);
             tests[i].param = n;
             ++histogram[n];
         }

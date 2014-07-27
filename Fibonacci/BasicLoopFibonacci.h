@@ -1,3 +1,5 @@
+#pragma once
+
 class loop 
 {
     // Cannot be constexpr, because it's more than just a 'return' statement. 

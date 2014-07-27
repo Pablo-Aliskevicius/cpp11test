@@ -1,4 +1,6 @@
 // Performance measuring is orthogonal to whatever we're trying to do, so it will be abstracted into a class. 
+#pragma once
+
 class StopWatch 
 {
     typedef std::chrono::high_resolution_clock clock_t; // could also use steady_clock. 

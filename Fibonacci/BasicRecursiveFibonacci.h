@@ -1,7 +1,10 @@
 // Recursive version, equivalent to the basic loop.
 // A similar implementation can be found at http://www.cs.northwestern.edu/academics/courses/110/html/fib_rec.html
+
+#pragma once
+
 template <typename T>
-struct goodRecursionBase
+struct goodRecursionImpl
 {
 private:
     static constexpr T fibonacciHelper(uint_fast16_t n, T last, T previous) noexcept
@@ -17,4 +20,4 @@ public:
     }
 };
 
-typedef goodRecursionBase<unsigned long long> goodRecursion;
+typedef goodRecursionImpl<unsigned long long> goodRecursion;

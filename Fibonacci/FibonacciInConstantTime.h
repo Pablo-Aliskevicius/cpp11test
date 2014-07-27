@@ -1,3 +1,5 @@
+#pragma once
+
 namespace metaprogrammed
 {
     // Shorthand.

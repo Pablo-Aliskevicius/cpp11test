@@ -1,3 +1,5 @@
+#pragma once
+
 struct withoutLoopsOrRecursion 
 {
     // Based on: http://www.codeproject.com/Tips/508629/Fibonacci-Without-Loops-or-Recursion

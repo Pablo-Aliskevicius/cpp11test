@@ -1,6 +1,8 @@
 // At https://www.ics.uci.edu/~eppstein/161/960109.html, an algorithm using matrices is analyzed. Complexity boils down to logarithmic.
 // The idea is: since ({{1, 1}, {1, 0}} ^ n)[0,0] = fibonacci(n+1), and you can compute the nth power of a matrix in near-logarithmic complexity.
 
+#pragma once
+
 namespace matrixMultiplication
 {
     struct UsingMatrix 

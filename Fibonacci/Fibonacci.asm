@@ -51,68 +51,76 @@
   51              		.p2align 4,,15
   52              		.weak	_ZN14metaprogrammed12ConstantTime9fibonacciEm
   54              	_ZN14metaprogrammed12ConstantTime9fibonacciEm:
-  55              	.LFB3250:
+  55              	.LFB3251:
   56              		.file 1 "FibonacciInConstantTime.h"
-   0:FibonacciInConstantTime.h **** namespace metaprogrammed
-   1:FibonacciInConstantTime.h **** {
-   2:FibonacciInConstantTime.h ****     // Shorthand.
-   3:FibonacciInConstantTime.h ****     typedef unsigned long long ull;
-   4:FibonacciInConstantTime.h **** 
-   5:FibonacciInConstantTime.h ****     // An array of 93 integers, 64 bits each, takes 744 bytes. They are calculated at _compile_ _ti
-   6:FibonacciInConstantTime.h ****     // The compiled size of any of the functions (loop, recursion), even if smaller, cannot 'pay' f
-   7:FibonacciInConstantTime.h ****     // O(1) wins.
-   8:FibonacciInConstantTime.h ****     // The array could also have been initialized with literals downloaded from http://ibiblio.org/
-   9:FibonacciInConstantTime.h ****     extern const ull  Values [];
-  10:FibonacciInConstantTime.h ****     
-  11:FibonacciInConstantTime.h ****     struct ConstantTime 
-  12:FibonacciInConstantTime.h ****     {
-  13:FibonacciInConstantTime.h ****         static unsigned long long fibonacci(uint_fast16_t n) 
-  57              		.loc 1 14 0
+   0:FibonacciInConstantTime.h **** #pragma once
+   1:FibonacciInConstantTime.h **** 
+   2:FibonacciInConstantTime.h **** namespace metaprogrammed
+   3:FibonacciInConstantTime.h **** {
+   4:FibonacciInConstantTime.h ****     // Shorthand.
+   5:FibonacciInConstantTime.h ****     typedef unsigned long long ull;
+   6:FibonacciInConstantTime.h ****     
+   7:FibonacciInConstantTime.h ****     // An array of 93 unsigned 64-bit integers takes 744 bytes. They are calculated at _compile_ _t
+   8:FibonacciInConstantTime.h ****     // If using https://gmplib.org, things may grow bigger. 
+   9:FibonacciInConstantTime.h ****     // The compiled size of any of the functions (loop, recursion), even if smaller, cannot 'pay' f
+  10:FibonacciInConstantTime.h ****     // O(1) wins.
+  11:FibonacciInConstantTime.h ****     // The array could also have been initialized with literals downloaded from http://ibiblio.org/
+  12:FibonacciInConstantTime.h ****     extern const ull Values[];
+  13:FibonacciInConstantTime.h **** 
+  14:FibonacciInConstantTime.h ****     struct ConstantTime 
+  15:FibonacciInConstantTime.h ****     {
+  16:FibonacciInConstantTime.h ****         static constexpr unsigned long long fibonacci(uint_fast16_t n) noexcept
+  57              		.loc 1 17 0
   58              		.cfi_startproc
   59              	.LVL0:
-  14:FibonacciInConstantTime.h ****         {
-  15:FibonacciInConstantTime.h ****             // The fastest way to get the result: look it up in a table. 
-  16:FibonacciInConstantTime.h ****             return (n > 92) ? -1: Values[n];
-  60              		.loc 1 17 0
+  17:FibonacciInConstantTime.h ****         {
+  18:FibonacciInConstantTime.h ****             // The fastest way to get the result: look it up in a table. 
+  19:FibonacciInConstantTime.h ****             return (n > 92) ? -1: Values[n];
+  60              		.loc 1 20 0
   61 0000 4883FF5C 		cmpq	$92, %rdi	#, n
-  62 0004 48C7C0FF 		movq	$-1, %rax	#, D.65653
+  62 0004 48C7C0FF 		movq	$-1, %rax	#, D.65673
   62      FFFFFF
   63 000b 7603     		jbe	.L5	#,
-  17:FibonacciInConstantTime.h ****         }
-  64              		.loc 1 18 0 discriminator 3
+  20:FibonacciInConstantTime.h ****         }
+  64              		.loc 1 21 0 discriminator 3
   65 000d F3       		rep
   66 000e C3       		ret
   67 000f 90       		.p2align 4,,10
   68              		.p2align 3
   69              	.L5:
-  17:FibonacciInConstantTime.h ****         }
-  70              		.loc 1 17 0 discriminator 1
-  71 0010 488B04FD 		movq	_ZN14metaprogrammed6ValuesE(,%rdi,8), %rax	# Values, D.65653
+  20:FibonacciInConstantTime.h ****         }
+  70              		.loc 1 20 0 discriminator 1
+  71 0010 488B04FD 		movq	_ZN14metaprogrammed6ValuesE(,%rdi,8), %rax	# Values, D.65673
   71      00000000 
-  72              		.loc 1 18 0 discriminator 1
+  72              		.loc 1 21 0 discriminator 1
   73 0018 C3       		ret
   74              		.cfi_endproc
-  75              	.LFE3250:
+  75              	.LFE3251:
   77              		.section	.text._ZN23withoutLoopsOrRecursion9fibonacciEm,"axG",@progbits,_ZN23withoutLoopsOrRecursi
   78              		.p2align 4,,15
   79              		.weak	_ZN23withoutLoopsOrRecursion9fibonacciEm
   81              	_ZN23withoutLoopsOrRecursion9fibonacciEm:
-  82              	.LFB3248:
+  82              	.LFB3249:
   83              		.file 2 "FibonacciWithoutLoopsOrRecursion.h"
-   0:FibonacciWithoutLoopsOrRecursion.h **** struct withoutLoopsOrRecursion 
-   1:FibonacciWithoutLoopsOrRecursion.h **** {
-   2:FibonacciWithoutLoopsOrRecursion.h ****     // Based on: http://www.codeproject.com/Tips/508629/Fibonacci-Without-Loops-or-Recursion
-   3:FibonacciWithoutLoopsOrRecursion.h ****     // Accurate only up to 77. 
-   4:FibonacciWithoutLoopsOrRecursion.h ****     // This is because a double has 64 bits in total, and some are used for the mantissa and sign; 
-   5:FibonacciWithoutLoopsOrRecursion.h ****     // It is also apparently slow. This makes sense: pow(double) is heavier that a few additions. T
-   6:FibonacciWithoutLoopsOrRecursion.h ****     static unsigned long long fibonacci(uint_fast16_t n)
-  84              		.loc 2 7 0
+   0:FibonacciWithoutLoopsOrRecursion.h **** #pragma once
+   1:FibonacciWithoutLoopsOrRecursion.h **** 
+   2:FibonacciWithoutLoopsOrRecursion.h **** struct withoutLoopsOrRecursion 
+   3:FibonacciWithoutLoopsOrRecursion.h **** {
+   4:FibonacciWithoutLoopsOrRecursion.h ****     // Based on: http://www.codeproject.com/Tips/508629/Fibonacci-Without-Loops-or-Recursion
+   5:FibonacciWithoutLoopsOrRecursion.h ****     // Accurate only up to 77. 
+   6:FibonacciWithoutLoopsOrRecursion.h ****     // This is because a double has 64 bits in total, and some are used for the mantissa and sign; 
+   7:FibonacciWithoutLoopsOrRecursion.h ****     // It is also apparently slow. This makes sense: pow(double) is heavier that a few additions. T
+   8:FibonacciWithoutLoopsOrRecursion.h **** #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
+   9:FibonacciWithoutLoopsOrRecursion.h ****     // Test for GCC >= 4.7.0; before that, pow() was not constexpr. 
+  10:FibonacciWithoutLoopsOrRecursion.h **** #if GCC_VERSION > 40699
+  11:FibonacciWithoutLoopsOrRecursion.h ****     static constexpr unsigned long long fibonacci(uint_fast16_t n) 
+  84              		.loc 2 12 0
   85              		.cfi_startproc
   86              	.LVL1:
   87 0000 4883EC08 		subq	$8, %rsp	#,
   88              		.cfi_def_cfa_offset 16
-  89              	.LBB537:
-  90              	.LBB538:
+  89              	.LBB543:
+  90              	.LBB544:
   91              		.file 3 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/cmath **** // -*- C++ -*- C forwarding header.
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/cmath **** 
@@ -567,11 +575,14 @@
  100 0017 E8000000 		call	pow	#
  100      00
  101              	.LVL4:
- 102              	.LBE538:
- 103              	.LBE537:
-   7:FibonacciWithoutLoopsOrRecursion.h ****     {
-   8:FibonacciWithoutLoopsOrRecursion.h ****         return (unsigned long long) (0.5 + 0.44721359549995682 * pow(1.6180339887498949, n + 1));
- 104              		.loc 2 9 0
+ 102              	.LBE544:
+ 103              	.LBE543:
+  12:FibonacciWithoutLoopsOrRecursion.h **** #else
+  13:FibonacciWithoutLoopsOrRecursion.h ****     static unsigned long long fibonacci(uint_fast16_t n) 
+  14:FibonacciWithoutLoopsOrRecursion.h **** #endif
+  15:FibonacciWithoutLoopsOrRecursion.h ****     {
+  16:FibonacciWithoutLoopsOrRecursion.h ****         return (unsigned long long) (0.5 + 0.44721359549995682 * pow(1.6180339887498949, n + 1));
+ 104              		.loc 2 17 0
  105 001c F20F5905 		mulsd	.LC1(%rip), %xmm0	#, tmp78
  105      00000000 
  106 0024 F20F100D 		movsd	.LC3(%rip), %xmm1	#, tmp80
@@ -582,8 +593,8 @@
  109 0038 730E     		jae	.L9	#,
  110 003a F2480F2C 		cvttsd2siq	%xmm0, %rax	# tmp78, tmp75
  110      C0
-   9:FibonacciWithoutLoopsOrRecursion.h ****     }  
- 111              		.loc 2 10 0
+  17:FibonacciWithoutLoopsOrRecursion.h ****     }  
+ 111              		.loc 2 18 0
  112 003f 4883C408 		addq	$8, %rsp	#,
  113              		.cfi_remember_state
  114              		.cfi_def_cfa_offset 8
@@ -592,22 +603,22 @@
  117 0044 0F1F4000 		.p2align 3
  118              	.L9:
  119              		.cfi_restore_state
-   9:FibonacciWithoutLoopsOrRecursion.h ****     }  
- 120              		.loc 2 9 0
+  17:FibonacciWithoutLoopsOrRecursion.h ****     }  
+ 120              		.loc 2 17 0
  121 0048 F20F5CC1 		subsd	%xmm1, %xmm0	# tmp80, tmp81
  122 004c 48BA0000 		movabsq	$-9223372036854775808, %rdx	#, tmp83
  122      00000000 
  122      0080
- 123              		.loc 2 10 0
+ 123              		.loc 2 18 0
  124 0056 4883C408 		addq	$8, %rsp	#,
  125              		.cfi_remember_state
  126              		.cfi_def_cfa_offset 8
-   9:FibonacciWithoutLoopsOrRecursion.h ****     }  
- 127              		.loc 2 9 0
+  17:FibonacciWithoutLoopsOrRecursion.h ****     }  
+ 127              		.loc 2 17 0
  128 005a F2480F2C 		cvttsd2siq	%xmm0, %rax	# tmp81, tmp75
  128      C0
  129 005f 4831D0   		xorq	%rdx, %rax	# tmp83, tmp75
- 130              		.loc 2 10 0
+ 130              		.loc 2 18 0
  131 0062 C3       		ret
  132              	.LVL5:
  133              		.p2align 4,,10
@@ -615,8 +626,8 @@
  134      00
  135              	.L7:
  136              		.cfi_restore_state
- 137              	.LBB540:
- 138              	.LBB539:
+ 137              	.LBB546:
+ 138              	.LBB545:
  139              		.loc 3 440 0
  140 0068 4889F8   		movq	%rdi, %rax	# tmp67, tmp70
  141 006b 83E701   		andl	$1, %edi	#, tmp71
@@ -628,117 +639,15 @@
  146      C8
  147 0079 F20F58C9 		addsd	%xmm1, %xmm1	# tmp68, tmp68
  148 007d EB90     		jmp	.L8	#
- 149              	.LBE539:
- 150              	.LBE540:
+ 149              	.LBE545:
+ 150              	.LBE546:
  151              		.cfi_endproc
- 152              	.LFE3248:
- 154              		.section	.text._ZN4loop9fibonacciEm,"axG",@progbits,_ZN4loop9fibonacciEm,comdat
+ 152              	.LFE3249:
+ 154              		.text
  155              		.p2align 4,,15
- 156              		.weak	_ZN4loop9fibonacciEm
- 158              	_ZN4loop9fibonacciEm:
- 159              	.LFB3245:
- 160              		.file 4 "BasicLoopFibonacci.h"
-   0:BasicLoopFibonacci.h **** struct loop 
-   1:BasicLoopFibonacci.h **** {
-   2:BasicLoopFibonacci.h ****     // Basic implementation: loop starting from the beginning, stop when the function has generated
-   3:BasicLoopFibonacci.h ****     static unsigned long long fibonacci(uint_fast16_t n)
- 161              		.loc 4 4 0
- 162              		.cfi_startproc
- 163              	.LVL8:
- 164              	.LBB545:
-   4:BasicLoopFibonacci.h ****     {
-   5:BasicLoopFibonacci.h ****         if (n > 92)
- 165              		.loc 4 6 0
- 166 0000 4883FF5C 		cmpq	$92, %rdi	#, n
-   6:BasicLoopFibonacci.h ****         {
-   7:BasicLoopFibonacci.h ****             return -1;
- 167              		.loc 4 8 0
- 168 0004 48C7C0FF 		movq	$-1, %rax	#, f1
- 168      FFFFFF
-   6:BasicLoopFibonacci.h ****         {
- 169              		.loc 4 6 0
- 170 000b 7603     		jbe	.L21	#,
- 171              	.LVL9:
- 172              	.L13:
- 173              	.LBE545:
-   8:BasicLoopFibonacci.h ****         }
-   9:BasicLoopFibonacci.h ****         if (0 == n)
-  10:BasicLoopFibonacci.h ****         {
-  11:BasicLoopFibonacci.h ****             return 1;
-  12:BasicLoopFibonacci.h ****         }
-  13:BasicLoopFibonacci.h ****         unsigned long long f1 = 1, f2 = 1, tmp;
-  14:BasicLoopFibonacci.h ****         while (--n)
-  15:BasicLoopFibonacci.h ****         {
-  16:BasicLoopFibonacci.h ****             tmp = f1;
-  17:BasicLoopFibonacci.h ****             f1 = f1 + f2;
-  18:BasicLoopFibonacci.h ****             f2 = tmp;
-  19:BasicLoopFibonacci.h ****         }
-  20:BasicLoopFibonacci.h ****         return f1;
-  21:BasicLoopFibonacci.h ****     }
- 174              		.loc 4 22 0
- 175 000d F3       		rep
- 176 000e C3       		ret
- 177              	.LVL10:
- 178 000f 90       		.p2align 4,,10
- 179              		.p2align 3
- 180              	.L21:
- 181              	.LBB546:
-  10:BasicLoopFibonacci.h ****         if (0 == n)
- 182              		.loc 4 10 0
- 183 0010 4885FF   		testq	%rdi, %rdi	# n
-  12:BasicLoopFibonacci.h ****             return 1;
- 184              		.loc 4 12 0
- 185 0013 B8010000 		movl	$1, %eax	#, f1
- 185      00
-  10:BasicLoopFibonacci.h ****         if (0 == n)
- 186              		.loc 4 10 0
- 187 0018 74F3     		je	.L13	#,
- 188              	.LVL11:
- 189              	.LBE546:
- 190              	.LBB547:
- 191              	.LBB548:
-  15:BasicLoopFibonacci.h ****         while (--n)
- 192              		.loc 4 15 0
- 193 001a 4883EF01 		subq	$1, %rdi	#, n
- 194              	.LVL12:
- 195 001e 74ED     		je	.L13	#,
- 196 0020 B9010000 		movl	$1, %ecx	#, f1
- 196      00
- 197 0025 BA010000 		movl	$1, %edx	#, f1
- 197      00
- 198 002a EB07     		jmp	.L15	#
- 199              	.LVL13:
- 200 002c 0F1F4000 		.p2align 4,,10
- 201              		.p2align 3
- 202              	.L19:
-  18:BasicLoopFibonacci.h ****             f1 = f1 + f2;
- 203              		.loc 4 18 0
- 204 0030 4889C2   		movq	%rax, %rdx	# f1, f1
- 205              	.LVL14:
- 206              	.L15:
-  15:BasicLoopFibonacci.h ****         while (--n)
- 207              		.loc 4 15 0
- 208 0033 4883EF01 		subq	$1, %rdi	#, n
-  18:BasicLoopFibonacci.h ****             f1 = f1 + f2;
- 209              		.loc 4 18 0
- 210 0037 488D0411 		leaq	(%rcx,%rdx), %rax	#, f1
- 211              	.LVL15:
- 212 003b 4889D1   		movq	%rdx, %rcx	# f1, f1
-  15:BasicLoopFibonacci.h ****         while (--n)
- 213              		.loc 4 15 0
- 214 003e 75F0     		jne	.L19	#,
- 215              	.LBE548:
- 216              	.LBE547:
- 217              		.loc 4 22 0
- 218 0040 F3       		rep
- 219 0041 C3       		ret
- 220              		.cfi_endproc
- 221              	.LFE3245:
- 223              		.text
- 224              		.p2align 4,,15
- 226              	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc.part.2:
- 227              	.LFB3518:
- 228              		.file 5 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x
+ 157              	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc.part.1:
+ 158              	.LFB3520:
+ 159              		.file 4 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** // Output streams -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
@@ -1267,22 +1176,22 @@
  525:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****   template<class _Traits>
  526:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     inline basic_ostream<char, _Traits>&
  527:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     operator<<(basic_ostream<char, _Traits>& __out, const char* __s)
- 229              		.loc 5 528 0
- 230              		.cfi_startproc
- 231              	.LVL16:
- 232 0000 4883EC08 		subq	$8, %rsp	#,
- 233              		.cfi_def_cfa_offset 16
+ 160              		.loc 4 528 0
+ 161              		.cfi_startproc
+ 162              	.LVL8:
+ 163 0000 4883EC08 		subq	$8, %rsp	#,
+ 164              		.cfi_def_cfa_offset 16
  528:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     {
  529:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       if (!__s)
  530:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__out.setstate(ios_base::badbit);
- 234              		.loc 5 531 0
- 235 0004 488B07   		movq	(%rdi), %rax	# __out_1(D)->_vptr.basic_ostream, __out_1(D)->_vptr.basic_ostream
- 236 0007 480378E8 		addq	-24(%rax), %rdi	# MEM[(long int *)D.65843_2 + -24B], D.65840
- 237              	.LVL17:
- 238              	.LBB556:
- 239              	.LBB557:
- 240              	.LBB558:
- 241              		.file 6 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x
+ 165              		.loc 4 531 0
+ 166 0004 488B07   		movq	(%rdi), %rax	# __out_1(D)->_vptr.basic_ostream, __out_1(D)->_vptr.basic_ostream
+ 167 0007 480378E8 		addq	-24(%rax), %rdi	# MEM[(long int *)D.65866_2 + -24B], D.65863
+ 168              	.LVL9:
+ 169              	.LBB554:
+ 170              	.LBB555:
+ 171              	.LBB556:
+ 172              		.file 5 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h **** // Iostreams base classes -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h **** // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
@@ -1443,11 +1352,11 @@
  157:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   inline _GLIBCXX_CONSTEXPR _Ios_Iostate
  158:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   operator|(_Ios_Iostate __a, _Ios_Iostate __b)
  159:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   { return _Ios_Iostate(static_cast<int>(__a) | static_cast<int>(__b)); }
- 242              		.loc 6 160 0
- 243 000b 8B7720   		movl	32(%rdi), %esi	# MEM[(const struct basic_ios *)D.65840_5 + 32B], tmp69
- 244 000e 83CE01   		orl	$1, %esi	#, tmp69
- 245              	.LBE558:
- 246              		.file 7 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x
+ 173              		.loc 5 160 0
+ 174 000b 8B7720   		movl	32(%rdi), %esi	# MEM[(const struct basic_ios *)D.65863_5 + 32B], tmp69
+ 175 000e 83CE01   		orl	$1, %esi	#, tmp69
+ 176              	.LBE556:
+ 177              		.file 6 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h **** // Iostreams base classes -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h **** // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
@@ -1598,541 +1507,655 @@
  147:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       void
  148:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       setstate(iostate __state)
  149:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       { this->clear(this->rdstate() | __state); }
- 247              		.loc 7 150 0
- 248 0011 E8000000 		call	_ZNSt9basic_iosIcSt11char_traitsIcEE5clearESt12_Ios_Iostate	#
- 248      00
- 249              	.LVL18:
- 250              	.LBE557:
- 251              	.LBE556:
+ 178              		.loc 6 150 0
+ 179 0011 E8000000 		call	_ZNSt9basic_iosIcSt11char_traitsIcEE5clearESt12_Ios_Iostate	#
+ 179      00
+ 180              	.LVL10:
+ 181              	.LBE555:
+ 182              	.LBE554:
  531:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       else
  532:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 			 static_cast<streamsize>(_Traits::length(__s)));
  534:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       return __out;
  535:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     }
- 252              		.loc 5 536 0
- 253 0016 4883C408 		addq	$8, %rsp	#,
- 254              		.cfi_def_cfa_offset 8
- 255 001a C3       		ret
- 256              		.cfi_endproc
- 257              	.LFE3518:
- 259              		.section	.text._ZN17goodRecursionBaseIyE9fibonacciEm,"axG",@progbits,_ZN17goodRecursionBaseIyE9fib
- 260              		.p2align 4,,15
- 261              		.weak	_ZN17goodRecursionBaseIyE9fibonacciEm
- 263              	_ZN17goodRecursionBaseIyE9fibonacciEm:
- 264              	.LFB3332:
- 265              		.file 8 "BasicRecursiveFibonacci.h"
+ 183              		.loc 4 536 0
+ 184 0016 4883C408 		addq	$8, %rsp	#,
+ 185              		.cfi_def_cfa_offset 8
+ 186 001a C3       		ret
+ 187              		.cfi_endproc
+ 188              	.LFE3520:
+ 190              		.section	.text._ZN4loop9fibonacciEm,"axG",@progbits,_ZN4loop9fibonacciEm,comdat
+ 191              		.p2align 4,,15
+ 192              		.weak	_ZN4loop9fibonacciEm
+ 194              	_ZN4loop9fibonacciEm:
+ 195              	.LFB3246:
+ 196              		.file 7 "BasicLoopFibonacci.h"
+   0:BasicLoopFibonacci.h **** #pragma once
+   1:BasicLoopFibonacci.h **** 
+   2:BasicLoopFibonacci.h **** class loop 
+   3:BasicLoopFibonacci.h **** {
+   4:BasicLoopFibonacci.h ****     // Cannot be constexpr, because it's more than just a 'return' statement. 
+   5:BasicLoopFibonacci.h ****     // This precludes some optimizations.
+   6:BasicLoopFibonacci.h ****     inline static unsigned long long uncheckedFibonacci(uint_fast16_t n) noexcept
+   7:BasicLoopFibonacci.h ****     { 
+   8:BasicLoopFibonacci.h ****         unsigned long long f1 = 1, f2 = 1, tmp;
+   9:BasicLoopFibonacci.h ****         while (--n)
+  10:BasicLoopFibonacci.h ****         {
+  11:BasicLoopFibonacci.h ****             tmp = f1;
+  12:BasicLoopFibonacci.h ****             f1 = f1 + f2;
+  13:BasicLoopFibonacci.h ****             f2 = tmp;
+  14:BasicLoopFibonacci.h ****         }
+  15:BasicLoopFibonacci.h ****         return f1;    
+  16:BasicLoopFibonacci.h ****     }
+  17:BasicLoopFibonacci.h **** public:
+  18:BasicLoopFibonacci.h ****     // Basic implementation: loop starting from the beginning, stop when the function has generated
+  19:BasicLoopFibonacci.h ****     static constexpr unsigned long long fibonacci(uint_fast16_t n) noexcept
+ 197              		.loc 7 20 0
+ 198              		.cfi_startproc
+ 199              	.LVL11:
+  20:BasicLoopFibonacci.h ****     {
+  21:BasicLoopFibonacci.h ****         return (n > 92) ? -1:
+  22:BasicLoopFibonacci.h ****                (0 == n) ? 1:
+  23:BasicLoopFibonacci.h ****                uncheckedFibonacci(n);
+ 200              		.loc 7 24 0
+ 201 0000 4883FF5C 		cmpq	$92, %rdi	#, n
+ 202 0004 48C7C0FF 		movq	$-1, %rax	#, f2
+ 202      FFFFFF
+ 203 000b 7603     		jbe	.L23	#,
+ 204              	.LVL12:
+ 205              	.L15:
+  24:BasicLoopFibonacci.h ****     }
+ 206              		.loc 7 25 0 discriminator 6
+ 207 000d F3       		rep
+ 208 000e C3       		ret
+ 209              	.LVL13:
+ 210 000f 90       		.p2align 4,,10
+ 211              		.p2align 3
+ 212              	.L23:
+ 213              	.LBB563:
+ 214              	.LBB564:
+  24:BasicLoopFibonacci.h ****     }
+ 215              		.loc 7 24 0
+ 216 0010 4885FF   		testq	%rdi, %rdi	# n
+ 217 0013 B8010000 		movl	$1, %eax	#, f2
+ 217      00
+ 218 0018 74F3     		je	.L15	#,
+ 219              	.LVL14:
+ 220              	.LBB565:
+ 221              	.LBB566:
+  10:BasicLoopFibonacci.h ****         while (--n)
+ 222              		.loc 7 10 0
+ 223 001a 4883EF01 		subq	$1, %rdi	#, n
+ 224              	.LVL15:
+ 225 001e 74ED     		je	.L15	#,
+ 226 0020 B9010000 		movl	$1, %ecx	#, f2
+ 226      00
+ 227 0025 BA010000 		movl	$1, %edx	#, f2
+ 227      00
+ 228 002a EB07     		jmp	.L17	#
+ 229              	.LVL16:
+ 230 002c 0F1F4000 		.p2align 4,,10
+ 231              		.p2align 3
+ 232              	.L21:
+  13:BasicLoopFibonacci.h ****             f1 = f1 + f2;
+ 233              		.loc 7 13 0
+ 234 0030 4889C2   		movq	%rax, %rdx	# f2, f2
+ 235              	.LVL17:
+ 236              	.L17:
+  10:BasicLoopFibonacci.h ****         while (--n)
+ 237              		.loc 7 10 0
+ 238 0033 4883EF01 		subq	$1, %rdi	#, n
+  13:BasicLoopFibonacci.h ****             f1 = f1 + f2;
+ 239              		.loc 7 13 0
+ 240 0037 488D0411 		leaq	(%rcx,%rdx), %rax	#, f2
+ 241              	.LVL18:
+ 242 003b 4889D1   		movq	%rdx, %rcx	# f2, f2
+  10:BasicLoopFibonacci.h ****         while (--n)
+ 243              		.loc 7 10 0
+ 244 003e 75F0     		jne	.L21	#,
+ 245              	.LBE566:
+ 246              	.LBE565:
+ 247              	.LBE564:
+ 248              	.LBE563:
+ 249              		.loc 7 25 0
+ 250 0040 F3       		rep
+ 251 0041 C3       		ret
+ 252              		.cfi_endproc
+ 253              	.LFE3246:
+ 255              		.section	.text._ZN17goodRecursionImplIyE9fibonacciEm,"axG",@progbits,_ZN17goodRecursionImplIyE9fib
+ 256              		.p2align 4,,15
+ 257              		.weak	_ZN17goodRecursionImplIyE9fibonacciEm
+ 259              	_ZN17goodRecursionImplIyE9fibonacciEm:
+ 260              	.LFB3253:
+ 261              		.file 8 "BasicRecursiveFibonacci.h"
    0:BasicRecursiveFibonacci.h **** // Recursive version, equivalent to the basic loop.
    1:BasicRecursiveFibonacci.h **** // A similar implementation can be found at http://www.cs.northwestern.edu/academics/courses/110/ht
-   2:BasicRecursiveFibonacci.h **** template <typename T>
-   3:BasicRecursiveFibonacci.h **** struct goodRecursionBase
-   4:BasicRecursiveFibonacci.h **** {
-   5:BasicRecursiveFibonacci.h **** private:
-   6:BasicRecursiveFibonacci.h ****     static T fibonacciHelper(uint_fast16_t n, T last, T previous)
-   7:BasicRecursiveFibonacci.h ****     {
-   8:BasicRecursiveFibonacci.h ****         // When the last line in a recursive function is a call to itself, the compiler can apply '
-   9:BasicRecursiveFibonacci.h ****         // That is, it can convert the recursion into an optimized loop. 
-  10:BasicRecursiveFibonacci.h ****         return (n == 0) ? last: fibonacciHelper(--n, last + previous, last);
-  11:BasicRecursiveFibonacci.h ****     }
-  12:BasicRecursiveFibonacci.h **** public:
-  13:BasicRecursiveFibonacci.h ****     static T fibonacci(uint_fast16_t n)
- 266              		.loc 8 14 0
- 267              		.cfi_startproc
- 268              	.LVL19:
-  14:BasicRecursiveFibonacci.h ****     {
-  15:BasicRecursiveFibonacci.h ****         if (n > 92)
- 269              		.loc 8 16 0
- 270 0000 4883FF5C 		cmpq	$92, %rdi	#, n
-  16:BasicRecursiveFibonacci.h ****         {
-  17:BasicRecursiveFibonacci.h ****             return -1;
- 271              		.loc 8 18 0
- 272 0004 48C7C0FF 		movq	$-1, %rax	#, last
- 272      FFFFFF
-  16:BasicRecursiveFibonacci.h ****         {
- 273              		.loc 8 16 0
- 274 000b 7603     		jbe	.L31	#,
-  18:BasicRecursiveFibonacci.h ****         }
-  19:BasicRecursiveFibonacci.h ****         return fibonacciHelper(n, 1, 0);
-  20:BasicRecursiveFibonacci.h ****     }
- 275              		.loc 8 21 0
- 276 000d F3       		rep
- 277 000e C3       		ret
- 278 000f 90       		.p2align 4,,10
- 279              		.p2align 3
- 280              	.L31:
- 281              	.LBB564:
- 282              	.LBB565:
- 283              	.LBB566:
-  11:BasicRecursiveFibonacci.h ****         return (n == 0) ? last: fibonacciHelper(--n, last + previous, last);
- 284              		.loc 8 11 0
- 285 0010 4885FF   		testq	%rdi, %rdi	# n
- 286 0013 741D     		je	.L29	#,
- 287 0015 31C9     		xorl	%ecx, %ecx	# last
- 288 0017 BA010000 		movl	$1, %edx	#, last
- 288      00
- 289 001c EB05     		jmp	.L27	#
- 290              	.LVL20:
- 291 001e 6690     		.p2align 4,,10
- 292              		.p2align 3
- 293              	.L30:
- 294 0020 4889C2   		movq	%rax, %rdx	# last, last
- 295              	.LVL21:
- 296              	.L27:
- 297 0023 4883EF01 		subq	$1, %rdi	#, n
- 298              	.LVL22:
- 299 0027 488D0411 		leaq	(%rcx,%rdx), %rax	#, last
- 300 002b 4889D1   		movq	%rdx, %rcx	# last, last
- 301 002e 75F0     		jne	.L30	#,
- 302 0030 F3       		rep
- 303 0031 C3       		ret
- 304              	.LVL23:
- 305              	.L29:
- 306 0032 B8010000 		movl	$1, %eax	#, last
- 306      00
- 307              	.LBE566:
- 308              	.LBE565:
- 309              	.LBE564:
- 310              		.loc 8 21 0
- 311 0037 C3       		ret
- 312              		.cfi_endproc
- 313              	.LFE3332:
- 315              		.section	.text._ZN21evilBadAndInefficient9fibonacciEm,"axG",@progbits,_ZN21evilBadAndInefficient9f
- 316              		.p2align 4,,15
- 317              		.weak	_ZN21evilBadAndInefficient9fibonacciEm
- 319              	_ZN21evilBadAndInefficient9fibonacciEm:
- 320              	.LFB3244:
- 321              		.file 9 "HorribleRecursiveFibonacci.h"
-   0:HorribleRecursiveFibonacci.h **** struct evilBadAndInefficient 
-   1:HorribleRecursiveFibonacci.h **** {
-   2:HorribleRecursiveFibonacci.h ****     // This implementation is BLOODY HORRIBLE.
-   3:HorribleRecursiveFibonacci.h ****     // You'll find it all along and across the Web.
-   4:HorribleRecursiveFibonacci.h ****     // Among others: 
-   5:HorribleRecursiveFibonacci.h ****     //    http://www.programmingsimplified.com/c-program-generate-fibonacci-series
-   6:HorribleRecursiveFibonacci.h ****     //    http://pages.cs.wisc.edu/~calvin/cs110/RECURSION.html 
-   7:HorribleRecursiveFibonacci.h ****     static unsigned long long fibonacci(uint_fast16_t n)
- 322              		.loc 9 8 0
- 323              		.cfi_startproc
-   8:HorribleRecursiveFibonacci.h ****     {
-   9:HorribleRecursiveFibonacci.h ****         if (n < 2) return 1;
- 324              		.loc 9 10 0
- 325 0000 4883FF01 		cmpq	$1, %rdi	#, n
- 326 0004 0F861702 		jbe	.L51	#,
- 326      0000
-  10:HorribleRecursiveFibonacci.h ****         if (n > 92) return -1;
- 327              		.loc 9 11 0
- 328 000a 4883FF5C 		cmpq	$92, %rdi	#, n
- 329 000e 48C7C0FF 		movq	$-1, %rax	#, prephitmp.275
- 329      FFFFFF
- 330 0015 0F870502 		ja	.L72	#,
- 330      0000
-   8:HorribleRecursiveFibonacci.h ****     {
- 331              		.loc 9 8 0
- 332 001b 4157     		pushq	%r15	#
- 333              		.cfi_def_cfa_offset 16
- 334              		.cfi_offset 15, -16
- 335 001d 4156     		pushq	%r14	#
- 336              		.cfi_def_cfa_offset 24
- 337              		.cfi_offset 14, -24
- 338 001f 4155     		pushq	%r13	#
- 339              		.cfi_def_cfa_offset 32
- 340              		.cfi_offset 13, -32
- 341 0021 4154     		pushq	%r12	#
- 342              		.cfi_def_cfa_offset 40
- 343              		.cfi_offset 12, -40
- 344 0023 55       		pushq	%rbp	#
- 345              		.cfi_def_cfa_offset 48
- 346              		.cfi_offset 6, -48
- 347 0024 53       		pushq	%rbx	#
- 348              		.cfi_def_cfa_offset 56
- 349              		.cfi_offset 3, -56
- 350 0025 4883EC68 		subq	$104, %rsp	#,
- 351              		.cfi_def_cfa_offset 160
- 352              		.loc 9 11 0
- 353 0029 48C74424 		movq	$0, 32(%rsp)	#, %sfp
- 353      20000000 
- 353      00
- 354              	.L50:
- 355              	.LBB583:
- 356              	.LBB584:
-  10:HorribleRecursiveFibonacci.h ****         if (n > 92) return -1;
- 357              		.loc 9 10 0
- 358 0032 4883FF02 		cmpq	$2, %rdi	#, n
- 359 0036 0F84AB01 		je	.L53	#,
- 359      0000
- 360 003c 4883EF02 		subq	$2, %rdi	#,
- 361 0040 48C74424 		movq	$0, 40(%rsp)	#, %sfp
- 361      28000000 
- 361      00
- 362 0049 48897C24 		movq	%rdi, 80(%rsp)	#, %sfp
- 362      50
- 363 004e 48893C24 		movq	%rdi, (%rsp)	#, %sfp
- 364              	.L49:
- 365              	.LBB585:
- 366              	.LBB586:
- 367 0052 48833C24 		cmpq	$1, (%rsp)	#, %sfp
- 367      01
- 368 0057 0F865E01 		jbe	.L54	#,
- 368      0000
- 369 005d 488B0424 		movq	(%rsp), %rax	# %sfp, n
- 370 0061 48C74424 		movq	$0, 48(%rsp)	#, %sfp
- 370      30000000 
- 370      00
- 371              	.L48:
- 372              	.LBB587:
- 373              	.LBB588:
- 374 006a 488D50FF 		leaq	-1(%rax), %rdx	#, tmp301
- 375 006e 4883FA01 		cmpq	$1, %rdx	#, tmp301
- 376 0072 0F86E201 		jbe	.L55	#,
- 376      0000
- 377 0078 4883E802 		subq	$2, %rax	#,
- 378 007c 48C74424 		movq	$0, 56(%rsp)	#, %sfp
- 378      38000000 
- 378      00
- 379 0085 48894424 		movq	%rax, 72(%rsp)	#, %sfp
- 379      48
- 380 008a 48894424 		movq	%rax, 8(%rsp)	#, %sfp
- 380      08
- 381              	.L47:
- 382              	.LBB589:
- 383              	.LBB590:
- 384 008f 48837C24 		cmpq	$1, 8(%rsp)	#, %sfp
- 384      0801
- 385 0095 0F868C01 		jbe	.L56	#,
- 385      0000
- 386 009b 488B4424 		movq	8(%rsp), %rax	# %sfp, n
- 386      08
- 387 00a0 48C74424 		movq	$0, 24(%rsp)	#, %sfp
- 387      18000000 
- 387      00
- 388              	.L46:
- 389              	.LBB591:
- 390              	.LBB592:
- 391 00a9 488D50FF 		leaq	-1(%rax), %rdx	#, tmp302
- 392 00ad 4883FA01 		cmpq	$1, %rdx	#, tmp302
- 393 00b1 0F86CE01 		jbe	.L57	#,
- 393      0000
- 394 00b7 4883E802 		subq	$2, %rax	#,
- 395 00bb 48C74424 		movq	$0, 64(%rsp)	#, %sfp
- 395      40000000 
- 395      00
- 396 00c4 48894424 		movq	%rax, 88(%rsp)	#, %sfp
- 396      58
- 397 00c9 48894424 		movq	%rax, 16(%rsp)	#, %sfp
- 397      10
- 398              	.L45:
- 399              	.LBB593:
- 400              	.LBB594:
- 401 00ce 48837C24 		cmpq	$1, 16(%rsp)	#, %sfp
- 401      1001
- 402 00d4 0F86D900 		jbe	.L58	#,
- 402      0000
- 403 00da 4C8B6C24 		movq	16(%rsp), %r13	# %sfp, n
- 403      10
- 404 00df 4531F6   		xorl	%r14d, %r14d	# add_acc.156
- 405 00e2 4D89EF   		movq	%r13, %r15	# n, n
- 406              	.L44:
- 407              	.LBB595:
- 408              	.LBB596:
- 409 00e5 498D47FF 		leaq	-1(%r15), %rax	#, tmp303
- 410 00e9 4883F801 		cmpq	$1, %rax	#, tmp303
- 411 00ed 0F86B400 		jbe	.L59	#,
- 411      0000
- 412 00f3 4983EF02 		subq	$2, %r15	#, n
- 413 00f7 4531ED   		xorl	%r13d, %r13d	# add_acc.156
- 414 00fa 4D89FC   		movq	%r15, %r12	# n, n
- 415 00fd 0F1F00   		.p2align 4,,10
- 416              		.p2align 3
- 417              	.L43:
- 418              	.LBB597:
- 419              	.LBB598:
- 420 0100 4983FC01 		cmpq	$1, %r12	#, n
- 421 0104 0F869600 		jbe	.L60	#,
- 421      0000
- 422 010a 4C89E3   		movq	%r12, %rbx	# n, n
- 423 010d 31ED     		xorl	%ebp, %ebp	# add_acc.156
- 424 010f 90       		.p2align 4,,10
- 425              		.p2align 3
- 426              	.L42:
-   8:HorribleRecursiveFibonacci.h ****     {
- 427              		.loc 9 8 0
- 428 0110 488D7BFF 		leaq	-1(%rbx), %rdi	#, tmp304
-  11:HorribleRecursiveFibonacci.h ****         // Bad, bad code!
-  12:HorribleRecursiveFibonacci.h ****         return fibonacci(n-1) + fibonacci(n-2);
- 429              		.loc 9 13 0
- 430 0114 4883EB02 		subq	$2, %rbx	#, n
- 431 0118 E8000000 		call	_ZN21evilBadAndInefficient9fibonacciEm	#
- 431      00
- 432 011d 4801C5   		addq	%rax, %rbp	# D.67019, add_acc.156
-  10:HorribleRecursiveFibonacci.h ****         if (n > 92) return -1;
- 433              		.loc 9 10 0
- 434 0120 4883FB01 		cmpq	$1, %rbx	#, n
- 435 0124 77EA     		ja	.L42	#,
- 436 0126 4883C501 		addq	$1, %rbp	#, prephitmp.275
- 437              	.L41:
- 438 012a 4983EC02 		subq	$2, %r12	#, n
- 439 012e 4901ED   		addq	%rbp, %r13	# prephitmp.275, add_acc.156
- 440              	.LBE598:
- 441              	.LBE597:
- 442 0131 498D4424 		leaq	1(%r12), %rax	#, tmp305
- 442      01
- 443 0136 4883F801 		cmpq	$1, %rax	#, tmp305
- 444 013a 77C4     		ja	.L43	#,
- 445 013c 4983C501 		addq	$1, %r13	#, prephitmp.275
- 446              	.L40:
- 447 0140 4D01EE   		addq	%r13, %r14	# prephitmp.275, add_acc.156
- 448              	.LBE596:
- 449              	.LBE595:
- 450 0143 4983FF01 		cmpq	$1, %r15	#, n
- 451 0147 779C     		ja	.L44	#,
- 452 0149 4983C601 		addq	$1, %r14	#, prephitmp.275
- 453              	.L39:
- 454 014d 48836C24 		subq	$2, 16(%rsp)	#, %sfp
- 454      1002
- 455 0153 4C017424 		addq	%r14, 64(%rsp)	# prephitmp.275, %sfp
- 455      40
- 456              	.LBE594:
- 457              	.LBE593:
- 458 0158 488B4424 		movq	16(%rsp), %rax	# %sfp, tmp306
- 458      10
- 459 015d 4883C001 		addq	$1, %rax	#, tmp306
- 460 0161 4883F801 		cmpq	$1, %rax	#, tmp306
- 461 0165 0F8763FF 		ja	.L45	#,
- 461      FFFF
- 462 016b 488B5424 		movq	64(%rsp), %rdx	# %sfp, prephitmp.275
- 462      40
- 463 0170 488B4424 		movq	88(%rsp), %rax	# %sfp, n
- 463      58
- 464 0175 4883C201 		addq	$1, %rdx	#, prephitmp.275
- 465              	.L38:
- 466 0179 48015424 		addq	%rdx, 24(%rsp)	# prephitmp.275, %sfp
- 466      18
- 467              	.LBE592:
- 468              	.LBE591:
- 469 017e 4883F801 		cmpq	$1, %rax	#, n
- 470 0182 0F8721FF 		ja	.L46	#,
- 470      FFFF
- 471 0188 488B4424 		movq	24(%rsp), %rax	# %sfp, prephitmp.275
- 471      18
- 472 018d 4883C001 		addq	$1, %rax	#, prephitmp.275
- 473 0191 E9960000 		jmp	.L37	#
- 473      00
- 474 0196 662E0F1F 		.p2align 4,,10
- 474      84000000 
- 474      0000
- 475              		.p2align 3
- 476              	.L60:
- 477              	.LBB607:
- 478              	.LBB605:
- 479              	.LBB604:
- 480              	.LBB603:
- 481              	.LBB602:
- 482              	.LBB601:
- 483              	.LBB600:
- 484              	.LBB599:
- 485 01a0 BD010000 		movl	$1, %ebp	#, prephitmp.275
- 485      00
- 486 01a5 EB83     		jmp	.L41	#
- 487              	.L59:
- 488              	.LBE599:
- 489              	.LBE600:
- 490 01a7 41BD0100 		movl	$1, %r13d	#, prephitmp.275
- 490      0000
- 491 01ad 4983EF02 		subq	$2, %r15	#, n
- 492 01b1 EB8D     		jmp	.L40	#
- 493              	.L58:
- 494              	.LBE601:
- 495              	.LBE602:
- 496 01b3 41BE0100 		movl	$1, %r14d	#, prephitmp.275
- 496      0000
- 497 01b9 EB92     		jmp	.L39	#
- 498              	.L54:
- 499              	.LBE603:
- 500              	.LBE604:
- 501              	.LBE605:
- 502              	.LBE607:
- 503              	.LBE590:
- 504              	.LBE589:
- 505              	.LBE588:
- 506              	.LBE587:
- 507 01bb B8010000 		movl	$1, %eax	#, prephitmp.275
- 507      00
- 508              	.L35:
- 509 01c0 48832C24 		subq	$2, (%rsp)	#, %sfp
- 509      02
- 510 01c5 48014424 		addq	%rax, 40(%rsp)	# prephitmp.275, %sfp
- 510      28
- 511              	.LBE586:
- 512              	.LBE585:
- 513 01ca 488B0424 		movq	(%rsp), %rax	# %sfp, tmp308
- 514 01ce 4883C001 		addq	$1, %rax	#, tmp308
- 515 01d2 4883F801 		cmpq	$1, %rax	#, tmp308
- 516 01d6 0F8776FE 		ja	.L49	#,
- 516      FFFF
- 517 01dc 488B4424 		movq	40(%rsp), %rax	# %sfp, prephitmp.275
- 517      28
- 518 01e1 4883C001 		addq	$1, %rax	#, prephitmp.275
- 519 01e5 EB0E     		jmp	.L34	#
- 520              	.L53:
- 521 01e7 B8010000 		movl	$1, %eax	#, prephitmp.275
- 521      00
- 522 01ec 48C74424 		movq	$0, 80(%rsp)	#, %sfp
- 522      50000000 
- 522      00
- 523              	.L34:
- 524              	.LBE584:
- 525              	.LBE583:
- 526              		.loc 9 13 0
- 527 01f5 488B7C24 		movq	80(%rsp), %rdi	# %sfp, n
- 527      50
- 528 01fa 48014424 		addq	%rax, 32(%rsp)	# prephitmp.275, %sfp
- 528      20
-  10:HorribleRecursiveFibonacci.h ****         if (n > 92) return -1;
- 529              		.loc 9 10 0
- 530 01ff 4883FF01 		cmpq	$1, %rdi	#, n
- 531 0203 0F8729FE 		ja	.L50	#,
- 531      FFFF
- 532 0209 488B4424 		movq	32(%rsp), %rax	# %sfp, prephitmp.275
- 532      20
-  13:HorribleRecursiveFibonacci.h ****     }
- 533              		.loc 9 14 0
- 534 020e 4883C468 		addq	$104, %rsp	#,
- 535              		.cfi_def_cfa_offset 56
- 536 0212 5B       		popq	%rbx	#
- 537              		.cfi_restore 3
- 538              		.cfi_def_cfa_offset 48
- 539 0213 5D       		popq	%rbp	#
- 540              		.cfi_restore 6
- 541              		.cfi_def_cfa_offset 40
- 542 0214 415C     		popq	%r12	#
- 543              		.cfi_restore 12
- 544              		.cfi_def_cfa_offset 32
- 545 0216 415D     		popq	%r13	#
- 546              		.cfi_restore 13
- 547              		.cfi_def_cfa_offset 24
- 548 0218 415E     		popq	%r14	#
- 549              		.cfi_restore 14
- 550              		.cfi_def_cfa_offset 16
- 551 021a 415F     		popq	%r15	#
- 552              		.cfi_restore 15
- 553              		.cfi_def_cfa_offset 8
- 554 021c 4883C001 		addq	$1, %rax	#, prephitmp.275
- 555              	.L72:
- 556 0220 C3       		ret
- 557              	.L51:
-  10:HorribleRecursiveFibonacci.h ****         if (n > 92) return -1;
- 558              		.loc 9 10 0
- 559 0221 B8010000 		movl	$1, %eax	#, prephitmp.275
- 559      00
- 560 0226 C3       		ret
- 561              	.L56:
- 562              		.cfi_def_cfa_offset 160
- 563              		.cfi_offset 3, -56
- 564              		.cfi_offset 6, -48
- 565              		.cfi_offset 12, -40
- 566              		.cfi_offset 13, -32
- 567              		.cfi_offset 14, -24
- 568              		.cfi_offset 15, -16
- 569              	.LBB620:
- 570              	.LBB619:
- 571              	.LBB618:
- 572              	.LBB617:
- 573              	.LBB615:
- 574              	.LBB613:
- 575              	.LBB611:
- 576              	.LBB609:
- 577 0227 B8010000 		movl	$1, %eax	#, prephitmp.275
- 577      00
- 578              	.L37:
- 579 022c 48836C24 		subq	$2, 8(%rsp)	#, %sfp
- 579      0802
- 580 0232 48014424 		addq	%rax, 56(%rsp)	# prephitmp.275, %sfp
- 580      38
- 581              	.LBE609:
- 582              	.LBE611:
- 583 0237 488B4424 		movq	8(%rsp), %rax	# %sfp, tmp307
- 583      08
- 584 023c 4883C001 		addq	$1, %rax	#, tmp307
- 585 0240 4883F801 		cmpq	$1, %rax	#, tmp307
- 586 0244 0F8745FE 		ja	.L47	#,
- 586      FFFF
- 587 024a 488B5424 		movq	56(%rsp), %rdx	# %sfp, prephitmp.275
- 587      38
- 588 024f 488B4424 		movq	72(%rsp), %rax	# %sfp, n
- 588      48
- 589 0254 4883C201 		addq	$1, %rdx	#, prephitmp.275
- 590 0258 EB0E     		jmp	.L36	#
- 591              	.L55:
- 592 025a 4883E802 		subq	$2, %rax	#,
- 593 025e BA010000 		movl	$1, %edx	#, prephitmp.275
- 593      00
- 594 0263 48894424 		movq	%rax, 72(%rsp)	#, %sfp
- 594      48
- 595              	.L36:
- 596 0268 48015424 		addq	%rdx, 48(%rsp)	# prephitmp.275, %sfp
- 596      30
- 597              	.LBE613:
- 598              	.LBE615:
- 599 026d 4883F801 		cmpq	$1, %rax	#, n
- 600 0271 0F87F3FD 		ja	.L48	#,
- 600      FFFF
- 601 0277 488B4424 		movq	48(%rsp), %rax	# %sfp, prephitmp.275
- 601      30
- 602 027c 4883C001 		addq	$1, %rax	#, prephitmp.275
- 603 0280 E93BFFFF 		jmp	.L35	#
- 603      FF
- 604              	.L57:
- 605 0285 4883E802 		subq	$2, %rax	#,
- 606              	.LBB616:
- 607              	.LBB614:
- 608              	.LBB612:
- 609              	.LBB610:
- 610              	.LBB608:
- 611              	.LBB606:
- 612 0289 BA010000 		movl	$1, %edx	#, prephitmp.275
- 612      00
- 613 028e 48894424 		movq	%rax, 88(%rsp)	#, %sfp
- 613      58
- 614 0293 E9E1FEFF 		jmp	.L38	#
- 614      FF
- 615              	.LBE606:
- 616              	.LBE608:
- 617              	.LBE610:
- 618              	.LBE612:
- 619              	.LBE614:
- 620              	.LBE616:
- 621              	.LBE617:
- 622              	.LBE618:
- 623              	.LBE619:
- 624              	.LBE620:
- 625              		.cfi_endproc
- 626              	.LFE3244:
- 628              		.section	.rodata.str1.8,"aMS",@progbits,1
- 629              		.align 8
- 630              	.LC4:
- 631 0000 4669626F 		.string	"Fibonacci series, comparing the results of several algorithms"
- 631      6E616363 
- 631      69207365 
- 631      72696573 
- 631      2C20636F 
- 632              		.section	.rodata.str1.1,"aMS",@progbits,1
- 633              	.LC5:
- 634 0000 202000   		.string	"  "
- 635              	.LC6:
- 636 0003 20202000 		.string	"   "
- 637              		.section	.rodata.str1.8
- 638 003e 0000     		.align 8
- 639              	.LC7:
- 640 0040 4F766572 		.string	"Overflow, computed as f(92) + f(91)"
- 640      666C6F77 
- 640      2C20636F 
- 640      6D707574 
- 640      65642061 
- 641              		.text
- 642 001b 0F1F4400 		.p2align 4,,15
- 642      00
- 643              		.globl	_Z14CompareResultsv
- 645              	_Z14CompareResultsv:
- 646              	.LFB3251:
- 647              		.file 10 "Fibonacci.cc"
+   2:BasicRecursiveFibonacci.h **** 
+   3:BasicRecursiveFibonacci.h **** #pragma once
+   4:BasicRecursiveFibonacci.h **** 
+   5:BasicRecursiveFibonacci.h **** template <typename T>
+   6:BasicRecursiveFibonacci.h **** struct goodRecursionImpl
+   7:BasicRecursiveFibonacci.h **** {
+   8:BasicRecursiveFibonacci.h **** private:
+   9:BasicRecursiveFibonacci.h ****     static constexpr T fibonacciHelper(uint_fast16_t n, T last, T previous) noexcept
+  10:BasicRecursiveFibonacci.h ****     {
+  11:BasicRecursiveFibonacci.h ****         // When the last line in a recursive function is a call to itself, the compiler can apply '
+  12:BasicRecursiveFibonacci.h ****         // That is, it can convert the recursion into an optimized loop. 
+  13:BasicRecursiveFibonacci.h ****         return (n == 0) ? last: fibonacciHelper(--n, last + previous, last);
+  14:BasicRecursiveFibonacci.h ****     }
+  15:BasicRecursiveFibonacci.h **** public:
+  16:BasicRecursiveFibonacci.h ****     static constexpr T fibonacci(uint_fast16_t n) noexcept
+ 262              		.loc 8 17 0
+ 263              		.cfi_startproc
+ 264              	.LVL19:
+  17:BasicRecursiveFibonacci.h ****     {
+  18:BasicRecursiveFibonacci.h ****         return (n > 92) ? T(-1) : fibonacciHelper(n, 1, 0);
+ 265              		.loc 8 19 0
+ 266 0000 4883FF5C 		cmpq	$92, %rdi	#, n
+ 267 0004 48C7C0FF 		movq	$-1, %rax	#, last
+ 267      FFFFFF
+ 268 000b 7603     		jbe	.L31	#,
+  19:BasicRecursiveFibonacci.h ****     }
+ 269              		.loc 8 20 0 discriminator 3
+ 270 000d F3       		rep
+ 271 000e C3       		ret
+ 272 000f 90       		.p2align 4,,10
+ 273              		.p2align 3
+ 274              	.L31:
+ 275              	.LBB572:
+ 276              	.LBB573:
+ 277              	.LBB574:
+  14:BasicRecursiveFibonacci.h ****         return (n == 0) ? last: fibonacciHelper(--n, last + previous, last);
+ 278              		.loc 8 14 0
+ 279 0010 4885FF   		testq	%rdi, %rdi	# n
+ 280 0013 741D     		je	.L29	#,
+ 281 0015 31C9     		xorl	%ecx, %ecx	# last
+ 282 0017 BA010000 		movl	$1, %edx	#, last
+ 282      00
+ 283 001c EB05     		jmp	.L27	#
+ 284              	.LVL20:
+ 285 001e 6690     		.p2align 4,,10
+ 286              		.p2align 3
+ 287              	.L30:
+ 288 0020 4889C2   		movq	%rax, %rdx	# last, last
+ 289              	.LVL21:
+ 290              	.L27:
+ 291 0023 4883EF01 		subq	$1, %rdi	#, n
+ 292              	.LVL22:
+ 293 0027 488D0411 		leaq	(%rcx,%rdx), %rax	#, last
+ 294 002b 4889D1   		movq	%rdx, %rcx	# last, last
+ 295 002e 75F0     		jne	.L30	#,
+ 296 0030 F3       		rep
+ 297 0031 C3       		ret
+ 298              	.LVL23:
+ 299              	.L29:
+ 300 0032 B8010000 		movl	$1, %eax	#, last
+ 300      00
+ 301              	.LBE574:
+ 302              	.LBE573:
+ 303              	.LBE572:
+ 304              		.loc 8 20 0
+ 305 0037 C3       		ret
+ 306              		.cfi_endproc
+ 307              	.LFE3253:
+ 309              		.section	.text._ZN21evilBadAndInefficient9fibonacciEm,"axG",@progbits,_ZN21evilBadAndInefficient9f
+ 310              		.p2align 4,,15
+ 311              		.weak	_ZN21evilBadAndInefficient9fibonacciEm
+ 313              	_ZN21evilBadAndInefficient9fibonacciEm:
+ 314              	.LFB3244:
+ 315              		.file 9 "HorribleRecursiveFibonacci.h"
+   0:HorribleRecursiveFibonacci.h **** #pragma once
+   1:HorribleRecursiveFibonacci.h **** // This is so horrible, that I'll double the include guards. 
+   2:HorribleRecursiveFibonacci.h **** // You can generate a GUID by running any of the following:
+   3:HorribleRecursiveFibonacci.h **** // $ uuidgen -r 
+   4:HorribleRecursiveFibonacci.h **** // $ python -c 'import uuid; print str(uuid.uuid1())'
+   5:HorribleRecursiveFibonacci.h **** // upper case UUID with underscores as separators. 
+   6:HorribleRecursiveFibonacci.h **** // $ uuidgen -r | tr '[:lower:]\-' '[:upper:]_'
+   7:HorribleRecursiveFibonacci.h **** // See:
+   8:HorribleRecursiveFibonacci.h **** //     http://stackoverflow.com/questions/16372433/linux-command-to-generate-new-guid
+   9:HorribleRecursiveFibonacci.h **** //     http://linux.about.com/library/cmd/blcmdl1_uuidgen.htm
+  10:HorribleRecursiveFibonacci.h **** //     http://www.cyberciti.biz/faq/how-to-use-linux-unix-tr-command/
+  11:HorribleRecursiveFibonacci.h **** #ifndef evilBadAndInefficient_31889DCB_1270_45D3_B737_65CFB7E5221C
+  12:HorribleRecursiveFibonacci.h **** #define evilBadAndInefficient_31889DCB_1270_45D3_B737_65CFB7E5221C
+  13:HorribleRecursiveFibonacci.h **** 
+  14:HorribleRecursiveFibonacci.h **** struct evilBadAndInefficient 
+  15:HorribleRecursiveFibonacci.h **** {
+  16:HorribleRecursiveFibonacci.h ****     // This implementation is BLOODY HORRIBLE.
+  17:HorribleRecursiveFibonacci.h ****     // You'll find it all along and across the Web.
+  18:HorribleRecursiveFibonacci.h ****     // Among others: 
+  19:HorribleRecursiveFibonacci.h ****     //    http://www.programmingsimplified.com/c-program-generate-fibonacci-series
+  20:HorribleRecursiveFibonacci.h ****     //    http://pages.cs.wisc.edu/~calvin/cs110/RECURSION.html 
+  21:HorribleRecursiveFibonacci.h ****     static constexpr unsigned long long fibonacci(uint_fast16_t n) noexcept
+ 316              		.loc 9 22 0
+ 317              		.cfi_startproc
+  22:HorribleRecursiveFibonacci.h ****     {
+  23:HorribleRecursiveFibonacci.h ****         // Bad, bad code!
+  24:HorribleRecursiveFibonacci.h ****         return (n > 92) ? -1 : (n < 2) ? 1 : fibonacci(n-1) + fibonacci(n-2);
+ 318              		.loc 9 25 0
+ 319 0000 4883FF5C 		cmpq	$92, %rdi	#, n
+ 320 0004 48C7C0FF 		movq	$-1, %rax	#, prephitmp.283
+ 320      FFFFFF
+ 321 000b 0F872702 		ja	.L75	#,
+ 321      0000
+  22:HorribleRecursiveFibonacci.h ****     {
+ 322              		.loc 9 22 0
+ 323 0011 4157     		pushq	%r15	#
+ 324              		.cfi_def_cfa_offset 16
+ 325              		.cfi_offset 15, -16
+ 326              		.loc 9 25 0
+ 327 0013 B8010000 		movl	$1, %eax	#, prephitmp.283
+ 327      00
+  22:HorribleRecursiveFibonacci.h ****     {
+ 328              		.loc 9 22 0
+ 329 0018 4156     		pushq	%r14	#
+ 330              		.cfi_def_cfa_offset 24
+ 331              		.cfi_offset 14, -24
+ 332 001a 4155     		pushq	%r13	#
+ 333              		.cfi_def_cfa_offset 32
+ 334              		.cfi_offset 13, -32
+ 335 001c 4154     		pushq	%r12	#
+ 336              		.cfi_def_cfa_offset 40
+ 337              		.cfi_offset 12, -40
+ 338 001e 55       		pushq	%rbp	#
+ 339              		.cfi_def_cfa_offset 48
+ 340              		.cfi_offset 6, -48
+ 341 001f 53       		pushq	%rbx	#
+ 342              		.cfi_def_cfa_offset 56
+ 343              		.cfi_offset 3, -56
+ 344 0020 4883EC68 		subq	$104, %rsp	#,
+ 345              		.cfi_def_cfa_offset 160
+ 346              		.loc 9 25 0
+ 347 0024 4883FF01 		cmpq	$1, %rdi	#, n
+ 348 0028 48C74424 		movq	$0, 32(%rsp)	#, %sfp
+ 348      20000000 
+ 348      00
+ 349 0031 0F86F301 		jbe	.L33	#,
+ 349      0000
+ 350              	.L62:
+ 351              	.LBB591:
+ 352              	.LBB592:
+ 353              		.loc 9 25 0 is_stmt 0 discriminator 3
+ 354 0037 488D47FF 		leaq	-1(%rdi), %rax	#, tmp277
+ 355 003b 4883F801 		cmpq	$1, %rax	#, tmp277
+ 356 003f 0F86B701 		jbe	.L54	#,
+ 356      0000
+ 357 0045 4883EF02 		subq	$2, %rdi	#,
+ 358              		.loc 9 25 0
+ 359 0049 48C74424 		movq	$0, 40(%rsp)	#, %sfp
+ 359      28000000 
+ 359      00
+ 360 0052 48897C24 		movq	%rdi, 24(%rsp)	#, %sfp
+ 360      18
+ 361 0057 48893C24 		movq	%rdi, (%rsp)	#, %sfp
+ 362              	.L51:
+ 363              	.LBB593:
+ 364              	.LBB594:
+ 365 005b 48833C24 		cmpq	$1, (%rsp)	#, %sfp
+ 365      01
+ 366 0060 0F866501 		jbe	.L55	#,
+ 366      0000
+ 367 0066 488B0424 		movq	(%rsp), %rax	# %sfp, n
+ 368 006a 48C74424 		movq	$0, 48(%rsp)	#, %sfp
+ 368      30000000 
+ 368      00
+ 369              	.L50:
+ 370              	.LBB595:
+ 371              	.LBB596:
+ 372 0073 488D50FF 		leaq	-1(%rax), %rdx	#, tmp278
+ 373 0077 4883FA01 		cmpq	$1, %rdx	#, tmp278
+ 374 007b 0F86F601 		jbe	.L56	#,
+ 374      0000
+ 375 0081 4883E802 		subq	$2, %rax	#,
+ 376 0085 48C74424 		movq	$0, 64(%rsp)	#, %sfp
+ 376      40000000 
+ 376      00
+ 377 008e 48894424 		movq	%rax, 80(%rsp)	#, %sfp
+ 377      50
+ 378 0093 48894424 		movq	%rax, 8(%rsp)	#, %sfp
+ 378      08
+ 379              	.L49:
+ 380              	.LBB597:
+ 381              	.LBB598:
+ 382 0098 48837C24 		cmpq	$1, 8(%rsp)	#, %sfp
+ 382      0801
+ 383 009e 0F86A001 		jbe	.L57	#,
+ 383      0000
+ 384 00a4 488B4424 		movq	8(%rsp), %rax	# %sfp, n
+ 384      08
+ 385 00a9 48C74424 		movq	$0, 72(%rsp)	#, %sfp
+ 385      48000000 
+ 385      00
+ 386              	.L48:
+ 387              	.LBB599:
+ 388              	.LBB600:
+ 389 00b2 488D50FF 		leaq	-1(%rax), %rdx	#, tmp279
+ 390 00b6 4883FA01 		cmpq	$1, %rdx	#, tmp279
+ 391 00ba 0F86E201 		jbe	.L58	#,
+ 391      0000
+ 392 00c0 4883E802 		subq	$2, %rax	#,
+ 393 00c4 48C74424 		movq	$0, 56(%rsp)	#, %sfp
+ 393      38000000 
+ 393      00
+ 394 00cd 48894424 		movq	%rax, 88(%rsp)	#, %sfp
+ 394      58
+ 395 00d2 48894424 		movq	%rax, 16(%rsp)	#, %sfp
+ 395      10
+ 396              	.L47:
+ 397              	.LBB601:
+ 398              	.LBB602:
+ 399 00d7 48837C24 		cmpq	$1, 16(%rsp)	#, %sfp
+ 399      1001
+ 400 00dd 0F86E000 		jbe	.L59	#,
+ 400      0000
+ 401 00e3 4C8B6C24 		movq	16(%rsp), %r13	# %sfp, n
+ 401      10
+ 402 00e8 4531F6   		xorl	%r14d, %r14d	# add_acc.161
+ 403 00eb 4D89EF   		movq	%r13, %r15	# n, n
+ 404              	.L46:
+ 405              	.LBB603:
+ 406              	.LBB604:
+ 407 00ee 498D47FF 		leaq	-1(%r15), %rax	#, tmp280
+ 408 00f2 4883F801 		cmpq	$1, %rax	#, tmp280
+ 409 00f6 0F86BB00 		jbe	.L60	#,
+ 409      0000
+ 410 00fc 4983EF02 		subq	$2, %r15	#, n
+ 411 0100 4531ED   		xorl	%r13d, %r13d	# add_acc.161
+ 412 0103 4D89FC   		movq	%r15, %r12	# n, n
+ 413 0106 662E0F1F 		.p2align 4,,10
+ 413      84000000 
+ 413      0000
+ 414              		.p2align 3
+ 415              	.L45:
+ 416              	.LBB605:
+ 417              	.LBB606:
+ 418 0110 4983FC01 		cmpq	$1, %r12	#, n
+ 419 0114 0F869600 		jbe	.L61	#,
+ 419      0000
+ 420 011a 4C89E3   		movq	%r12, %rbx	# n, n
+ 421 011d 31ED     		xorl	%ebp, %ebp	# add_acc.161
+ 422 011f 90       		.p2align 4,,10
+ 423              		.p2align 3
+ 424              	.L44:
+  22:HorribleRecursiveFibonacci.h ****     {
+ 425              		.loc 9 22 0 is_stmt 1
+ 426 0120 488D7BFF 		leaq	-1(%rbx), %rdi	#, tmp281
+ 427              		.loc 9 25 0
+ 428 0124 4883EB02 		subq	$2, %rbx	#, n
+ 429 0128 E8000000 		call	_ZN21evilBadAndInefficient9fibonacciEm	#
+ 429      00
+ 430 012d 4801C5   		addq	%rax, %rbp	# D.67058, add_acc.161
+ 431 0130 4883FB01 		cmpq	$1, %rbx	#, n
+ 432 0134 77EA     		ja	.L44	#,
+ 433 0136 4883C501 		addq	$1, %rbp	#, prephitmp.283
+ 434              	.L43:
+ 435 013a 4983EC02 		subq	$2, %r12	#, n
+ 436 013e 4901ED   		addq	%rbp, %r13	# prephitmp.283, add_acc.161
+ 437              	.LBE606:
+ 438              	.LBE605:
+ 439 0141 498D4424 		leaq	1(%r12), %rax	#, tmp282
+ 439      01
+ 440 0146 4883F801 		cmpq	$1, %rax	#, tmp282
+ 441 014a 77C4     		ja	.L45	#,
+ 442 014c 4983C501 		addq	$1, %r13	#, prephitmp.283
+ 443              	.L42:
+ 444 0150 4D01EE   		addq	%r13, %r14	# prephitmp.283, add_acc.161
+ 445              	.LBE604:
+ 446              	.LBE603:
+ 447 0153 4983FF01 		cmpq	$1, %r15	#, n
+ 448 0157 7795     		ja	.L46	#,
+ 449 0159 4983C601 		addq	$1, %r14	#, prephitmp.283
+ 450              	.L41:
+ 451 015d 48836C24 		subq	$2, 16(%rsp)	#, %sfp
+ 451      1002
+ 452 0163 4C017424 		addq	%r14, 56(%rsp)	# prephitmp.283, %sfp
+ 452      38
+ 453              	.LBE602:
+ 454              	.LBE601:
+ 455 0168 488B4424 		movq	16(%rsp), %rax	# %sfp, tmp283
+ 455      10
+ 456 016d 4883C001 		addq	$1, %rax	#, tmp283
+ 457 0171 4883F801 		cmpq	$1, %rax	#, tmp283
+ 458 0175 0F875CFF 		ja	.L47	#,
+ 458      FFFF
+ 459 017b 488B5424 		movq	56(%rsp), %rdx	# %sfp, prephitmp.283
+ 459      38
+ 460 0180 488B4424 		movq	88(%rsp), %rax	# %sfp, n
+ 460      58
+ 461 0185 4883C201 		addq	$1, %rdx	#, prephitmp.283
+ 462              	.L40:
+ 463 0189 48015424 		addq	%rdx, 72(%rsp)	# prephitmp.283, %sfp
+ 463      48
+ 464              	.LBE600:
+ 465              	.LBE599:
+ 466 018e 4883F801 		cmpq	$1, %rax	#, n
+ 467 0192 0F871AFF 		ja	.L48	#,
+ 467      FFFF
+ 468 0198 488B4424 		movq	72(%rsp), %rax	# %sfp, prephitmp.283
+ 468      48
+ 469 019d 4883C001 		addq	$1, %rax	#, prephitmp.283
+ 470 01a1 E9A30000 		jmp	.L39	#
+ 470      00
+ 471 01a6 662E0F1F 		.p2align 4,,10
+ 471      84000000 
+ 471      0000
+ 472              		.p2align 3
+ 473              	.L61:
+ 474              	.LBB615:
+ 475              	.LBB613:
+ 476              	.LBB612:
+ 477              	.LBB611:
+ 478              	.LBB610:
+ 479              	.LBB609:
+ 480              	.LBB608:
+ 481              	.LBB607:
+ 482 01b0 BD010000 		movl	$1, %ebp	#, prephitmp.283
+ 482      00
+ 483 01b5 EB83     		jmp	.L43	#
+ 484              	.L60:
+ 485              	.LBE607:
+ 486              	.LBE608:
+ 487 01b7 41BD0100 		movl	$1, %r13d	#, prephitmp.283
+ 487      0000
+ 488 01bd 4983EF02 		subq	$2, %r15	#, n
+ 489 01c1 EB8D     		jmp	.L42	#
+ 490              	.L59:
+ 491              	.LBE609:
+ 492              	.LBE610:
+ 493 01c3 41BE0100 		movl	$1, %r14d	#, prephitmp.283
+ 493      0000
+ 494 01c9 EB92     		jmp	.L41	#
+ 495              	.L55:
+ 496              	.LBE611:
+ 497              	.LBE612:
+ 498              	.LBE613:
+ 499              	.LBE615:
+ 500              	.LBE598:
+ 501              	.LBE597:
+ 502              	.LBE596:
+ 503              	.LBE595:
+ 504 01cb B8010000 		movl	$1, %eax	#, prephitmp.283
+ 504      00
+ 505              	.L37:
+ 506 01d0 48832C24 		subq	$2, (%rsp)	#, %sfp
+ 506      02
+ 507 01d5 48014424 		addq	%rax, 40(%rsp)	# prephitmp.283, %sfp
+ 507      28
+ 508              	.LBE594:
+ 509              	.LBE593:
+ 510 01da 488B0424 		movq	(%rsp), %rax	# %sfp, tmp285
+ 511 01de 4883C001 		addq	$1, %rax	#, tmp285
+ 512 01e2 4883F801 		cmpq	$1, %rax	#, tmp285
+ 513 01e6 0F876FFE 		ja	.L51	#,
+ 513      FFFF
+ 514 01ec 488B4424 		movq	40(%rsp), %rax	# %sfp, prephitmp.283
+ 514      28
+ 515 01f1 488B7C24 		movq	24(%rsp), %rdi	# %sfp, n
+ 515      18
+ 516 01f6 4883C001 		addq	$1, %rax	#, prephitmp.283
+ 517 01fa EB0E     		jmp	.L36	#
+ 518              	.L54:
+ 519 01fc 4883EF02 		subq	$2, %rdi	#,
+ 520 0200 B8010000 		movl	$1, %eax	#, prephitmp.283
+ 520      00
+ 521 0205 48897C24 		movq	%rdi, 24(%rsp)	#, %sfp
+ 521      18
+ 522              	.L36:
+ 523 020a 48014424 		addq	%rax, 32(%rsp)	# prephitmp.283, %sfp
+ 523      20
+ 524              	.LBE592:
+ 525              	.LBE591:
+ 526 020f 4883FF5C 		cmpq	$92, %rdi	#,
+ 527 0213 7724     		ja	.L76	#,
+ 528              		.loc 9 25 0 is_stmt 0 discriminator 1
+ 529 0215 48837C24 		cmpq	$1, 24(%rsp)	#, %sfp
+ 529      1801
+ 530 021b 0F8716FE 		ja	.L62	#,
+ 530      FFFF
+ 531 0221 488B4424 		movq	32(%rsp), %rax	# %sfp, prephitmp.283
+ 531      20
+ 532 0226 4883C001 		addq	$1, %rax	#, prephitmp.283
+ 533              	.L33:
+  25:HorribleRecursiveFibonacci.h ****     }
+ 534              		.loc 9 26 0 is_stmt 1 discriminator 6
+ 535 022a 4883C468 		addq	$104, %rsp	#,
+ 536              		.cfi_def_cfa_offset 56
+ 537 022e 5B       		popq	%rbx	#
+ 538              		.cfi_restore 3
+ 539              		.cfi_def_cfa_offset 48
+ 540 022f 5D       		popq	%rbp	#
+ 541              		.cfi_restore 6
+ 542              		.cfi_def_cfa_offset 40
+ 543 0230 415C     		popq	%r12	#
+ 544              		.cfi_restore 12
+ 545              		.cfi_def_cfa_offset 32
+ 546 0232 415D     		popq	%r13	#
+ 547              		.cfi_restore 13
+ 548              		.cfi_def_cfa_offset 24
+ 549 0234 415E     		popq	%r14	#
+ 550              		.cfi_restore 14
+ 551              		.cfi_def_cfa_offset 16
+ 552 0236 415F     		popq	%r15	#
+ 553              		.cfi_restore 15
+ 554              		.cfi_def_cfa_offset 8
+ 555              	.L75:
+ 556 0238 C3       		ret
+ 557              	.L76:
+ 558              		.cfi_def_cfa_offset 160
+ 559              		.cfi_offset 3, -56
+ 560              		.cfi_offset 6, -48
+ 561              		.cfi_offset 12, -40
+ 562              		.cfi_offset 13, -32
+ 563              		.cfi_offset 14, -24
+ 564              		.cfi_offset 15, -16
+ 565 0239 488B4424 		movq	32(%rsp), %rax	# %sfp, prephitmp.283
+ 565      20
+ 566 023e 4883E801 		subq	$1, %rax	#, prephitmp.283
+ 567 0242 EBE6     		jmp	.L33	#
+ 568              	.L57:
+ 569              	.LBB628:
+ 570              	.LBB627:
+ 571              	.LBB626:
+ 572              	.LBB625:
+ 573              	.LBB623:
+ 574              	.LBB621:
+ 575              	.LBB619:
+ 576              	.LBB617:
+  25:HorribleRecursiveFibonacci.h ****     }
+ 577              		.loc 9 25 0
+ 578 0244 B8010000 		movl	$1, %eax	#, prephitmp.283
+ 578      00
+ 579              	.L39:
+ 580 0249 48836C24 		subq	$2, 8(%rsp)	#, %sfp
+ 580      0802
+ 581 024f 48014424 		addq	%rax, 64(%rsp)	# prephitmp.283, %sfp
+ 581      40
+ 582              	.LBE617:
+ 583              	.LBE619:
+ 584 0254 488B4424 		movq	8(%rsp), %rax	# %sfp, tmp284
+ 584      08
+ 585 0259 4883C001 		addq	$1, %rax	#, tmp284
+ 586 025d 4883F801 		cmpq	$1, %rax	#, tmp284
+ 587 0261 0F8731FE 		ja	.L49	#,
+ 587      FFFF
+ 588 0267 488B5424 		movq	64(%rsp), %rdx	# %sfp, prephitmp.283
+ 588      40
+ 589 026c 488B4424 		movq	80(%rsp), %rax	# %sfp, n
+ 589      50
+ 590 0271 4883C201 		addq	$1, %rdx	#, prephitmp.283
+ 591 0275 EB0E     		jmp	.L38	#
+ 592              	.L56:
+ 593 0277 4883E802 		subq	$2, %rax	#,
+ 594 027b BA010000 		movl	$1, %edx	#, prephitmp.283
+ 594      00
+ 595 0280 48894424 		movq	%rax, 80(%rsp)	#, %sfp
+ 595      50
+ 596              	.L38:
+ 597 0285 48015424 		addq	%rdx, 48(%rsp)	# prephitmp.283, %sfp
+ 597      30
+ 598              	.LBE621:
+ 599              	.LBE623:
+ 600 028a 4883F801 		cmpq	$1, %rax	#, n
+ 601 028e 0F87DFFD 		ja	.L50	#,
+ 601      FFFF
+ 602 0294 488B4424 		movq	48(%rsp), %rax	# %sfp, prephitmp.283
+ 602      30
+ 603 0299 4883C001 		addq	$1, %rax	#, prephitmp.283
+ 604 029d E92EFFFF 		jmp	.L37	#
+ 604      FF
+ 605              	.L58:
+ 606 02a2 4883E802 		subq	$2, %rax	#,
+ 607              	.LBB624:
+ 608              	.LBB622:
+ 609              	.LBB620:
+ 610              	.LBB618:
+ 611              	.LBB616:
+ 612              	.LBB614:
+ 613 02a6 BA010000 		movl	$1, %edx	#, prephitmp.283
+ 613      00
+ 614 02ab 48894424 		movq	%rax, 88(%rsp)	#, %sfp
+ 614      58
+ 615 02b0 E9D4FEFF 		jmp	.L40	#
+ 615      FF
+ 616              	.LBE614:
+ 617              	.LBE616:
+ 618              	.LBE618:
+ 619              	.LBE620:
+ 620              	.LBE622:
+ 621              	.LBE624:
+ 622              	.LBE625:
+ 623              	.LBE626:
+ 624              	.LBE627:
+ 625              	.LBE628:
+ 626              		.cfi_endproc
+ 627              	.LFE3244:
+ 629              		.section	.rodata.str1.8,"aMS",@progbits,1
+ 630              		.align 8
+ 631              	.LC4:
+ 632 0000 4669626F 		.string	"Fibonacci series, comparing the results of several algorithms"
+ 632      6E616363 
+ 632      69207365 
+ 632      72696573 
+ 632      2C20636F 
+ 633              		.section	.rodata.str1.1,"aMS",@progbits,1
+ 634              	.LC5:
+ 635 0000 202000   		.string	"  "
+ 636              	.LC6:
+ 637 0003 20202000 		.string	"   "
+ 638              		.section	.rodata.str1.8
+ 639 003e 0000     		.align 8
+ 640              	.LC7:
+ 641 0040 4F766572 		.string	"Overflow, computed as f(92) + f(91)"
+ 641      666C6F77 
+ 641      2C20636F 
+ 641      6D707574 
+ 641      65642061 
+ 642              		.text
+ 643 001b 0F1F4400 		.p2align 4,,15
+ 643      00
+ 644              		.globl	_Z14CompareResultsv
+ 646              	_Z14CompareResultsv:
+ 647              	.LFB3252:
+ 648              		.file 10 "Fibonacci.cc"
    0:Fibonacci.cc  **** #include <iostream>
    1:Fibonacci.cc  **** #include <iomanip>
    2:Fibonacci.cc  **** #include <initializer_list>
@@ -2144,10 +2167,10 @@
    8:Fibonacci.cc  **** #include <cstdint>
    9:Fibonacci.cc  **** #include <cmath>
   10:Fibonacci.cc  **** 
-  11:Fibonacci.cc  **** #include "StopWatch.h"
+  11:Fibonacci.cc  **** #include "StopWatch.h"    
   12:Fibonacci.cc  **** using namespace std;
   13:Fibonacci.cc  **** 
-  14:Fibonacci.cc  **** #include "HorribleRecursiveFibonacci.h"
+  14:Fibonacci.cc  **** #include "HorribleRecursiveFibonacci.h"  
   15:Fibonacci.cc  **** #include "BasicLoopFibonacci.h"
   16:Fibonacci.cc  **** #include "BasicRecursiveFibonacci.h"
   17:Fibonacci.cc  **** #include "LogarithmicFibonacciUsingMatrices.h"
@@ -2162,18 +2185,18 @@
   26:Fibonacci.cc  **** // Colorization is done using the ANSI escape sequences: see http://en.wikipedia.org/wiki/ANSI_esca
   27:Fibonacci.cc  **** void CompareResults()
   28:Fibonacci.cc  **** {  
- 648              		.loc 10 29 0
- 649              		.cfi_startproc
- 650              		.cfi_personality 0x3,__gxx_personality_v0
- 651              		.cfi_lsda 0x3,.LLSDA3251
- 652              	.LVL24:
- 653 0020 4156     		pushq	%r14	#
- 654              		.cfi_def_cfa_offset 16
- 655              		.cfi_offset 14, -16
- 656              	.LBB860:
- 657              	.LBB861:
- 658              	.LBB862:
- 659              		.file 11 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 649              		.loc 10 29 0
+ 650              		.cfi_startproc
+ 651              		.cfi_personality 0x3,__gxx_personality_v0
+ 652              		.cfi_lsda 0x3,.LLSDA3252
+ 653              	.LVL24:
+ 654 0020 4156     		pushq	%r14	#
+ 655              		.cfi_def_cfa_offset 16
+ 656              		.cfi_offset 14, -16
+ 657              	.LBB868:
+ 658              	.LBB869:
+ 659              	.LBB870:
+ 660              		.file 11 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h **** // Components for manipulating sequences of characters -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h **** // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
@@ -4929,110 +4952,110 @@
 2752:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       // _GLIBCXX_RESOLVE_LIB_DEFECTS
 2753:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       // 586. string inserter not a formatted function
 2754:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       return __ostream_insert(__os, __str.data(), __str.size());
- 660              		.loc 11 2755 0
- 661 0022 BF000000 		movl	$_ZSt4cout, %edi	#,
- 661      00
- 662              	.LBE862:
- 663              	.LBE861:
- 664              	.LBE860:
- 665              		.loc 10 29 0
- 666 0027 4155     		pushq	%r13	#
- 667              		.cfi_def_cfa_offset 24
- 668              		.cfi_offset 13, -24
- 669 0029 4154     		pushq	%r12	#
- 670              		.cfi_def_cfa_offset 32
- 671              		.cfi_offset 12, -32
- 672 002b 55       		pushq	%rbp	#
- 673              		.cfi_def_cfa_offset 40
- 674              		.cfi_offset 6, -40
- 675 002c 53       		pushq	%rbx	#
- 676              		.cfi_def_cfa_offset 48
- 677              		.cfi_offset 3, -48
- 678 002d 4883EC30 		subq	$48, %rsp	#,
- 679              		.cfi_def_cfa_offset 96
- 680              	.LBB1312:
- 681              	.LBB870:
- 682              	.LBB868:
- 683              	.LBB863:
- 684              	.LBB864:
- 685              	.LBB865:
- 686              	.LBB866:
- 687              	.LBB867:
+ 661              		.loc 11 2755 0
+ 662 0022 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 662      00
+ 663              	.LBE870:
+ 664              	.LBE869:
+ 665              	.LBE868:
+ 666              		.loc 10 29 0
+ 667 0027 4155     		pushq	%r13	#
+ 668              		.cfi_def_cfa_offset 24
+ 669              		.cfi_offset 13, -24
+ 670 0029 4154     		pushq	%r12	#
+ 671              		.cfi_def_cfa_offset 32
+ 672              		.cfi_offset 12, -32
+ 673 002b 55       		pushq	%rbp	#
+ 674              		.cfi_def_cfa_offset 40
+ 675              		.cfi_offset 6, -40
+ 676 002c 53       		pushq	%rbx	#
+ 677              		.cfi_def_cfa_offset 48
+ 678              		.cfi_offset 3, -48
+ 679 002d 4883EC30 		subq	$48, %rsp	#,
+ 680              		.cfi_def_cfa_offset 96
+ 681              	.LBB1320:
+ 682              	.LBB878:
+ 683              	.LBB876:
+ 684              	.LBB871:
+ 685              	.LBB872:
+ 686              	.LBB873:
+ 687              	.LBB874:
+ 688              	.LBB875:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 688              		.loc 11 290 0
- 689 0031 488B3500 		movq	_ZL10BeginTitle(%rip), %rsi	# BeginTitle._M_dataplus._M_p, D.67116
- 689      000000
- 690              	.LVL25:
- 691              	.LBE867:
- 692              	.LBE866:
- 693              	.LBE865:
- 694              	.LBE864:
- 695              	.LBE863:
- 696              		.loc 11 2755 0
- 697 0038 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67116_261 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 698              	.LEHB0:
- 699 003c E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 699      00
- 700              	.LVL26:
- 701              	.LBE868:
- 702              	.LBE870:
- 703              	.LBB871:
- 704              	.LBB872:
+ 689              		.loc 11 290 0
+ 690 0031 488B3500 		movq	_ZL10BeginTitle(%rip), %rsi	# BeginTitle._M_dataplus._M_p, D.67155
+ 690      000000
+ 691              	.LVL25:
+ 692              	.LBE875:
+ 693              	.LBE874:
+ 694              	.LBE873:
+ 695              	.LBE872:
+ 696              	.LBE871:
+ 697              		.loc 11 2755 0
+ 698 0038 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67155_258 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 699              	.LEHB0:
+ 700 003c E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 700      00
+ 701              	.LVL26:
+ 702              	.LBE876:
+ 703              	.LBE878:
+ 704              	.LBB879:
+ 705              	.LBB880:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 705              		.loc 5 533 0
- 706 0041 BA3D0000 		movl	$61, %edx	#,
- 706      00
- 707 0046 BE000000 		movl	$.LC4, %esi	#,
+ 706              		.loc 4 533 0
+ 707 0041 BA3D0000 		movl	$61, %edx	#,
  707      00
- 708 004b 4889C7   		movq	%rax, %rdi	# D.67113,
- 709              	.LBE872:
- 710              	.LBE871:
- 711              	.LBB874:
- 712              	.LBB869:
- 713              		.loc 11 2755 0
- 714 004e 4889C3   		movq	%rax, %rbx	#, D.67113
- 715              	.LVL27:
- 716              	.LBE869:
- 717              	.LBE874:
- 718              	.LBB875:
- 719              	.LBB873:
+ 708 0046 BE000000 		movl	$.LC4, %esi	#,
+ 708      00
+ 709 004b 4889C7   		movq	%rax, %rdi	# D.67152,
+ 710              	.LBE880:
+ 711              	.LBE879:
+ 712              	.LBB882:
+ 713              	.LBB877:
+ 714              		.loc 11 2755 0
+ 715 004e 4889C3   		movq	%rax, %rbx	#, D.67152
+ 716              	.LVL27:
+ 717              	.LBE877:
+ 718              	.LBE882:
+ 719              	.LBB883:
+ 720              	.LBB881:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 720              		.loc 5 533 0
- 721 0051 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 721      00
- 722              	.LVL28:
- 723              	.LBE873:
- 724              	.LBE875:
- 725              	.LBB876:
- 726              	.LBB877:
- 727              	.LBB878:
- 728              	.LBB879:
- 729              	.LBB880:
- 730              	.LBB881:
- 731              	.LBB882:
+ 721              		.loc 4 533 0
+ 722 0051 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 722      00
+ 723              	.LVL28:
+ 724              	.LBE881:
+ 725              	.LBE883:
+ 726              	.LBB884:
+ 727              	.LBB885:
+ 728              	.LBB886:
+ 729              	.LBB887:
+ 730              	.LBB888:
+ 731              	.LBB889:
+ 732              	.LBB890:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 732              		.loc 11 290 0
- 733 0056 488B3500 		movq	_ZL8EndTitle(%rip), %rsi	# EndTitle._M_dataplus._M_p, D.67129
- 733      000000
- 734              	.LVL29:
- 735              	.LBE882:
- 736              	.LBE881:
- 737              	.LBE880:
- 738              	.LBE879:
- 739              	.LBE878:
- 740              		.loc 11 2755 0
- 741 005d 4889DF   		movq	%rbx, %rdi	# D.67113,
- 742 0060 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67129_267 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 743 0064 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 743      00
- 744              	.LVL30:
- 745 0069 4889C5   		movq	%rax, %rbp	#, D.67132
- 746              	.LVL31:
- 747              	.LBE877:
- 748              	.LBE876:
- 749              	.LBB883:
- 750              	.LBB884:
- 751              	.LBB885:
+ 733              		.loc 11 290 0
+ 734 0056 488B3500 		movq	_ZL8EndTitle(%rip), %rsi	# EndTitle._M_dataplus._M_p, D.67168
+ 734      000000
+ 735              	.LVL29:
+ 736              	.LBE890:
+ 737              	.LBE889:
+ 738              	.LBE888:
+ 739              	.LBE887:
+ 740              	.LBE886:
+ 741              		.loc 11 2755 0
+ 742 005d 4889DF   		movq	%rbx, %rdi	# D.67152,
+ 743 0060 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67168_264 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 744 0064 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 744      00
+ 745              	.LVL30:
+ 746 0069 4889C5   		movq	%rax, %rbp	#, D.67171
+ 747              	.LVL31:
+ 748              	.LBE885:
+ 749              	.LBE884:
+ 750              	.LBB891:
+ 751              	.LBB892:
+ 752              	.LBB893:
  536:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 
  537:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****   // Signed and unsigned
  538:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****   template<class _Traits>
@@ -5060,10 +5083,10 @@
  560:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     inline basic_ostream<_CharT, _Traits>&
  561:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     endl(basic_ostream<_CharT, _Traits>& __os)
  562:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 752              		.loc 5 563 0
- 753 006c 488B00   		movq	(%rax), %rax	# D.67132_270->_vptr.basic_ostream, D.67132_270->_vptr.basic_ostream
- 754              	.LVL32:
- 755              	.LBE885:
+ 753              		.loc 4 563 0
+ 754 006c 488B00   		movq	(%rax), %rax	# D.67171_267->_vptr.basic_ostream, D.67171_267->_vptr.basic_ostream
+ 755              	.LVL32:
+ 756              	.LBE893:
   29:Fibonacci.cc  ****     cout << BeginTitle << "Fibonacci series, comparing the results of several algorithms" << EndTit
   30:Fibonacci.cc  ****     fibo_t functors [] { 
   31:Fibonacci.cc  ****         loop::fibonacci, 
@@ -5079,8 +5102,8 @@
   41:Fibonacci.cc  ****         "\033[33;1mConstantTime\033[0m", 
   42:Fibonacci.cc  ****         "\033[36;1mUsingMatrix\033[0m",
   43:Fibonacci.cc  ****         "\033[34;1mwithoutLoopsOrRecursion\033[0m"
-  44:Fibonacci.cc  ****     }) {
-  45:Fibonacci.cc  ****         cout << setw(37) << n; 
+  44:Fibonacci.cc  ****     }) { 
+  45:Fibonacci.cc  ****         cout << setw(37) << n;   
   46:Fibonacci.cc  ****     }
   47:Fibonacci.cc  ****     cout << endl;
   48:Fibonacci.cc  ****     std::vector<unsigned long long> results(sizeof(functors) / sizeof(functors[0]));
@@ -5139,26 +5162,26 @@
  101:Fibonacci.cc  ****     TestBadAndInefficient();
  102:Fibonacci.cc  ****     return 0;
  103:Fibonacci.cc  **** }
- 756              		.loc 10 104 0
- 757 006f 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67144_271 + -24B], MEM[(long int *)D.67144_271 + -24B]
- 758 0073 488B9C05 		movq	240(%rbp,%rax), %rbx	# MEM[(const struct basic_ios *)D.67141_274 + 240B], D.67153
- 758      F0000000 
- 759              	.LVL33:
- 760              	.LBB899:
- 761              	.LBB886:
- 762              	.LBB887:
- 763              	.LBB888:
+ 757              		.loc 10 104 0
+ 758 006f 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67183_268 + -24B], MEM[(long int *)D.67183_268 + -24B]
+ 759 0073 488B9C05 		movq	240(%rbp,%rax), %rbx	# MEM[(const struct basic_ios *)D.67180_271 + 240B], D.67192
+ 759      F0000000 
+ 760              	.LVL33:
+ 761              	.LBB907:
+ 762              	.LBB894:
+ 763              	.LBB895:
+ 764              	.LBB896:
   50:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       if (!__f)
- 764              		.loc 7 50 0
- 765 007b 4885DB   		testq	%rbx, %rbx	# D.67153
- 766 007e 0F841307 		je	.L80	#,
- 766      0000
- 767              	.LVL34:
- 768              	.LBE888:
- 769              	.LBE887:
- 770              	.LBB890:
- 771              	.LBB891:
- 772              		.file 12 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 765              		.loc 6 50 0
+ 766 007b 4885DB   		testq	%rbx, %rbx	# D.67192
+ 767 007e 0F841B07 		je	.L84	#,
+ 767      0000
+ 768              	.LVL34:
+ 769              	.LBE896:
+ 770              	.LBE895:
+ 771              	.LBB898:
+ 772              	.LBB899:
+ 773              		.file 12 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** // Locale support -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
@@ -6028,29 +6051,29 @@
  866:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h ****       widen(char __c) const
  867:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h ****       {
  868:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
- 773              		.loc 12 869 0
- 774 0084 807B3800 		cmpb	$0, 56(%rbx)	#, MEM[(const struct ctype *)D.67153_275]._M_widen_ok
- 775 0088 0F847C06 		je	.L75	#,
- 775      0000
+ 774              		.loc 12 869 0
+ 775 0084 807B3800 		cmpb	$0, 56(%rbx)	#, MEM[(const struct ctype *)D.67192_272]._M_widen_ok
+ 776 0088 0F848406 		je	.L79	#,
+ 776      0000
  869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	  return _M_widen[static_cast<unsigned char>(__c)];
- 776              		.loc 12 870 0
- 777 008e 0FB64343 		movzbl	67(%rbx), %eax	# MEM[(const struct ctype *)D.67153_275]._M_widen, D.67158
- 778              	.LVL35:
- 779              	.L76:
- 780              	.LBE891:
- 781              	.LBE890:
- 782              	.LBE886:
- 783              		.loc 5 563 0
- 784 0092 0FBEF0   		movsbl	%al, %esi	# D.67158, D.67158
- 785 0095 4889EF   		movq	%rbp, %rdi	# D.67132,
- 786 0098 BB000000 		movl	$._92, %ebx	#, ivtmp.396
- 786      00
- 787              	.LVL36:
- 788 009d E8000000 		call	_ZNSo3putEc	#
- 788      00
- 789              	.LVL37:
- 790              	.LBB895:
- 791              	.LBB896:
+ 777              		.loc 12 870 0
+ 778 008e 0FB64343 		movzbl	67(%rbx), %eax	# MEM[(const struct ctype *)D.67192_272]._M_widen, D.67197
+ 779              	.LVL35:
+ 780              	.L80:
+ 781              	.LBE899:
+ 782              	.LBE898:
+ 783              	.LBE894:
+ 784              		.loc 4 563 0
+ 785 0092 0FBEF0   		movsbl	%al, %esi	# D.67197, D.67197
+ 786 0095 4889EF   		movq	%rbp, %rdi	# D.67171,
+ 787 0098 BB000000 		movl	$._92, %ebx	#, ivtmp.404
+ 787      00
+ 788              	.LVL36:
+ 789 009d E8000000 		call	_ZNSo3putEc	#
+ 789      00
+ 790              	.LVL37:
+ 791              	.LBB903:
+ 792              	.LBB904:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 
  564:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****   /**
  565:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****    *  @brief  Write a null character into the output sequence.
@@ -6073,59 +6096,59 @@
  582:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     inline basic_ostream<_CharT, _Traits>&
  583:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     flush(basic_ostream<_CharT, _Traits>& __os)
  584:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return __os.flush(); }
- 792              		.loc 5 585 0
- 793 00a2 4889C7   		movq	%rax, %rdi	# D.67138,
- 794 00a5 E8000000 		call	_ZNSo5flushEv	#
- 794      00
- 795              	.LVL38:
- 796              	.LBE896:
- 797              	.LBE895:
- 798              	.LBE899:
- 799              	.LBE884:
- 800              	.LBE883:
- 801              	.LBB904:
- 802              	.LBB905:
+ 793              		.loc 4 585 0
+ 794 00a2 4889C7   		movq	%rax, %rdi	# D.67177,
+ 795 00a5 E8000000 		call	_ZNSo5flushEv	#
+ 795      00
+ 796              	.LVL38:
+ 797              	.LBE904:
+ 798              	.LBE903:
+ 799              	.LBE907:
+ 800              	.LBE892:
+ 801              	.LBE891:
+ 802              	.LBB912:
+ 803              	.LBB913:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 803              		.loc 5 533 0
- 804 00aa BA020000 		movl	$2, %edx	#,
- 804      00
- 805 00af BE000000 		movl	$.LC5, %esi	#,
+ 804              		.loc 4 533 0
+ 805 00aa BA020000 		movl	$2, %edx	#,
  805      00
- 806 00b4 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 806 00af BE000000 		movl	$.LC5, %esi	#,
  806      00
- 807              	.LBE905:
- 808              	.LBE904:
+ 807 00b4 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 807      00
+ 808              	.LBE913:
+ 809              	.LBE912:
   37:Fibonacci.cc  ****     };
- 809              		.loc 10 37 0
- 810 00b9 48C70424 		movq	$_ZN4loop9fibonacciEm, (%rsp)	#, functors
- 810      00000000 
- 811 00c1 48C74424 		movq	$_ZN17goodRecursionBaseIyE9fibonacciEm, 8(%rsp)	#, functors
- 811      08000000 
- 811      00
- 812 00ca 48C74424 		movq	$_ZN14metaprogrammed12ConstantTime9fibonacciEm, 16(%rsp)	#, functors
- 812      10000000 
+ 810              		.loc 10 37 0
+ 811 00b9 48C70424 		movq	$_ZN4loop9fibonacciEm, (%rsp)	#, functors
+ 811      00000000 
+ 812 00c1 48C74424 		movq	$_ZN17goodRecursionImplIyE9fibonacciEm, 8(%rsp)	#, functors
+ 812      08000000 
  812      00
- 813 00d3 48C74424 		movq	$_ZN20matrixMultiplication11UsingMatrix9fibonacciEm, 24(%rsp)	#, functors
- 813      18000000 
+ 813 00ca 48C74424 		movq	$_ZN14metaprogrammed12ConstantTime9fibonacciEm, 16(%rsp)	#, functors
+ 813      10000000 
  813      00
- 814 00dc 48C74424 		movq	$_ZN23withoutLoopsOrRecursion9fibonacciEm, 32(%rsp)	#, functors
- 814      20000000 
+ 814 00d3 48C74424 		movq	$_ZN20matrixMultiplication11UsingMatrix9fibonacciEm, 24(%rsp)	#, functors
+ 814      18000000 
  814      00
- 815              	.LVL39:
- 816              	.LBB907:
- 817              	.LBB906:
+ 815 00dc 48C74424 		movq	$_ZN23withoutLoopsOrRecursion9fibonacciEm, 32(%rsp)	#, functors
+ 815      20000000 
+ 815      00
+ 816              	.LVL39:
+ 817              	.LBB915:
+ 818              	.LBB914:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 818              		.loc 5 533 0
- 819 00e5 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 819      00
- 820              	.LVL40:
- 821              	.L79:
- 822              	.LBE906:
- 823              	.LBE907:
- 824              	.LBB908:
- 825              	.LBB909:
- 826              	.LBB910:
- 827              		.file 13 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 819              		.loc 4 533 0
+ 820 00e5 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 820      00
+ 821              	.LVL40:
+ 822              	.L83:
+ 823              	.LBE914:
+ 824              	.LBE915:
+ 825              	.LBB916:
+ 826              	.LBB917:
+ 827              	.LBB918:
+ 828              		.file 13 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iomanip **** // Standard stream manipulators -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iomanip **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iomanip **** // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
@@ -6365,19 +6388,19 @@
  236:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iomanip ****     operator<<(basic_ostream<_CharT, _Traits>& __os, _Setw __f)
  237:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iomanip ****     {
  238:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iomanip ****       __os.width(__f._M_n);
- 828              		.loc 13 239 0
- 829 00ea 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 829      000000
- 830              	.LBE910:
- 831              	.LBE909:
-  45:Fibonacci.cc  ****     }) {
- 832              		.loc 10 45 0
- 833 00f1 488B2B   		movq	(%rbx), %rbp	# MEM[base: D.67544_562, offset: 0B], n
- 834              	.LVL41:
- 835              	.LBB917:
- 836              	.LBB915:
- 837              	.LBB911:
- 838              	.LBB912:
+ 829              		.loc 13 239 0
+ 830 00ea 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 830      000000
+ 831              	.LBE918:
+ 832              	.LBE917:
+  45:Fibonacci.cc  ****     }) { 
+ 833              		.loc 10 45 0
+ 834 00f1 488B2B   		movq	(%rbx), %rbp	# MEM[base: D.67580_644, offset: 0B], n
+ 835              	.LVL41:
+ 836              	.LBB925:
+ 837              	.LBB923:
+ 838              	.LBB919:
+ 839              	.LBB920:
  160:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h **** 
  161:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   inline _GLIBCXX_CONSTEXPR _Ios_Iostate
  162:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   operator^(_Ios_Iostate __a, _Ios_Iostate __b)
@@ -6876,43 +6899,43 @@
  655:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****     {
  656:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****       streamsize __old = _M_width;
  657:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****       _M_width = __wide;
- 839              		.loc 6 658 0
- 840 00f4 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66671_159 + -24B], MEM[(long int *)D.66671_159 + -24B]
- 841              	.LVL42:
- 842              	.LBE912:
- 843              	.LBE911:
- 844              	.LBE915:
- 845              	.LBE917:
- 846              	.LBB918:
- 847              	.LBB919:
+ 840              		.loc 5 658 0
+ 841 00f4 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66710_156 + -24B], MEM[(long int *)D.66710_156 + -24B]
+ 842              	.LVL42:
+ 843              	.LBE920:
+ 844              	.LBE919:
+ 845              	.LBE923:
+ 846              	.LBE925:
+ 847              	.LBB926:
+ 848              	.LBB927:
  530:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       if (!__s)
- 848              		.loc 5 530 0
- 849 00f8 4885ED   		testq	%rbp, %rbp	# n
- 850              	.LBE919:
- 851              	.LBE918:
- 852              	.LBB923:
- 853              	.LBB916:
- 854              	.LBB914:
- 855              	.LBB913:
- 856              		.loc 6 658 0
- 857 00fb 48C78000 		movq	$37, _ZSt4cout+16(%rax)	#, MEM[(streamsize *)D.66668_162 + 16B]
- 857      00000025 
- 857      000000
- 858              	.LVL43:
- 859              	.LBE913:
- 860              	.LBE914:
- 861              	.LBE916:
- 862              	.LBE923:
- 863              	.LBB924:
- 864              	.LBB922:
+ 849              		.loc 4 530 0
+ 850 00f8 4885ED   		testq	%rbp, %rbp	# n
+ 851              	.LBE927:
+ 852              	.LBE926:
+ 853              	.LBB931:
+ 854              	.LBB924:
+ 855              	.LBB922:
+ 856              	.LBB921:
+ 857              		.loc 5 658 0
+ 858 00fb 48C78000 		movq	$37, _ZSt4cout+16(%rax)	#, MEM[(streamsize *)D.66707_159 + 16B]
+ 858      00000025 
+ 858      000000
+ 859              	.LVL43:
+ 860              	.LBE921:
+ 861              	.LBE922:
+ 862              	.LBE924:
+ 863              	.LBE931:
+ 864              	.LBB932:
+ 865              	.LBB930:
  530:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       if (!__s)
- 865              		.loc 5 530 0
- 866 0106 0F84EF05 		je	.L109	#,
- 866      0000
- 867              	.LVL44:
- 868              	.LBB920:
- 869              	.LBB921:
- 870              		.file 14 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 866              		.loc 4 530 0
+ 867 0106 0F84F705 		je	.L113	#,
+ 867      0000
+ 868              	.LVL44:
+ 869              	.LBB928:
+ 870              	.LBB929:
+ 871              		.file 14 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/char_traits.h **** // Character Traits for use by standard string and iostream -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/char_traits.h **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/char_traits.h **** // Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
@@ -7174,92 +7197,92 @@
  258:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/char_traits.h ****       static size_t
  259:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/char_traits.h ****       length(const char_type* __s)
  260:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/char_traits.h ****       { return __builtin_strlen(__s); }
- 871              		.loc 14 261 0
- 872 010c 4889EF   		movq	%rbp, %rdi	# n,
- 873 010f E8000000 		call	strlen	#
- 873      00
- 874              	.LVL45:
- 875              	.LBE921:
- 876              	.LBE920:
+ 872              		.loc 14 261 0
+ 873 010c 4889EF   		movq	%rbp, %rdi	# n,
+ 874 010f E8000000 		call	strlen	#
+ 874      00
+ 875              	.LVL45:
+ 876              	.LBE929:
+ 877              	.LBE928:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 877              		.loc 5 533 0
- 878 0114 4889EE   		movq	%rbp, %rsi	# n,
- 879 0117 4889C2   		movq	%rax, %rdx	# tmp332,
- 880 011a BF000000 		movl	$_ZSt4cout, %edi	#,
- 880      00
- 881 011f E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 878              		.loc 4 533 0
+ 879 0114 4889EE   		movq	%rbp, %rsi	# n,
+ 880 0117 4889C2   		movq	%rax, %rdx	# tmp332,
+ 881 011a BF000000 		movl	$_ZSt4cout, %edi	#,
  881      00
- 882              	.LVL46:
- 883              	.L78:
- 884 0124 4883C308 		addq	$8, %rbx	#, ivtmp.396
- 885              	.LBE922:
- 886              	.LBE924:
+ 882 011f E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 882      00
+ 883              	.LVL46:
+ 884              	.L82:
+ 885 0124 4883C308 		addq	$8, %rbx	#, ivtmp.404
+ 886              	.LBE930:
+ 887              	.LBE932:
   39:Fibonacci.cc  ****     for (auto n: {  
- 887              		.loc 10 39 0
- 888 0128 4881FB00 		cmpq	$._92+40, %rbx	#, ivtmp.396
- 888      000000
- 889 012f 75B9     		jne	.L79	#,
- 890              	.LVL47:
- 891              	.LBE908:
- 892              	.LBB925:
- 893              	.LBB926:
- 894              	.LBB927:
+ 888              		.loc 10 39 0
+ 889 0128 4881FB00 		cmpq	$._92+40, %rbx	#, ivtmp.404
+ 889      000000
+ 890 012f 75B9     		jne	.L83	#,
+ 891              	.LVL47:
+ 892              	.LBE916:
+ 893              	.LBB933:
+ 894              	.LBB934:
+ 895              	.LBB935:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 895              		.loc 5 563 0
- 896 0131 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 896      000000
- 897              	.LBE927:
- 898              		.loc 10 104 0
- 899 0138 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67181_297 + -24B], MEM[(long int *)D.67181_297 + -24B]
- 900 013c 488B9800 		movq	_ZSt4cout+240(%rax), %rbx	# MEM[(const struct basic_ios *)D.67184_300 + 240B], D.67198
- 900      000000
- 901              	.LVL48:
- 902              	.LBB940:
- 903              	.LBB928:
- 904              	.LBB929:
- 905              	.LBB930:
+ 896              		.loc 4 563 0
+ 897 0131 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 897      000000
+ 898              	.LBE935:
+ 899              		.loc 10 104 0
+ 900 0138 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67220_294 + -24B], MEM[(long int *)D.67220_294 + -24B]
+ 901 013c 488B9800 		movq	_ZSt4cout+240(%rax), %rbx	# MEM[(const struct basic_ios *)D.67223_297 + 240B], D.67237
+ 901      000000
+ 902              	.LVL48:
+ 903              	.LBB948:
+ 904              	.LBB936:
+ 905              	.LBB937:
+ 906              	.LBB938:
   50:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       if (!__f)
- 906              		.loc 7 50 0
- 907 0143 4885DB   		testq	%rbx, %rbx	# D.67198
- 908 0146 0F844B06 		je	.L80	#,
- 908      0000
- 909              	.LVL49:
- 910              	.LBE930:
- 911              	.LBE929:
- 912              	.LBB931:
- 913              	.LBB932:
+ 907              		.loc 6 50 0
+ 908 0143 4885DB   		testq	%rbx, %rbx	# D.67237
+ 909 0146 0F845306 		je	.L84	#,
+ 909      0000
+ 910              	.LVL49:
+ 911              	.LBE938:
+ 912              	.LBE937:
+ 913              	.LBB939:
+ 914              	.LBB940:
  869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
- 914              		.loc 12 869 0
- 915 014c 807B3800 		cmpb	$0, 56(%rbx)	#, MEM[(const struct ctype *)D.67198_301]._M_widen_ok
- 916 0150 0F840406 		je	.L81	#,
- 916      0000
- 917              		.loc 12 870 0
- 918 0156 0FB64343 		movzbl	67(%rbx), %eax	# MEM[(const struct ctype *)D.67198_301]._M_widen, D.67203
- 919              	.LVL50:
- 920              	.L82:
- 921              	.LBE932:
- 922              	.LBE931:
- 923              	.LBE928:
+ 915              		.loc 12 869 0
+ 916 014c 807B3800 		cmpb	$0, 56(%rbx)	#, MEM[(const struct ctype *)D.67237_298]._M_widen_ok
+ 917 0150 0F840C06 		je	.L85	#,
+ 917      0000
+ 918              		.loc 12 870 0
+ 919 0156 0FB64343 		movzbl	67(%rbx), %eax	# MEM[(const struct ctype *)D.67237_298]._M_widen, D.67242
+ 920              	.LVL50:
+ 921              	.L86:
+ 922              	.LBE940:
+ 923              	.LBE939:
+ 924              	.LBE936:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 924              		.loc 5 563 0
- 925 015a 0FBEF0   		movsbl	%al, %esi	# D.67203, D.67203
- 926 015d BF000000 		movl	$_ZSt4cout, %edi	#,
- 926      00
- 927              	.LBE940:
- 928              	.LBE926:
- 929              	.LBE925:
- 930              	.LBB947:
- 931              	.LBB948:
- 932              	.LBB949:
- 933              	.LBB950:
- 934              	.LBB951:
- 935              	.LBB952:
- 936              	.LBB953:
- 937              	.LBB954:
- 938              	.LBB955:
- 939              	.LBB956:
- 940              	.LBB957:
- 941              		.file 15 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 925              		.loc 4 563 0
+ 926 015a 0FBEF0   		movsbl	%al, %esi	# D.67242, D.67242
+ 927 015d BF000000 		movl	$_ZSt4cout, %edi	#,
+ 927      00
+ 928              	.LBE948:
+ 929              	.LBE934:
+ 930              	.LBE933:
+ 931              	.LBB955:
+ 932              	.LBB956:
+ 933              	.LBB957:
+ 934              	.LBB958:
+ 935              	.LBB959:
+ 936              	.LBB960:
+ 937              	.LBB961:
+ 938              	.LBB962:
+ 939              	.LBB963:
+ 940              	.LBB964:
+ 941              	.LBB965:
+ 942              		.file 15 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/stl_algobase.h **** // Core algorithmic facilities -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/stl_algobase.h **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/stl_algobase.h **** // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -8005,68 +8028,68 @@
  742:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/stl_algobase.h ****       for (__decltype(__n + 0) __niter = __n;
  743:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/stl_algobase.h **** 	   __niter > 0; --__niter, ++__first)
  744:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/stl_algobase.h **** 	*__first = __tmp;
- 942              		.loc 15 745 0
- 943 0162 31ED     		xorl	%ebp, %ebp	# n
- 944              	.LVL51:
- 945              	.LBE957:
- 946              	.LBE956:
- 947              	.LBE955:
- 948              	.LBE954:
- 949              	.LBE953:
- 950              	.LBE952:
- 951              	.LBE951:
- 952              	.LBE950:
- 953              	.LBE949:
- 954              	.LBE948:
- 955              	.LBE947:
- 956              	.LBB973:
- 957              	.LBB944:
- 958              	.LBB941:
+ 943              		.loc 15 745 0
+ 944 0162 31ED     		xorl	%ebp, %ebp	# n
+ 945              	.LVL51:
+ 946              	.LBE965:
+ 947              	.LBE964:
+ 948              	.LBE963:
+ 949              	.LBE962:
+ 950              	.LBE961:
+ 951              	.LBE960:
+ 952              	.LBE959:
+ 953              	.LBE958:
+ 954              	.LBE957:
+ 955              	.LBE956:
+ 956              	.LBE955:
+ 957              	.LBB981:
+ 958              	.LBB952:
+ 959              	.LBB949:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 959              		.loc 5 563 0
- 960 0164 E8000000 		call	_ZNSo3putEc	#
- 960      00
- 961              	.LVL52:
- 962              	.LBB935:
- 963              	.LBB936:
- 964              		.loc 5 585 0
- 965 0169 4889C7   		movq	%rax, %rdi	# D.67187,
- 966              	.LBE936:
- 967              	.LBE935:
- 968              	.LBE941:
- 969              	.LBE944:
- 970              	.LBE973:
- 971              	.LBB974:
- 972              	.LBB975:
- 973              	.LBB976:
+ 960              		.loc 4 563 0
+ 961 0164 E8000000 		call	_ZNSo3putEc	#
+ 961      00
+ 962              	.LVL52:
+ 963              	.LBB943:
+ 964              	.LBB944:
+ 965              		.loc 4 585 0
+ 966 0169 4889C7   		movq	%rax, %rdi	# D.67226,
+ 967              	.LBE944:
+ 968              	.LBE943:
+ 969              	.LBE949:
+ 970              	.LBE952:
+ 971              	.LBE981:
+ 972              	.LBB982:
+ 973              	.LBB983:
+ 974              	.LBB984:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 974              		.loc 10 60 0
- 975 016c 41BC0000 		movl	$_ZL5Empty, %r12d	#, tmp426
- 975      0000
- 976              	.LBE976:
- 977              	.LBE975:
- 978              	.LBE974:
- 979              	.LBB1156:
- 980              	.LBB945:
- 981              	.LBB942:
- 982              	.LBB938:
- 983              	.LBB937:
- 984              		.loc 5 585 0
- 985 0172 E8000000 		call	_ZNSo5flushEv	#
- 985      00
- 986              	.LVL53:
- 987              	.LBE937:
- 988              	.LBE938:
- 989              	.LBE942:
- 990              	.LBE945:
- 991              	.LBE1156:
- 992              	.LBB1157:
- 993              	.LBB967:
- 994              	.LBB968:
- 995              	.LBB969:
- 996              	.LBB970:
- 997              	.LBB971:
- 998              		.file 16 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 975              		.loc 10 60 0
+ 976 016c 41BD0000 		movl	$_ZL5Reset, %r13d	#, tmp426
+ 976      0000
+ 977              	.LBE984:
+ 978              	.LBE983:
+ 979              	.LBE982:
+ 980              	.LBB1164:
+ 981              	.LBB953:
+ 982              	.LBB950:
+ 983              	.LBB946:
+ 984              	.LBB945:
+ 985              		.loc 4 585 0
+ 986 0172 E8000000 		call	_ZNSo5flushEv	#
+ 986      00
+ 987              	.LVL53:
+ 988              	.LBE945:
+ 989              	.LBE946:
+ 990              	.LBE950:
+ 991              	.LBE953:
+ 992              	.LBE1164:
+ 993              	.LBB1165:
+ 994              	.LBB975:
+ 995              	.LBB976:
+ 996              	.LBB977:
+ 997              	.LBB978:
+ 998              	.LBB979:
+ 999              		.file 16 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h **** // Allocator that wraps operator new -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h **** // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2009, 2010
@@ -8161,432 +8184,428 @@
   91:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h **** 	  std::__throw_bad_alloc();
   92:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h **** 
   93:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h **** 	return static_cast<_Tp*>(::operator new(__n * sizeof(_Tp)));
- 999              		.loc 16 94 0
- 1000 0177 BF280000 		movl	$40, %edi	#,
- 1000      00
- 1001 017c E8000000 		call	_Znwm	#
+ 1000              		.loc 16 94 0
+ 1001 0177 BF280000 		movl	$40, %edi	#,
  1001      00
- 1002              	.LEHE0:
- 1003              	.LVL54:
- 1004 0181 4889C3   		movq	%rax, %rbx	#, results$_M_impl$_M_start
- 1005              	.LVL55:
- 1006              	.LBE971:
- 1007              	.LBE970:
- 1008              	.LBE969:
- 1009              	.LBE968:
- 1010              	.LBE967:
- 1011              	.LBB972:
- 1012              	.LBB966:
- 1013              	.LBB965:
- 1014              	.LBB964:
- 1015              	.LBB963:
- 1016              	.LBB962:
- 1017              	.LBB961:
- 1018              	.LBB960:
- 1019              	.LBB959:
- 1020              	.LBB958:
- 1021              		.loc 15 745 0
- 1022 0184 48C70000 		movq	$0, (%rax)	#, *results$_M_impl$_M_start_332
- 1022      000000
- 1023              	.LVL56:
- 1024 018b 48C74008 		movq	$0, 8(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_332 + 8B]
- 1024      00000000 
- 1025              	.LVL57:
- 1026 0193 48C74010 		movq	$0, 16(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_332 + 16B]
- 1026      00000000 
- 1027              	.LVL58:
- 1028 019b 48C74018 		movq	$0, 24(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_332 + 24B]
- 1028      00000000 
- 1029              	.LVL59:
- 1030 01a3 48C74020 		movq	$0, 32(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_332 + 32B]
- 1030      00000000 
- 1031              	.LVL60:
- 1032 01ab EB2B     		jmp	.L90	#
- 1033              	.LVL61:
- 1034 01ad 0F1F00   		.p2align 4,,10
- 1035              		.p2align 3
- 1036              	.L112:
- 1037              	.LBE958:
- 1038              	.LBE959:
- 1039              	.LBE960:
- 1040              	.LBE961:
- 1041              	.LBE962:
- 1042              	.LBE963:
- 1043              	.LBE964:
- 1044              	.LBE965:
- 1045              	.LBE966:
- 1046              	.LBE972:
- 1047              	.LBE1157:
- 1048              	.LBB1158:
- 1049              	.LBB1120:
- 1050              	.LBB1121:
- 1051              	.LBB1122:
- 1052              	.LBB1123:
- 1053              	.LBB1124:
- 1054              	.LBB1125:
- 1055              		.loc 12 870 0
- 1056 01b0 410FB645 		movzbl	67(%r13), %eax	# MEM[(const struct ctype *)D.67292_349]._M_widen, D.67297
- 1056      43
- 1057              	.LVL62:
- 1058              	.L89:
- 1059              	.LBE1125:
- 1060              	.LBE1124:
- 1061              	.LBE1123:
+ 1002 017c E8000000 		call	_Znwm	#
+ 1002      00
+ 1003              	.LEHE0:
+ 1004              	.LVL54:
+ 1005 0181 4889C3   		movq	%rax, %rbx	#, results$_M_impl$_M_start
+ 1006              	.LVL55:
+ 1007              	.LBE979:
+ 1008              	.LBE978:
+ 1009              	.LBE977:
+ 1010              	.LBE976:
+ 1011              	.LBE975:
+ 1012              	.LBB980:
+ 1013              	.LBB974:
+ 1014              	.LBB973:
+ 1015              	.LBB972:
+ 1016              	.LBB971:
+ 1017              	.LBB970:
+ 1018              	.LBB969:
+ 1019              	.LBB968:
+ 1020              	.LBB967:
+ 1021              	.LBB966:
+ 1022              		.loc 15 745 0
+ 1023 0184 48C70000 		movq	$0, (%rax)	#, *results$_M_impl$_M_start_329
+ 1023      000000
+ 1024              	.LVL56:
+ 1025 018b 48C74008 		movq	$0, 8(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_329 + 8B]
+ 1025      00000000 
+ 1026              	.LVL57:
+ 1027 0193 48C74010 		movq	$0, 16(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_329 + 16B]
+ 1027      00000000 
+ 1028              	.LVL58:
+ 1029 019b 48C74018 		movq	$0, 24(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_329 + 24B]
+ 1029      00000000 
+ 1030              	.LVL59:
+ 1031 01a3 48C74020 		movq	$0, 32(%rax)	#, MEM[(long long unsigned int *)results$_M_impl$_M_start_329 + 32B]
+ 1031      00000000 
+ 1032              	.LVL60:
+ 1033 01ab EB2C     		jmp	.L94	#
+ 1034              	.LVL61:
+ 1035 01ad 0F1F00   		.p2align 4,,10
+ 1036              		.p2align 3
+ 1037              	.L116:
+ 1038              	.LBE966:
+ 1039              	.LBE967:
+ 1040              	.LBE968:
+ 1041              	.LBE969:
+ 1042              	.LBE970:
+ 1043              	.LBE971:
+ 1044              	.LBE972:
+ 1045              	.LBE973:
+ 1046              	.LBE974:
+ 1047              	.LBE980:
+ 1048              	.LBE1165:
+ 1049              	.LBB1166:
+ 1050              	.LBB1128:
+ 1051              	.LBB1129:
+ 1052              	.LBB1130:
+ 1053              	.LBB1131:
+ 1054              	.LBB1132:
+ 1055              	.LBB1133:
+ 1056              		.loc 12 870 0
+ 1057 01b0 410FB644 		movzbl	67(%r12), %eax	# MEM[(const struct ctype *)D.67331_346]._M_widen, D.67336
+ 1057      2443
+ 1058              	.LVL62:
+ 1059              	.L93:
+ 1060              	.LBE1133:
+ 1061              	.LBE1132:
+ 1062              	.LBE1131:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 1062              		.loc 5 563 0
- 1063 01b5 0FBEF0   		movsbl	%al, %esi	# D.67297, D.67297
- 1064 01b8 BF000000 		movl	$_ZSt4cout, %edi	#,
- 1064      00
- 1065              	.LEHB1:
- 1066 01bd E8000000 		call	_ZNSo3putEc	#
- 1066      00
- 1067              	.LVL63:
- 1068              	.LBB1132:
- 1069              	.LBB1133:
- 1070              		.loc 5 585 0
- 1071 01c2 4889C7   		movq	%rax, %rdi	# D.67281,
- 1072 01c5 E8000000 		call	_ZNSo5flushEv	#
- 1072      00
- 1073              	.LVL64:
- 1074              	.LBE1133:
- 1075              	.LBE1132:
- 1076              	.LBE1122:
- 1077              	.LBE1121:
- 1078              	.LBE1120:
+ 1063              		.loc 4 563 0
+ 1064 01b6 0FBEF0   		movsbl	%al, %esi	# D.67336, D.67336
+ 1065 01b9 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1065      00
+ 1066              	.LEHB1:
+ 1067 01be E8000000 		call	_ZNSo3putEc	#
+ 1067      00
+ 1068              	.LVL63:
+ 1069              	.LBB1140:
+ 1070              	.LBB1141:
+ 1071              		.loc 4 585 0
+ 1072 01c3 4889C7   		movq	%rax, %rdi	# D.67320,
+ 1073 01c6 E8000000 		call	_ZNSo5flushEv	#
+ 1073      00
+ 1074              	.LVL64:
+ 1075              	.LBE1141:
+ 1076              	.LBE1140:
+ 1077              	.LBE1130:
+ 1078              	.LBE1129:
+ 1079              	.LBE1128:
   50:Fibonacci.cc  ****     for (uint_fast16_t n = 0; n < 93; ++n)
- 1079              		.loc 10 50 0
- 1080 01ca 4883C501 		addq	$1, %rbp	#, n
- 1081              	.LVL65:
- 1082 01ce 4883FD5D 		cmpq	$93, %rbp	#, n
- 1083 01d2 0F84A802 		je	.L110	#,
- 1083      0000
- 1084              	.LVL66:
- 1085              	.L90:
- 1086              	.LBB1141:
- 1087              	.LBB1142:
- 1088              		.loc 13 239 0
- 1089 01d8 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 1089      000000
- 1090              	.LBE1142:
- 1091              	.LBE1141:
- 1092              	.LBB1146:
- 1093              	.LBB1147:
+ 1080              		.loc 10 50 0
+ 1081 01cb 4883C501 		addq	$1, %rbp	#, n
+ 1082              	.LVL65:
+ 1083 01cf 4883FD5D 		cmpq	$93, %rbp	#, n
+ 1084 01d3 0F84AF02 		je	.L114	#,
+ 1084      0000
+ 1085              	.LVL66:
+ 1086              	.L94:
+ 1087              	.LBB1149:
+ 1088              	.LBB1150:
+ 1089              		.loc 13 239 0
+ 1090 01d9 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 1090      000000
+ 1091              	.LBE1150:
+ 1092              	.LBE1149:
+ 1093              	.LBB1154:
+ 1094              	.LBB1155:
  169:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1094              		.loc 5 169 0
- 1095 01df 4889EE   		movq	%rbp, %rsi	# n,
- 1096 01e2 BF000000 		movl	$_ZSt4cout, %edi	#,
- 1096      00
- 1097              	.LVL67:
- 1098              	.LBE1147:
- 1099              	.LBE1146:
- 1100              	.LBB1149:
- 1101              	.LBB1145:
- 1102              	.LBB1143:
- 1103              	.LBB1144:
- 1104              		.loc 6 658 0
- 1105 01e7 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66689_166 + -24B], MEM[(long int *)D.66689_166 + -24B]
- 1106              	.LVL68:
- 1107 01eb 48C78000 		movq	$2, _ZSt4cout+16(%rax)	#, MEM[(streamsize *)D.66686_169 + 16B]
- 1107      00000002 
- 1107      000000
- 1108              	.LVL69:
- 1109              	.LBE1144:
- 1110              	.LBE1143:
- 1111              	.LBE1145:
- 1112              	.LBE1149:
- 1113              	.LBB1150:
- 1114              	.LBB1148:
+ 1095              		.loc 4 169 0
+ 1096 01e0 4889EE   		movq	%rbp, %rsi	# n,
+ 1097 01e3 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1097      00
+ 1098              	.LVL67:
+ 1099              	.LBE1155:
+ 1100              	.LBE1154:
+ 1101              	.LBB1157:
+ 1102              	.LBB1153:
+ 1103              	.LBB1151:
+ 1104              	.LBB1152:
+ 1105              		.loc 5 658 0
+ 1106 01e8 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66728_163 + -24B], MEM[(long int *)D.66728_163 + -24B]
+ 1107              	.LVL68:
+ 1108 01ec 48C78000 		movq	$2, _ZSt4cout+16(%rax)	#, MEM[(streamsize *)D.66725_166 + 16B]
+ 1108      00000002 
+ 1108      000000
+ 1109              	.LVL69:
+ 1110              	.LBE1152:
+ 1111              	.LBE1151:
+ 1112              	.LBE1153:
+ 1113              	.LBE1157:
+ 1114              	.LBB1158:
+ 1115              	.LBB1156:
  169:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1115              		.loc 5 169 0
- 1116 01f6 E8000000 		call	_ZNSo9_M_insertImEERSoT_	#
- 1116      00
- 1117              	.LVL70:
- 1118              	.LBE1148:
- 1119              	.LBE1150:
- 1120              	.LBB1151:
- 1121              	.LBB1152:
+ 1116              		.loc 4 169 0
+ 1117 01f7 E8000000 		call	_ZNSo9_M_insertImEERSoT_	#
+ 1117      00
+ 1118              	.LVL70:
+ 1119              	.LBE1156:
+ 1120              	.LBE1158:
+ 1121              	.LBB1159:
+ 1122              	.LBB1160:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1122              		.loc 5 533 0
- 1123 01fb BA030000 		movl	$3, %edx	#,
- 1123      00
- 1124 0200 BE000000 		movl	$.LC6, %esi	#,
+ 1123              		.loc 4 533 0
+ 1124 01fc BA030000 		movl	$3, %edx	#,
  1124      00
- 1125 0205 4889C7   		movq	%rax, %rdi	# D.66695,
- 1126 0208 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1126      00
- 1127              	.LVL71:
- 1128              	.LBE1152:
- 1129              	.LBE1151:
- 1130              	.LBB1153:
- 1131              	.LBB1119:
+ 1125 0201 BE000000 		movl	$.LC6, %esi	#,
+ 1125      00
+ 1126 0206 4889C7   		movq	%rax, %rdi	# D.66734,
+ 1127 0209 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1127      00
+ 1128              	.LVL71:
+ 1129              	.LBE1160:
+ 1130              	.LBE1159:
+ 1131              	.LBB1161:
+ 1132              	.LBB1127:
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1132              		.loc 10 56 0
- 1133 020d 4889EF   		movq	%rbp, %rdi	# n,
- 1134 0210 E8000000 		call	_ZN4loop9fibonacciEm	#
- 1134      00
- 1135              	.LVL72:
- 1136              	.LBB977:
- 1137              	.LBB978:
- 1138              	.LBB979:
- 1139              	.LBB980:
- 1140              	.LBB981:
- 1141              	.LBB982:
- 1142              	.LBB983:
+ 1133              		.loc 10 56 0
+ 1134 020e 4889EF   		movq	%rbp, %rdi	# n,
+ 1135 0211 E8000000 		call	_ZN4loop9fibonacciEm	#
+ 1135      00
+ 1136              	.LVL72:
+ 1137              	.LBB985:
+ 1138              	.LBB986:
+ 1139              	.LBB987:
+ 1140              	.LBB988:
+ 1141              	.LBB989:
+ 1142              	.LBB990:
+ 1143              	.LBB991:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1143              		.loc 11 290 0
- 1144 0215 488B3500 		movq	_ZL5Empty(%rip), %rsi	# Empty._M_dataplus._M_p, D.67255
- 1144      000000
- 1145              	.LBE983:
- 1146              	.LBE982:
- 1147              	.LBE981:
- 1148              	.LBE980:
- 1149              	.LBE979:
- 1150              	.LBE978:
- 1151              	.LBE977:
+ 1144              		.loc 11 290 0
+ 1145 0216 488B3500 		movq	_ZL5Empty(%rip), %rsi	# Empty._M_dataplus._M_p, D.67294
+ 1145      000000
+ 1146              	.LBE991:
+ 1147              	.LBE990:
+ 1148              	.LBE989:
+ 1149              	.LBE988:
+ 1150              	.LBE987:
+ 1151              	.LBE986:
+ 1152              	.LBE985:
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1152              		.loc 10 56 0
- 1153 021c 488903   		movq	%rax, (%rbx)	# D.65499, MEM[(value_type &)results$_M_impl$_M_start_332]
- 1154              	.LVL73:
- 1155              	.LBB1014:
- 1156              	.LBB1004:
- 1157              		.loc 11 2755 0
- 1158 021f BF000000 		movl	$_ZSt4cout, %edi	#,
- 1158      00
- 1159              	.LBE1004:
- 1160              	.LBE1014:
+ 1153              		.loc 10 56 0
+ 1154 021d 488903   		movq	%rax, (%rbx)	# D.65522, MEM[(value_type &)results$_M_impl$_M_start_329]
+ 1155              	.LVL73:
+ 1156              	.LBB1022:
+ 1157              	.LBB1012:
+ 1158              		.loc 11 2755 0
+ 1159 0220 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1159      00
+ 1160              	.LBE1012:
+ 1161              	.LBE1022:
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1161              		.loc 10 56 0
- 1162 0224 4989C5   		movq	%rax, %r13	#, D.65499
- 1163              	.LBB1015:
- 1164              	.LBB1005:
- 1165              		.loc 11 2755 0
- 1166 0227 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67255_528 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1167 022b E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1167      00
- 1168              	.LVL74:
- 1169 0230 4889C7   		movq	%rax, %rdi	#, D.67252
- 1170              	.LVL75:
- 1171              	.LBE1005:
- 1172              	.LBE1015:
- 1173              	.LBB1016:
- 1174              	.LBB1017:
- 1175              		.loc 13 239 0
- 1176 0233 488B00   		movq	(%rax), %rax	# D.67252_532->_vptr.basic_ostream, D.67252_532->_vptr.basic_ostream
- 1177              	.LVL76:
- 1178              	.LBE1017:
- 1179              	.LBE1016:
- 1180              	.LBB1037:
- 1181              	.LBB1038:
+ 1162              		.loc 10 56 0
+ 1163 0225 4989C4   		movq	%rax, %r12	#, D.65522
+ 1164              	.LBB1023:
+ 1165              	.LBB1013:
+ 1166              		.loc 11 2755 0
+ 1167 0228 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67294_525 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1168 022c E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1168      00
+ 1169              	.LVL74:
+ 1170 0231 4889C7   		movq	%rax, %rdi	#, D.67291
+ 1171              	.LVL75:
+ 1172              	.LBE1013:
+ 1173              	.LBE1023:
+ 1174              	.LBB1024:
+ 1175              	.LBB1025:
+ 1176              		.loc 13 239 0
+ 1177 0234 488B00   		movq	(%rax), %rax	# D.67291_529->_vptr.basic_ostream, D.67291_529->_vptr.basic_ostream
+ 1178              	.LVL76:
+ 1179              	.LBE1025:
+ 1180              	.LBE1024:
+ 1181              	.LBB1045:
+ 1182              	.LBB1046:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1182              		.loc 5 204 0
- 1183 0236 4C89EE   		movq	%r13, %rsi	# D.65499,
- 1184              	.LBE1038:
- 1185              	.LBE1037:
- 1186              	.LBB1048:
- 1187              	.LBB1028:
- 1188              	.LBB1018:
- 1189              	.LBB1019:
- 1190              		.loc 6 658 0
- 1191 0239 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66749_535 + -24B], MEM[(long int *)D.66749_535 + -24B]
- 1192              	.LVL77:
- 1193 023d 48C74407 		movq	$23, 16(%rdi,%rax)	#, MEM[(streamsize *)D.66746_538 + 16B]
- 1193      10170000 
- 1193      00
- 1194              	.LVL78:
- 1195              	.LBE1019:
- 1196              	.LBE1018:
- 1197              	.LBE1028:
- 1198              	.LBE1048:
- 1199              	.LBB1049:
- 1200              	.LBB1039:
+ 1183              		.loc 4 204 0
+ 1184 0237 4C89E6   		movq	%r12, %rsi	# D.65522,
+ 1185              	.LBE1046:
+ 1186              	.LBE1045:
+ 1187              	.LBB1056:
+ 1188              	.LBB1036:
+ 1189              	.LBB1026:
+ 1190              	.LBB1027:
+ 1191              		.loc 5 658 0
+ 1192 023a 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66788_532 + -24B], MEM[(long int *)D.66788_532 + -24B]
+ 1193              	.LVL77:
+ 1194 023e 48C74407 		movq	$23, 16(%rdi,%rax)	#, MEM[(streamsize *)D.66785_535 + 16B]
+ 1194      10170000 
+ 1194      00
+ 1195              	.LVL78:
+ 1196              	.LBE1027:
+ 1197              	.LBE1026:
+ 1198              	.LBE1036:
+ 1199              	.LBE1056:
+ 1200              	.LBB1057:
+ 1201              	.LBB1047:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1201              		.loc 5 204 0
- 1202 0246 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 1202      00
- 1203              	.LVL79:
- 1204              	.LBE1039:
- 1205              	.LBE1049:
- 1206              	.LBB1050:
- 1207              	.LBB1051:
- 1208              	.LBB1052:
- 1209              	.LBB1053:
- 1210              	.LBB1054:
- 1211              	.LBB1055:
- 1212              	.LBB1056:
+ 1202              		.loc 4 204 0
+ 1203 0247 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 1203      00
+ 1204              	.LVL79:
+ 1205              	.LBE1047:
+ 1206              	.LBE1057:
+ 1207              	.LBB1058:
+ 1208              	.LBB1059:
+ 1209              	.LBB1060:
+ 1210              	.LBB1061:
+ 1211              	.LBB1062:
+ 1212              	.LBB1063:
+ 1213              	.LBB1064:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1213              		.loc 11 290 0
- 1214 024b 488B3500 		movq	_ZL5Empty(%rip), %rsi	# Empty._M_dataplus._M_p, D.67262
- 1214      000000
- 1215              	.LVL80:
- 1216              	.LBE1056:
- 1217              	.LBE1055:
- 1218              	.LBE1054:
- 1219              	.LBE1053:
- 1220              	.LBE1052:
- 1221              		.loc 11 2755 0
- 1222 0252 4889C7   		movq	%rax, %rdi	# D.66755,
- 1223 0255 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67262_542 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1224 0259 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1224      00
- 1225              	.LVL81:
- 1226              	.LBE1051:
- 1227              	.LBE1050:
- 1228              	.LBB1081:
- 1229              	.LBB1082:
+ 1214              		.loc 11 290 0
+ 1215 024c 488B3500 		movq	_ZL5Empty(%rip), %rsi	# Empty._M_dataplus._M_p, D.67301
+ 1215      000000
+ 1216              	.LVL80:
+ 1217              	.LBE1064:
+ 1218              	.LBE1063:
+ 1219              	.LBE1062:
+ 1220              	.LBE1061:
+ 1221              	.LBE1060:
+ 1222              		.loc 11 2755 0
+ 1223 0253 4889C7   		movq	%rax, %rdi	# D.66794,
+ 1224 0256 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67301_539 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1225 025a E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1225      00
+ 1226              	.LVL81:
+ 1227              	.LBE1059:
+ 1228              	.LBE1058:
+ 1229              	.LBB1089:
+ 1230              	.LBB1090:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1230              		.loc 5 533 0
- 1231 025e BA030000 		movl	$3, %edx	#,
- 1231      00
- 1232 0263 BE000000 		movl	$.LC6, %esi	#,
+ 1231              		.loc 4 533 0
+ 1232 025f BA030000 		movl	$3, %edx	#,
  1232      00
- 1233 0268 4889C7   		movq	%rax, %rdi	# D.67265,
- 1234 026b E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1234      00
- 1235              	.LVL82:
- 1236              	.LBE1082:
- 1237              	.LBE1081:
+ 1233 0264 BE000000 		movl	$.LC6, %esi	#,
+ 1233      00
+ 1234 0269 4889C7   		movq	%rax, %rdi	# D.67304,
+ 1235 026c E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1235      00
+ 1236              	.LVL82:
+ 1237              	.LBE1090:
+ 1238              	.LBE1089:
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1238              		.loc 10 56 0
- 1239 0270 4889EF   		movq	%rbp, %rdi	# n,
-  60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1240              		.loc 10 60 0
- 1241 0273 41BE0000 		movl	$_ZL5Reset, %r14d	#, iftmp.63
- 1241      0000
-  56:Fibonacci.cc  ****             results[i] = f(n);
- 1242              		.loc 10 56 0
- 1243 0279 E8000000 		call	_ZN17goodRecursionBaseIyE9fibonacciEm	#
- 1243      00
- 1244              	.LVL83:
+ 1239              		.loc 10 56 0
+ 1240 0271 4889EF   		movq	%rbp, %rdi	# n,
+ 1241 0274 E8000000 		call	_ZN17goodRecursionImplIyE9fibonacciEm	#
+ 1241      00
+ 1242              	.LVL83:
+ 1243 0279 4989C4   		movq	%rax, %r12	#, D.65522
+ 1244              	.LVL84:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
  1245              		.loc 10 60 0
- 1246 027e 483B03   		cmpq	(%rbx), %rax	# MEM[(value_type &)results$_M_impl$_M_start_332], D.65499
+ 1246 027c 4C3B23   		cmpq	(%rbx), %r12	# MEM[(value_type &)results$_M_impl$_M_start_329], D.65522
+ 1247 027f BA000000 		movl	$_ZL3Red, %edx	#, tmp412
+ 1247      00
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1247              		.loc 10 56 0
- 1248 0281 4989C5   		movq	%rax, %r13	#, D.65499
- 1249              	.LVL84:
- 1250 0284 48894308 		movq	%rax, 8(%rbx)	# D.65499, MEM[(value_type &)results$_M_impl$_M_start_332 + 8]
- 1251              	.LVL85:
+ 1248              		.loc 10 56 0
+ 1249 0284 48894308 		movq	%rax, 8(%rbx)	# D.65522, MEM[(value_type &)results$_M_impl$_M_start_329 + 8]
+ 1250              	.LVL85:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1252              		.loc 10 60 0
- 1253 0288 B8000000 		movl	$_ZL3Red, %eax	#, iftmp.64
- 1253      00
- 1254              	.LBB1087:
- 1255              	.LBB1006:
- 1256              		.loc 11 2755 0
- 1257 028d BF000000 		movl	$_ZSt4cout, %edi	#,
- 1257      00
- 1258              	.LBE1006:
- 1259              	.LBE1087:
+ 1251              		.loc 10 60 0
+ 1252 0288 B8000000 		movl	$_ZL5Empty, %eax	#, tmp411
+ 1252      00
+ 1253              	.LBB1095:
+ 1254              	.LBB1014:
+ 1255              		.loc 11 2755 0
+ 1256 028d BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1256      00
+ 1257              	.LBE1014:
+ 1258              	.LBE1095:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1260              		.loc 10 60 0
- 1261 0292 490F44C4 		cmove	%r12, %rax	# tmp426,, iftmp.64
+ 1259              		.loc 10 60 0
+ 1260 0292 4989C6   		movq	%rax, %r14	# tmp411, iftmp.65
+ 1261 0295 480F45C2 		cmovne	%rdx, %rax	# tmp412,, iftmp.66
  1262              	.LVL86:
- 1263 0296 4D0F44F4 		cmove	%r12, %r14	# tmp426,, iftmp.63
- 1264              	.LBB1088:
- 1265              	.LBB1007:
- 1266              	.LBB1000:
- 1267              	.LBB996:
- 1268              	.LBB992:
- 1269              	.LBB988:
- 1270              	.LBB984:
+ 1263 0299 4D0F45F5 		cmovne	%r13, %r14	# tmp426,, iftmp.65
+ 1264              	.LBB1096:
+ 1265              	.LBB1015:
+ 1266              	.LBB1008:
+ 1267              	.LBB1004:
+ 1268              	.LBB1000:
+ 1269              	.LBB996:
+ 1270              	.LBB992:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
  1271              		.loc 11 290 0
- 1272 029a 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.64_570]._M_dataplus._M_p, D.67255
+ 1272 029d 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.66_567]._M_dataplus._M_p, D.67294
  1273              	.LVL87:
- 1274              	.LBE984:
- 1275              	.LBE988:
- 1276              	.LBE992:
- 1277              	.LBE996:
- 1278              	.LBE1000:
+ 1274              	.LBE992:
+ 1275              	.LBE996:
+ 1276              	.LBE1000:
+ 1277              	.LBE1004:
+ 1278              	.LBE1008:
  1279              		.loc 11 2755 0
- 1280 029d 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67255_571 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1281 02a1 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1280 02a0 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67294_568 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1281 02a4 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
  1281      00
  1282              	.LVL88:
- 1283              	.LBE1007:
- 1284              	.LBE1088:
- 1285              	.LBB1089:
- 1286              	.LBB1029:
+ 1283              	.LBE1015:
+ 1284              	.LBE1096:
+ 1285              	.LBB1097:
+ 1286              	.LBB1037:
  1287              		.loc 13 239 0
- 1288 02a6 488B10   		movq	(%rax), %rdx	# D.67252_575->_vptr.basic_ostream, D.67252_575->_vptr.basic_ostream
- 1289              	.LBE1029:
- 1290              	.LBE1089:
- 1291              	.LBB1090:
- 1292              	.LBB1040:
+ 1288 02a9 488B10   		movq	(%rax), %rdx	# D.67291_572->_vptr.basic_ostream, D.67291_572->_vptr.basic_ostream
+ 1289              	.LBE1037:
+ 1290              	.LBE1097:
+ 1291              	.LBB1098:
+ 1292              	.LBB1048:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1293              		.loc 5 204 0
- 1294 02a9 4C89EE   		movq	%r13, %rsi	# D.65499,
- 1295 02ac 4889C7   		movq	%rax, %rdi	# D.67252,
- 1296              	.LBE1040:
- 1297              	.LBE1090:
- 1298              	.LBB1091:
- 1299              	.LBB1030:
- 1300              	.LBB1024:
- 1301              	.LBB1020:
- 1302              		.loc 6 658 0
- 1303 02af 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66749_578 + -24B], MEM[(long int *)D.66749_578 + -24B]
- 1304 02b3 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66746_581 + 16B]
+ 1293              		.loc 4 204 0
+ 1294 02ac 4C89E6   		movq	%r12, %rsi	# D.65522,
+ 1295 02af 4889C7   		movq	%rax, %rdi	# D.67291,
+ 1296              	.LBE1048:
+ 1297              	.LBE1098:
+ 1298              	.LBB1099:
+ 1299              	.LBB1038:
+ 1300              	.LBB1032:
+ 1301              	.LBB1028:
+ 1302              		.loc 5 658 0
+ 1303 02b2 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66788_575 + -24B], MEM[(long int *)D.66788_575 + -24B]
+ 1304 02b6 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66785_578 + 16B]
  1304      10170000 
  1304      00
  1305              	.LVL89:
- 1306              	.LBE1020:
- 1307              	.LBE1024:
- 1308              	.LBE1030:
- 1309              	.LBE1091:
- 1310              	.LBB1092:
- 1311              	.LBB1041:
+ 1306              	.LBE1028:
+ 1307              	.LBE1032:
+ 1308              	.LBE1038:
+ 1309              	.LBE1099:
+ 1310              	.LBB1100:
+ 1311              	.LBB1049:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1312              		.loc 5 204 0
- 1313 02bc E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 1312              		.loc 4 204 0
+ 1313 02bf E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
  1313      00
  1314              	.LVL90:
- 1315              	.LBE1041:
- 1316              	.LBE1092:
- 1317              	.LBB1093:
- 1318              	.LBB1077:
- 1319              	.LBB1073:
- 1320              	.LBB1069:
- 1321              	.LBB1065:
- 1322              	.LBB1061:
- 1323              	.LBB1057:
+ 1315              	.LBE1049:
+ 1316              	.LBE1100:
+ 1317              	.LBB1101:
+ 1318              	.LBB1085:
+ 1319              	.LBB1081:
+ 1320              	.LBB1077:
+ 1321              	.LBB1073:
+ 1322              	.LBB1069:
+ 1323              	.LBB1065:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
  1324              		.loc 11 290 0
- 1325 02c1 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.63_523]._M_dataplus._M_p, D.67262
+ 1325 02c4 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.65_305]._M_dataplus._M_p, D.67301
  1326              	.LVL91:
- 1327              	.LBE1057:
- 1328              	.LBE1061:
- 1329              	.LBE1065:
- 1330              	.LBE1069:
- 1331              	.LBE1073:
+ 1327              	.LBE1065:
+ 1328              	.LBE1069:
+ 1329              	.LBE1073:
+ 1330              	.LBE1077:
+ 1331              	.LBE1081:
  1332              		.loc 11 2755 0
- 1333 02c4 4889C7   		movq	%rax, %rdi	# D.66755,
- 1334 02c7 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67262_585 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1335 02cb E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1333 02c7 4889C7   		movq	%rax, %rdi	# D.66794,
+ 1334 02ca 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67301_582 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1335 02ce E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
  1335      00
  1336              	.LVL92:
- 1337              	.LBE1077:
- 1338              	.LBE1093:
- 1339              	.LBB1094:
- 1340              	.LBB1083:
+ 1337              	.LBE1085:
+ 1338              	.LBE1101:
+ 1339              	.LBB1102:
+ 1340              	.LBB1091:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1341              		.loc 5 533 0
- 1342 02d0 BA030000 		movl	$3, %edx	#,
+ 1341              		.loc 4 533 0
+ 1342 02d3 BA030000 		movl	$3, %edx	#,
  1342      00
- 1343 02d5 BE000000 		movl	$.LC6, %esi	#,
+ 1343 02d8 BE000000 		movl	$.LC6, %esi	#,
  1343      00
- 1344 02da 4889C7   		movq	%rax, %rdi	# D.67265,
- 1345 02dd E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1344 02dd 4889C7   		movq	%rax, %rdi	# D.67304,
+ 1345 02e0 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
  1345      00
  1346              	.LVL93:
- 1347              	.LBE1083:
- 1348              	.LBE1094:
+ 1347              	.LBE1091:
+ 1348              	.LBE1102:
   56:Fibonacci.cc  ****             results[i] = f(n);
  1349              		.loc 10 56 0
- 1350 02e2 4889EF   		movq	%rbp, %rdi	# n,
+ 1350 02e5 4889EF   		movq	%rbp, %rdi	# n,
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
  1351              		.loc 10 60 0
- 1352 02e5 41BE0000 		movl	$_ZL5Reset, %r14d	#, iftmp.63
- 1352      0000
+ 1352 02e8 4D89EE   		movq	%r13, %r14	# tmp426, iftmp.65
  1353              	.LVL94:
   56:Fibonacci.cc  ****             results[i] = f(n);
  1354              		.loc 10 56 0
@@ -8595,1684 +8614,1702 @@
  1356              	.LVL95:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
  1357              		.loc 10 60 0
- 1358 02f0 483B03   		cmpq	(%rbx), %rax	# MEM[(value_type &)results$_M_impl$_M_start_332], D.65499
+ 1358 02f0 483B03   		cmpq	(%rbx), %rax	# MEM[(value_type &)results$_M_impl$_M_start_329], D.65522
+ 1359 02f3 BA000000 		movl	$_ZL5Empty, %edx	#, tmp414
+ 1359      00
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1359              		.loc 10 56 0
- 1360 02f3 4989C5   		movq	%rax, %r13	#, D.65499
- 1361              	.LVL96:
- 1362 02f6 48894310 		movq	%rax, 16(%rbx)	# D.65499, MEM[(value_type &)results$_M_impl$_M_start_332 + 16]
- 1363              	.LVL97:
+ 1360              		.loc 10 56 0
+ 1361 02f8 4989C4   		movq	%rax, %r12	#, D.65522
+ 1362              	.LVL96:
+ 1363 02fb 48894310 		movq	%rax, 16(%rbx)	# D.65522, MEM[(value_type &)results$_M_impl$_M_start_329 + 16]
+ 1364              	.LVL97:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1364              		.loc 10 60 0
- 1365 02fa B8000000 		movl	$_ZL3Red, %eax	#, iftmp.64
- 1365      00
- 1366              	.LBB1095:
- 1367              	.LBB1008:
- 1368              		.loc 11 2755 0
- 1369 02ff BF000000 		movl	$_ZSt4cout, %edi	#,
- 1369      00
- 1370              	.LBE1008:
- 1371              	.LBE1095:
+ 1365              		.loc 10 60 0
+ 1366 02ff B8000000 		movl	$_ZL3Red, %eax	#, iftmp.66
+ 1366      00
+ 1367              	.LBB1103:
+ 1368              	.LBB1016:
+ 1369              		.loc 11 2755 0
+ 1370 0304 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1370      00
+ 1371              	.LBE1016:
+ 1372              	.LBE1103:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1372              		.loc 10 60 0
- 1373 0304 490F44C4 		cmove	%r12, %rax	# tmp426,, iftmp.64
- 1374              	.LVL98:
- 1375 0308 4D0F44F4 		cmove	%r12, %r14	# tmp426,, iftmp.63
- 1376              	.LBB1096:
- 1377              	.LBB1009:
- 1378              	.LBB1001:
- 1379              	.LBB997:
- 1380              	.LBB993:
- 1381              	.LBB989:
- 1382              	.LBB985:
+ 1373              		.loc 10 60 0
+ 1374 0309 480F44C2 		cmove	%rdx, %rax	# tmp414,, iftmp.66
+ 1375              	.LVL98:
+ 1376 030d 4C0F44F2 		cmove	%rdx, %r14	# tmp414,, iftmp.65
+ 1377              	.LBB1104:
+ 1378              	.LBB1017:
+ 1379              	.LBB1009:
+ 1380              	.LBB1005:
+ 1381              	.LBB1001:
+ 1382              	.LBB997:
+ 1383              	.LBB993:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1383              		.loc 11 290 0
- 1384 030c 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.64_613]._M_dataplus._M_p, D.67255
- 1385              	.LBE985:
- 1386              	.LBE989:
- 1387              	.LBE993:
- 1388              	.LBE997:
- 1389              	.LBE1001:
- 1390              		.loc 11 2755 0
- 1391 030f 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67255_614 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1392 0313 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1392      00
- 1393              	.LVL99:
- 1394              	.LBE1009:
- 1395              	.LBE1096:
- 1396              	.LBB1097:
- 1397              	.LBB1031:
- 1398              		.loc 13 239 0
- 1399 0318 488B10   		movq	(%rax), %rdx	# D.67252_618->_vptr.basic_ostream, D.67252_618->_vptr.basic_ostream
- 1400              	.LBE1031:
- 1401              	.LBE1097:
- 1402              	.LBB1098:
- 1403              	.LBB1042:
+ 1384              		.loc 11 290 0
+ 1385 0311 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.66_610]._M_dataplus._M_p, D.67294
+ 1386              	.LBE993:
+ 1387              	.LBE997:
+ 1388              	.LBE1001:
+ 1389              	.LBE1005:
+ 1390              	.LBE1009:
+ 1391              		.loc 11 2755 0
+ 1392 0314 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67294_611 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1393 0318 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1393      00
+ 1394              	.LVL99:
+ 1395              	.LBE1017:
+ 1396              	.LBE1104:
+ 1397              	.LBB1105:
+ 1398              	.LBB1039:
+ 1399              		.loc 13 239 0
+ 1400 031d 488B10   		movq	(%rax), %rdx	# D.67291_615->_vptr.basic_ostream, D.67291_615->_vptr.basic_ostream
+ 1401              	.LBE1039:
+ 1402              	.LBE1105:
+ 1403              	.LBB1106:
+ 1404              	.LBB1050:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1404              		.loc 5 204 0
- 1405 031b 4C89EE   		movq	%r13, %rsi	# D.65499,
- 1406 031e 4889C7   		movq	%rax, %rdi	# D.67252,
- 1407              	.LBE1042:
- 1408              	.LBE1098:
- 1409              	.LBB1099:
- 1410              	.LBB1032:
- 1411              	.LBB1025:
- 1412              	.LBB1021:
- 1413              		.loc 6 658 0
- 1414 0321 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66749_621 + -24B], MEM[(long int *)D.66749_621 + -24B]
- 1415 0325 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66746_624 + 16B]
- 1415      10170000 
- 1415      00
- 1416              	.LVL100:
- 1417              	.LBE1021:
- 1418              	.LBE1025:
- 1419              	.LBE1032:
- 1420              	.LBE1099:
- 1421              	.LBB1100:
- 1422              	.LBB1043:
+ 1405              		.loc 4 204 0
+ 1406 0320 4C89E6   		movq	%r12, %rsi	# D.65522,
+ 1407 0323 4889C7   		movq	%rax, %rdi	# D.67291,
+ 1408              	.LBE1050:
+ 1409              	.LBE1106:
+ 1410              	.LBB1107:
+ 1411              	.LBB1040:
+ 1412              	.LBB1033:
+ 1413              	.LBB1029:
+ 1414              		.loc 5 658 0
+ 1415 0326 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66788_618 + -24B], MEM[(long int *)D.66788_618 + -24B]
+ 1416 032a 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66785_621 + 16B]
+ 1416      10170000 
+ 1416      00
+ 1417              	.LVL100:
+ 1418              	.LBE1029:
+ 1419              	.LBE1033:
+ 1420              	.LBE1040:
+ 1421              	.LBE1107:
+ 1422              	.LBB1108:
+ 1423              	.LBB1051:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1423              		.loc 5 204 0
- 1424 032e E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 1424      00
- 1425              	.LVL101:
- 1426              	.LBE1043:
- 1427              	.LBE1100:
- 1428              	.LBB1101:
- 1429              	.LBB1078:
- 1430              	.LBB1074:
- 1431              	.LBB1070:
- 1432              	.LBB1066:
- 1433              	.LBB1062:
- 1434              	.LBB1058:
+ 1424              		.loc 4 204 0
+ 1425 0333 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 1425      00
+ 1426              	.LVL101:
+ 1427              	.LBE1051:
+ 1428              	.LBE1108:
+ 1429              	.LBB1109:
+ 1430              	.LBB1086:
+ 1431              	.LBB1082:
+ 1432              	.LBB1078:
+ 1433              	.LBB1074:
+ 1434              	.LBB1070:
+ 1435              	.LBB1066:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1435              		.loc 11 290 0
- 1436 0333 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.63_522]._M_dataplus._M_p, D.67262
- 1437              	.LBE1058:
- 1438              	.LBE1062:
- 1439              	.LBE1066:
- 1440              	.LBE1070:
- 1441              	.LBE1074:
- 1442              		.loc 11 2755 0
- 1443 0336 4889C7   		movq	%rax, %rdi	# D.66755,
- 1444 0339 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67262_628 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1445 033d E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1445      00
- 1446              	.LVL102:
- 1447              	.LBE1078:
- 1448              	.LBE1101:
- 1449              	.LBB1102:
- 1450              	.LBB1084:
+ 1436              		.loc 11 290 0
+ 1437 0338 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.65_451]._M_dataplus._M_p, D.67301
+ 1438              	.LBE1066:
+ 1439              	.LBE1070:
+ 1440              	.LBE1074:
+ 1441              	.LBE1078:
+ 1442              	.LBE1082:
+ 1443              		.loc 11 2755 0
+ 1444 033b 4889C7   		movq	%rax, %rdi	# D.66794,
+ 1445 033e 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67301_625 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1446 0342 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1446      00
+ 1447              	.LVL102:
+ 1448              	.LBE1086:
+ 1449              	.LBE1109:
+ 1450              	.LBB1110:
+ 1451              	.LBB1092:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1451              		.loc 5 533 0
- 1452 0342 BA030000 		movl	$3, %edx	#,
- 1452      00
- 1453 0347 BE000000 		movl	$.LC6, %esi	#,
+ 1452              		.loc 4 533 0
+ 1453 0347 BA030000 		movl	$3, %edx	#,
  1453      00
- 1454 034c 4889C7   		movq	%rax, %rdi	# D.67265,
- 1455 034f E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1455      00
- 1456              	.LVL103:
- 1457              	.LBE1084:
- 1458              	.LBE1102:
+ 1454 034c BE000000 		movl	$.LC6, %esi	#,
+ 1454      00
+ 1455 0351 4889C7   		movq	%rax, %rdi	# D.67304,
+ 1456 0354 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1456      00
+ 1457              	.LVL103:
+ 1458              	.LBE1092:
+ 1459              	.LBE1110:
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1459              		.loc 10 56 0
- 1460 0354 4889EF   		movq	%rbp, %rdi	# n,
- 1461 0357 E8000000 		call	_ZN20matrixMultiplication11UsingMatrix9fibonacciEm	#
- 1461      00
- 1462              	.LVL104:
+ 1460              		.loc 10 56 0
+ 1461 0359 4889EF   		movq	%rbp, %rdi	# n,
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1463              		.loc 10 60 0
- 1464 035c 483B03   		cmpq	(%rbx), %rax	# MEM[(value_type &)results$_M_impl$_M_start_332], D.65499
+ 1462              		.loc 10 60 0
+ 1463 035c 4D89EE   		movq	%r13, %r14	# tmp426, iftmp.65
+ 1464              	.LVL104:
   56:Fibonacci.cc  ****             results[i] = f(n);
  1465              		.loc 10 56 0
- 1466 035f 4989C5   		movq	%rax, %r13	#, D.65499
+ 1466 035f E8000000 		call	_ZN20matrixMultiplication11UsingMatrix9fibonacciEm	#
+ 1466      00
  1467              	.LVL105:
- 1468 0362 48894318 		movq	%rax, 24(%rbx)	# D.65499, MEM[(value_type &)results$_M_impl$_M_start_332 + 24]
- 1469              	.LVL106:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1470              		.loc 10 60 0
- 1471 0366 B8000000 		movl	$_ZL3Red, %eax	#, iftmp.64
- 1471      00
- 1472 036b 41BE0000 		movl	$_ZL5Reset, %r14d	#, iftmp.63
- 1472      0000
- 1473              	.LVL107:
- 1474              	.LBB1103:
- 1475              	.LBB1010:
- 1476              		.loc 11 2755 0
- 1477 0371 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1468              		.loc 10 60 0
+ 1469 0364 483B03   		cmpq	(%rbx), %rax	# MEM[(value_type &)results$_M_impl$_M_start_329], D.65522
+ 1470 0367 BA000000 		movl	$_ZL5Empty, %edx	#, tmp418
+ 1470      00
+  56:Fibonacci.cc  ****             results[i] = f(n);
+ 1471              		.loc 10 56 0
+ 1472 036c 4989C4   		movq	%rax, %r12	#, D.65522
+ 1473              	.LVL106:
+ 1474 036f 48894318 		movq	%rax, 24(%rbx)	# D.65522, MEM[(value_type &)results$_M_impl$_M_start_329 + 24]
+ 1475              	.LVL107:
+  60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
+ 1476              		.loc 10 60 0
+ 1477 0373 B8000000 		movl	$_ZL3Red, %eax	#, iftmp.66
  1477      00
- 1478              	.LBE1010:
- 1479              	.LBE1103:
+ 1478              	.LBB1111:
+ 1479              	.LBB1018:
+ 1480              		.loc 11 2755 0
+ 1481 0378 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1481      00
+ 1482              	.LBE1018:
+ 1483              	.LBE1111:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1480              		.loc 10 60 0
- 1481 0376 490F44C4 		cmove	%r12, %rax	# tmp426,, iftmp.64
- 1482              	.LVL108:
- 1483 037a 4D0F44F4 		cmove	%r12, %r14	# tmp426,, iftmp.63
- 1484              	.LBB1104:
- 1485              	.LBB1011:
- 1486              	.LBB1002:
- 1487              	.LBB998:
- 1488              	.LBB994:
- 1489              	.LBB990:
- 1490              	.LBB986:
+ 1484              		.loc 10 60 0
+ 1485 037d 480F44C2 		cmove	%rdx, %rax	# tmp418,, iftmp.66
+ 1486              	.LVL108:
+ 1487 0381 4C0F44F2 		cmove	%rdx, %r14	# tmp418,, iftmp.65
+ 1488              	.LBB1112:
+ 1489              	.LBB1019:
+ 1490              	.LBB1010:
+ 1491              	.LBB1006:
+ 1492              	.LBB1002:
+ 1493              	.LBB998:
+ 1494              	.LBB994:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1491              		.loc 11 290 0
- 1492 037e 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.64_656]._M_dataplus._M_p, D.67255
- 1493              	.LBE986:
- 1494              	.LBE990:
- 1495              	.LBE994:
- 1496              	.LBE998:
- 1497              	.LBE1002:
- 1498              		.loc 11 2755 0
- 1499 0381 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67255_657 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1500 0385 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1500      00
- 1501              	.LVL109:
- 1502              	.LBE1011:
- 1503              	.LBE1104:
- 1504              	.LBB1105:
- 1505              	.LBB1033:
- 1506              		.loc 13 239 0
- 1507 038a 488B10   		movq	(%rax), %rdx	# D.67252_661->_vptr.basic_ostream, D.67252_661->_vptr.basic_ostream
- 1508              	.LBE1033:
- 1509              	.LBE1105:
- 1510              	.LBB1106:
- 1511              	.LBB1044:
+ 1495              		.loc 11 290 0
+ 1496 0385 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.66_653]._M_dataplus._M_p, D.67294
+ 1497              	.LBE994:
+ 1498              	.LBE998:
+ 1499              	.LBE1002:
+ 1500              	.LBE1006:
+ 1501              	.LBE1010:
+ 1502              		.loc 11 2755 0
+ 1503 0388 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67294_654 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1504 038c E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1504      00
+ 1505              	.LVL109:
+ 1506              	.LBE1019:
+ 1507              	.LBE1112:
+ 1508              	.LBB1113:
+ 1509              	.LBB1041:
+ 1510              		.loc 13 239 0
+ 1511 0391 488B10   		movq	(%rax), %rdx	# D.67291_658->_vptr.basic_ostream, D.67291_658->_vptr.basic_ostream
+ 1512              	.LBE1041:
+ 1513              	.LBE1113:
+ 1514              	.LBB1114:
+ 1515              	.LBB1052:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1512              		.loc 5 204 0
- 1513 038d 4C89EE   		movq	%r13, %rsi	# D.65499,
- 1514 0390 4889C7   		movq	%rax, %rdi	# D.67252,
- 1515              	.LBE1044:
- 1516              	.LBE1106:
- 1517              	.LBB1107:
- 1518              	.LBB1034:
- 1519              	.LBB1026:
- 1520              	.LBB1022:
- 1521              		.loc 6 658 0
- 1522 0393 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66749_664 + -24B], MEM[(long int *)D.66749_664 + -24B]
- 1523 0397 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66746_667 + 16B]
- 1523      10170000 
- 1523      00
- 1524              	.LVL110:
- 1525              	.LBE1022:
- 1526              	.LBE1026:
- 1527              	.LBE1034:
- 1528              	.LBE1107:
- 1529              	.LBB1108:
- 1530              	.LBB1045:
+ 1516              		.loc 4 204 0
+ 1517 0394 4C89E6   		movq	%r12, %rsi	# D.65522,
+ 1518 0397 4889C7   		movq	%rax, %rdi	# D.67291,
+ 1519              	.LBE1052:
+ 1520              	.LBE1114:
+ 1521              	.LBB1115:
+ 1522              	.LBB1042:
+ 1523              	.LBB1034:
+ 1524              	.LBB1030:
+ 1525              		.loc 5 658 0
+ 1526 039a 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66788_661 + -24B], MEM[(long int *)D.66788_661 + -24B]
+ 1527 039e 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66785_664 + 16B]
+ 1527      10170000 
+ 1527      00
+ 1528              	.LVL110:
+ 1529              	.LBE1030:
+ 1530              	.LBE1034:
+ 1531              	.LBE1042:
+ 1532              	.LBE1115:
+ 1533              	.LBB1116:
+ 1534              	.LBB1053:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1531              		.loc 5 204 0
- 1532 03a0 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 1532      00
- 1533              	.LVL111:
- 1534              	.LBE1045:
- 1535              	.LBE1108:
- 1536              	.LBB1109:
- 1537              	.LBB1079:
- 1538              	.LBB1075:
- 1539              	.LBB1071:
- 1540              	.LBB1067:
- 1541              	.LBB1063:
- 1542              	.LBB1059:
+ 1535              		.loc 4 204 0
+ 1536 03a7 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 1536      00
+ 1537              	.LVL111:
+ 1538              	.LBE1053:
+ 1539              	.LBE1116:
+ 1540              	.LBB1117:
+ 1541              	.LBB1087:
+ 1542              	.LBB1083:
+ 1543              	.LBB1079:
+ 1544              	.LBB1075:
+ 1545              	.LBB1071:
+ 1546              	.LBB1067:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1543              		.loc 11 290 0
- 1544 03a5 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.63_534]._M_dataplus._M_p, D.67262
- 1545              	.LBE1059:
- 1546              	.LBE1063:
- 1547              	.LBE1067:
- 1548              	.LBE1071:
- 1549              	.LBE1075:
- 1550              		.loc 11 2755 0
- 1551 03a8 4889C7   		movq	%rax, %rdi	# D.66755,
- 1552 03ab 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67262_671 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1553 03af E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1553      00
- 1554              	.LVL112:
- 1555              	.LBE1079:
- 1556              	.LBE1109:
- 1557              	.LBB1110:
- 1558              	.LBB1085:
+ 1547              		.loc 11 290 0
+ 1548 03ac 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.65_515]._M_dataplus._M_p, D.67301
+ 1549              	.LBE1067:
+ 1550              	.LBE1071:
+ 1551              	.LBE1075:
+ 1552              	.LBE1079:
+ 1553              	.LBE1083:
+ 1554              		.loc 11 2755 0
+ 1555 03af 4889C7   		movq	%rax, %rdi	# D.66794,
+ 1556 03b2 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67301_668 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1557 03b6 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1557      00
+ 1558              	.LVL112:
+ 1559              	.LBE1087:
+ 1560              	.LBE1117:
+ 1561              	.LBB1118:
+ 1562              	.LBB1093:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1559              		.loc 5 533 0
- 1560 03b4 BA030000 		movl	$3, %edx	#,
- 1560      00
- 1561 03b9 BE000000 		movl	$.LC6, %esi	#,
- 1561      00
- 1562 03be 4889C7   		movq	%rax, %rdi	# D.67265,
- 1563 03c1 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1563      00
- 1564              	.LVL113:
- 1565              	.LBE1085:
- 1566              	.LBE1110:
+ 1563              		.loc 4 533 0
+ 1564 03bb BA030000 		movl	$3, %edx	#,
+ 1564      00
+ 1565 03c0 BE000000 		movl	$.LC6, %esi	#,
+ 1565      00
+ 1566 03c5 4889C7   		movq	%rax, %rdi	# D.67304,
+ 1567 03c8 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1567      00
+ 1568              	.LVL113:
+ 1569              	.LBE1093:
+ 1570              	.LBE1118:
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1567              		.loc 10 56 0
- 1568 03c6 4889EF   		movq	%rbp, %rdi	# n,
+ 1571              		.loc 10 56 0
+ 1572 03cd 4889EF   		movq	%rbp, %rdi	# n,
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1569              		.loc 10 60 0
- 1570 03c9 41BE0000 		movl	$_ZL5Reset, %r14d	#, iftmp.63
- 1570      0000
- 1571              	.LVL114:
+ 1573              		.loc 10 60 0
+ 1574 03d0 4D89EE   		movq	%r13, %r14	# tmp426, iftmp.65
+ 1575              	.LVL114:
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1572              		.loc 10 56 0
- 1573 03cf E8000000 		call	_ZN23withoutLoopsOrRecursion9fibonacciEm	#
- 1573      00
- 1574              	.LVL115:
+ 1576              		.loc 10 56 0
+ 1577 03d3 E8000000 		call	_ZN23withoutLoopsOrRecursion9fibonacciEm	#
+ 1577      00
+ 1578              	.LVL115:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1575              		.loc 10 60 0
- 1576 03d4 483B03   		cmpq	(%rbx), %rax	# MEM[(value_type &)results$_M_impl$_M_start_332], D.65499
+ 1579              		.loc 10 60 0
+ 1580 03d8 483B03   		cmpq	(%rbx), %rax	# MEM[(value_type &)results$_M_impl$_M_start_329], D.65522
+ 1581 03db BA000000 		movl	$_ZL5Empty, %edx	#, tmp422
+ 1581      00
   56:Fibonacci.cc  ****             results[i] = f(n);
- 1577              		.loc 10 56 0
- 1578 03d7 4989C5   		movq	%rax, %r13	#, D.65499
- 1579              	.LVL116:
- 1580 03da 48894320 		movq	%rax, 32(%rbx)	# D.65499, MEM[(value_type &)results$_M_impl$_M_start_332 + 32]
- 1581              	.LVL117:
+ 1582              		.loc 10 56 0
+ 1583 03e0 4989C4   		movq	%rax, %r12	#, D.65522
+ 1584              	.LVL116:
+ 1585 03e3 48894320 		movq	%rax, 32(%rbx)	# D.65522, MEM[(value_type &)results$_M_impl$_M_start_329 + 32]
+ 1586              	.LVL117:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1582              		.loc 10 60 0
- 1583 03de B8000000 		movl	$_ZL3Red, %eax	#, iftmp.64
- 1583      00
- 1584              	.LBB1111:
- 1585              	.LBB1012:
- 1586              		.loc 11 2755 0
- 1587 03e3 BF000000 		movl	$_ZSt4cout, %edi	#,
- 1587      00
- 1588              	.LBE1012:
- 1589              	.LBE1111:
+ 1587              		.loc 10 60 0
+ 1588 03e7 B8000000 		movl	$_ZL3Red, %eax	#, iftmp.66
+ 1588      00
+ 1589              	.LBB1119:
+ 1590              	.LBB1020:
+ 1591              		.loc 11 2755 0
+ 1592 03ec BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1592      00
+ 1593              	.LBE1020:
+ 1594              	.LBE1119:
   60:Fibonacci.cc  ****                  << (results[i] == results[0] ? Empty: Reset) 
- 1590              		.loc 10 60 0
- 1591 03e8 490F44C4 		cmove	%r12, %rax	# tmp426,, iftmp.64
- 1592              	.LVL118:
- 1593 03ec 4D0F44F4 		cmove	%r12, %r14	# tmp426,, iftmp.63
- 1594              	.LBB1112:
- 1595              	.LBB1013:
- 1596              	.LBB1003:
- 1597              	.LBB999:
- 1598              	.LBB995:
- 1599              	.LBB991:
- 1600              	.LBB987:
+ 1595              		.loc 10 60 0
+ 1596 03f1 480F44C2 		cmove	%rdx, %rax	# tmp422,, iftmp.66
+ 1597              	.LVL118:
+ 1598 03f5 4C0F44F2 		cmove	%rdx, %r14	# tmp422,, iftmp.65
+ 1599              	.LBB1120:
+ 1600              	.LBB1021:
+ 1601              	.LBB1011:
+ 1602              	.LBB1007:
+ 1603              	.LBB1003:
+ 1604              	.LBB999:
+ 1605              	.LBB995:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1601              		.loc 11 290 0
- 1602 03f0 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.64_699]._M_dataplus._M_p, D.67255
- 1603              	.LBE987:
- 1604              	.LBE991:
- 1605              	.LBE995:
- 1606              	.LBE999:
- 1607              	.LBE1003:
- 1608              		.loc 11 2755 0
- 1609 03f3 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67255_700 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1610 03f7 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1610      00
- 1611              	.LVL119:
- 1612              	.LBE1013:
- 1613              	.LBE1112:
- 1614              	.LBB1113:
- 1615              	.LBB1035:
- 1616              		.loc 13 239 0
- 1617 03fc 488B10   		movq	(%rax), %rdx	# D.67252_704->_vptr.basic_ostream, D.67252_704->_vptr.basic_ostream
- 1618              	.LBE1035:
- 1619              	.LBE1113:
- 1620              	.LBB1114:
- 1621              	.LBB1046:
+ 1606              		.loc 11 290 0
+ 1607 03f9 488B30   		movq	(%rax), %rsi	# MEM[(const struct basic_string *)iftmp.66_696]._M_dataplus._M_p, D.67294
+ 1608              	.LBE995:
+ 1609              	.LBE999:
+ 1610              	.LBE1003:
+ 1611              	.LBE1007:
+ 1612              	.LBE1011:
+ 1613              		.loc 11 2755 0
+ 1614 03fc 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67294_697 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1615 0400 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1615      00
+ 1616              	.LVL119:
+ 1617              	.LBE1021:
+ 1618              	.LBE1120:
+ 1619              	.LBB1121:
+ 1620              	.LBB1043:
+ 1621              		.loc 13 239 0
+ 1622 0405 488B10   		movq	(%rax), %rdx	# D.67291_701->_vptr.basic_ostream, D.67291_701->_vptr.basic_ostream
+ 1623              	.LBE1043:
+ 1624              	.LBE1121:
+ 1625              	.LBB1122:
+ 1626              	.LBB1054:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1622              		.loc 5 204 0
- 1623 03ff 4C89EE   		movq	%r13, %rsi	# D.65499,
- 1624 0402 4889C7   		movq	%rax, %rdi	# D.67252,
- 1625              	.LBE1046:
- 1626              	.LBE1114:
- 1627              	.LBB1115:
- 1628              	.LBB1036:
- 1629              	.LBB1027:
- 1630              	.LBB1023:
- 1631              		.loc 6 658 0
- 1632 0405 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66749_707 + -24B], MEM[(long int *)D.66749_707 + -24B]
- 1633 0409 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66746_710 + 16B]
- 1633      10170000 
- 1633      00
- 1634              	.LVL120:
- 1635              	.LBE1023:
- 1636              	.LBE1027:
- 1637              	.LBE1036:
- 1638              	.LBE1115:
- 1639              	.LBB1116:
- 1640              	.LBB1047:
+ 1627              		.loc 4 204 0
+ 1628 0408 4C89E6   		movq	%r12, %rsi	# D.65522,
+ 1629 040b 4889C7   		movq	%rax, %rdi	# D.67291,
+ 1630              	.LBE1054:
+ 1631              	.LBE1122:
+ 1632              	.LBB1123:
+ 1633              	.LBB1044:
+ 1634              	.LBB1035:
+ 1635              	.LBB1031:
+ 1636              		.loc 5 658 0
+ 1637 040e 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66788_704 + -24B], MEM[(long int *)D.66788_704 + -24B]
+ 1638 0412 48C74410 		movq	$23, 16(%rax,%rdx)	#, MEM[(streamsize *)D.66785_707 + 16B]
+ 1638      10170000 
+ 1638      00
+ 1639              	.LVL120:
+ 1640              	.LBE1031:
+ 1641              	.LBE1035:
+ 1642              	.LBE1044:
+ 1643              	.LBE1123:
+ 1644              	.LBB1124:
+ 1645              	.LBB1055:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1641              		.loc 5 204 0
- 1642 0412 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 1642      00
- 1643              	.LVL121:
- 1644              	.LBE1047:
- 1645              	.LBE1116:
- 1646              	.LBB1117:
- 1647              	.LBB1080:
- 1648              	.LBB1076:
- 1649              	.LBB1072:
- 1650              	.LBB1068:
- 1651              	.LBB1064:
- 1652              	.LBB1060:
+ 1646              		.loc 4 204 0
+ 1647 041b E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 1647      00
+ 1648              	.LVL121:
+ 1649              	.LBE1055:
+ 1650              	.LBE1124:
+ 1651              	.LBB1125:
+ 1652              	.LBB1088:
+ 1653              	.LBB1084:
+ 1654              	.LBB1080:
+ 1655              	.LBB1076:
+ 1656              	.LBB1072:
+ 1657              	.LBB1068:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1653              		.loc 11 290 0
- 1654 0417 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.63_533]._M_dataplus._M_p, D.67262
- 1655              	.LBE1060:
- 1656              	.LBE1064:
- 1657              	.LBE1068:
- 1658              	.LBE1072:
- 1659              	.LBE1076:
- 1660              		.loc 11 2755 0
- 1661 041a 4889C7   		movq	%rax, %rdi	# D.66755,
- 1662 041d 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67262_714 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1663 0421 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1663      00
- 1664              	.LVL122:
- 1665              	.LBE1080:
- 1666              	.LBE1117:
- 1667              	.LBB1118:
- 1668              	.LBB1086:
+ 1658              		.loc 11 290 0
+ 1659 0420 498B36   		movq	(%r14), %rsi	# MEM[(const struct basic_string *)iftmp.65_513]._M_dataplus._M_p, D.67301
+ 1660              	.LBE1068:
+ 1661              	.LBE1072:
+ 1662              	.LBE1076:
+ 1663              	.LBE1080:
+ 1664              	.LBE1084:
+ 1665              		.loc 11 2755 0
+ 1666 0423 4889C7   		movq	%rax, %rdi	# D.66794,
+ 1667 0426 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67301_711 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1668 042a E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1668      00
+ 1669              	.LVL122:
+ 1670              	.LBE1088:
+ 1671              	.LBE1125:
+ 1672              	.LBB1126:
+ 1673              	.LBB1094:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1669              		.loc 5 533 0
- 1670 0426 BA030000 		movl	$3, %edx	#,
- 1670      00
- 1671 042b BE000000 		movl	$.LC6, %esi	#,
- 1671      00
- 1672 0430 4889C7   		movq	%rax, %rdi	# D.67265,
- 1673 0433 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1673      00
- 1674              	.LVL123:
- 1675              	.LBE1086:
- 1676              	.LBE1118:
- 1677              	.LBE1119:
- 1678              	.LBE1153:
- 1679              	.LBB1154:
- 1680              	.LBB1139:
- 1681              	.LBB1136:
+ 1674              		.loc 4 533 0
+ 1675 042f BA030000 		movl	$3, %edx	#,
+ 1675      00
+ 1676 0434 BE000000 		movl	$.LC6, %esi	#,
+ 1676      00
+ 1677 0439 4889C7   		movq	%rax, %rdi	# D.67304,
+ 1678 043c E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1678      00
+ 1679              	.LVL123:
+ 1680              	.LBE1094:
+ 1681              	.LBE1126:
+ 1682              	.LBE1127:
+ 1683              	.LBE1161:
+ 1684              	.LBB1162:
+ 1685              	.LBB1147:
+ 1686              	.LBB1144:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 1682              		.loc 5 563 0
- 1683 0438 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 1683      000000
- 1684              	.LBE1136:
- 1685              		.loc 10 104 0
- 1686 043f 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67275_345 + -24B], MEM[(long int *)D.67275_345 + -24B]
- 1687 0443 4C8BA800 		movq	_ZSt4cout+240(%rax), %r13	# MEM[(const struct basic_ios *)D.67278_348 + 240B], D.67292
- 1687      000000
- 1688              	.LVL124:
- 1689              	.LBB1137:
- 1690              	.LBB1134:
- 1691              	.LBB1127:
- 1692              	.LBB1128:
+ 1687              		.loc 4 563 0
+ 1688 0441 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 1688      000000
+ 1689              	.LBE1144:
+ 1690              		.loc 10 104 0
+ 1691 0448 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67314_342 + -24B], MEM[(long int *)D.67314_342 + -24B]
+ 1692 044c 4C8BA000 		movq	_ZSt4cout+240(%rax), %r12	# MEM[(const struct basic_ios *)D.67317_345 + 240B], D.67331
+ 1692      000000
+ 1693              	.LVL124:
+ 1694              	.LBB1145:
+ 1695              	.LBB1142:
+ 1696              	.LBB1135:
+ 1697              	.LBB1136:
   50:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       if (!__f)
- 1693              		.loc 7 50 0
- 1694 044a 4D85ED   		testq	%r13, %r13	# D.67292
- 1695 044d 0F842203 		je	.L111	#,
- 1695      0000
- 1696              	.LVL125:
- 1697              	.LBE1128:
- 1698              	.LBE1127:
- 1699              	.LBB1130:
- 1700              	.LBB1126:
+ 1698              		.loc 6 50 0
+ 1699 0453 4D85E4   		testq	%r12, %r12	# D.67331
+ 1700 0456 0F842103 		je	.L115	#,
+ 1700      0000
+ 1701              	.LVL125:
+ 1702              	.LBE1136:
+ 1703              	.LBE1135:
+ 1704              	.LBB1138:
+ 1705              	.LBB1134:
  869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
- 1701              		.loc 12 869 0
- 1702 0453 41807D38 		cmpb	$0, 56(%r13)	#, MEM[(const struct ctype *)D.67292_349]._M_widen_ok
- 1702      00
- 1703 0458 0F8552FD 		jne	.L112	#,
- 1703      FFFF
+ 1706              		.loc 12 869 0
+ 1707 045c 41807C24 		cmpb	$0, 56(%r12)	#, MEM[(const struct ctype *)D.67331_346]._M_widen_ok
+ 1707      3800
+ 1708 0462 0F8548FD 		jne	.L116	#,
+ 1708      FFFF
  870:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	this->_M_widen_init();
- 1704              		.loc 12 871 0
- 1705 045e 4C89EF   		movq	%r13, %rdi	# D.67292,
- 1706 0461 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
- 1706      00
- 1707              	.LVL126:
+ 1709              		.loc 12 871 0
+ 1710 0468 4C89E7   		movq	%r12, %rdi	# D.67331,
+ 1711 046b E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
+ 1711      00
+ 1712              	.LVL126:
  871:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	return this->do_widen(__c);
- 1708              		.loc 12 872 0
- 1709 0466 498B4500 		movq	0(%r13), %rax	# MEM[(const struct ctype *)D.67292_349].D.22576._vptr.facet, MEM[(const struct
- 1710 046a BE0A0000 		movl	$10, %esi	#,
- 1710      00
- 1711 046f 4C89EF   		movq	%r13, %rdi	# D.67292,
- 1712 0472 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67300_362 + 48B]
- 1713              	.LVL127:
- 1714 0475 E93BFDFF 		jmp	.L89	#
- 1714      FF
- 1715              	.LVL128:
- 1716 047a 660F1F44 		.p2align 4,,10
- 1716      0000
- 1717              		.p2align 3
- 1718              	.L110:
- 1719              	.LBE1126:
- 1720              	.LBE1130:
- 1721              	.LBE1134:
- 1722              	.LBE1137:
- 1723              	.LBE1139:
- 1724              	.LBE1154:
- 1725              	.LBE1158:
- 1726              	.LBB1159:
- 1727              	.LBB1160:
+ 1713              		.loc 12 872 0
+ 1714 0470 498B0424 		movq	(%r12), %rax	# MEM[(const struct ctype *)D.67331_346].D.22576._vptr.facet, MEM[(const struct 
+ 1715 0474 BE0A0000 		movl	$10, %esi	#,
+ 1715      00
+ 1716 0479 4C89E7   		movq	%r12, %rdi	# D.67331,
+ 1717 047c FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67339_359 + 48B]
+ 1718              	.LVL127:
+ 1719 047f E932FDFF 		jmp	.L93	#
+ 1719      FF
+ 1720              	.LVL128:
+ 1721              		.p2align 4,,10
+ 1722 0484 0F1F4000 		.p2align 3
+ 1723              	.L114:
+ 1724              	.LBE1134:
+ 1725              	.LBE1138:
+ 1726              	.LBE1142:
+ 1727              	.LBE1145:
+ 1728              	.LBE1147:
+ 1729              	.LBE1162:
+ 1730              	.LBE1166:
+ 1731              	.LBB1167:
+ 1732              	.LBB1168:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1728              		.loc 5 533 0
- 1729 0480 BA230000 		movl	$35, %edx	#,
- 1729      00
- 1730 0485 BE000000 		movl	$.LC7, %esi	#,
- 1730      00
- 1731 048a BF000000 		movl	$_ZSt4cout, %edi	#,
- 1731      00
- 1732 048f E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1732      00
- 1733              	.LVL129:
- 1734              	.LBE1160:
- 1735              	.LBE1159:
- 1736              	.LBB1161:
- 1737              	.LBB1162:
- 1738              	.LBB1163:
+ 1733              		.loc 4 533 0
+ 1734 0488 BA230000 		movl	$35, %edx	#,
+ 1734      00
+ 1735 048d BE000000 		movl	$.LC7, %esi	#,
+ 1735      00
+ 1736 0492 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1736      00
+ 1737 0497 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1737      00
+ 1738              	.LVL129:
+ 1739              	.LBE1168:
+ 1740              	.LBE1167:
+ 1741              	.LBB1169:
+ 1742              	.LBB1170:
+ 1743              	.LBB1171:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 1739              		.loc 5 563 0
- 1740 0494 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 1740      000000
- 1741              	.LBE1163:
- 1742              		.loc 10 104 0
- 1743 049b 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67322_369 + -24B], MEM[(long int *)D.67322_369 + -24B]
- 1744 049f 488BA800 		movq	_ZSt4cout+240(%rax), %rbp	# MEM[(const struct basic_ios *)D.67319_372 + 240B], D.67331
- 1744      000000
- 1745              	.LVL130:
- 1746              	.LBB1177:
- 1747              	.LBB1164:
- 1748              	.LBB1165:
- 1749              	.LBB1166:
+ 1744              		.loc 4 563 0
+ 1745 049c 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 1745      000000
+ 1746              	.LBE1171:
+ 1747              		.loc 10 104 0
+ 1748 04a3 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67361_366 + -24B], MEM[(long int *)D.67361_366 + -24B]
+ 1749 04a7 488BA800 		movq	_ZSt4cout+240(%rax), %rbp	# MEM[(const struct basic_ios *)D.67358_369 + 240B], D.67370
+ 1749      000000
+ 1750              	.LVL130:
+ 1751              	.LBB1185:
+ 1752              	.LBB1172:
+ 1753              	.LBB1173:
+ 1754              	.LBB1174:
   50:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       if (!__f)
- 1750              		.loc 7 50 0
- 1751 04a6 4885ED   		testq	%rbp, %rbp	# D.67331
- 1752 04a9 0F84E302 		je	.L113	#,
- 1752      0000
- 1753              	.LVL131:
- 1754              	.LBE1166:
- 1755              	.LBE1165:
- 1756              	.LBB1168:
- 1757              	.LBB1169:
+ 1755              		.loc 6 50 0
+ 1756 04ae 4885ED   		testq	%rbp, %rbp	# D.67370
+ 1757 04b1 0F84E302 		je	.L117	#,
+ 1757      0000
+ 1758              	.LVL131:
+ 1759              	.LBE1174:
+ 1760              	.LBE1173:
+ 1761              	.LBB1176:
+ 1762              	.LBB1177:
  869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
- 1758              		.loc 12 869 0
- 1759 04af 807D3800 		cmpb	$0, 56(%rbp)	#, MEM[(const struct ctype *)D.67331_373]._M_widen_ok
- 1760 04b3 0F848502 		je	.L92	#,
- 1760      0000
+ 1763              		.loc 12 869 0
+ 1764 04b7 807D3800 		cmpb	$0, 56(%rbp)	#, MEM[(const struct ctype *)D.67370_370]._M_widen_ok
+ 1765 04bb 0F848502 		je	.L96	#,
+ 1765      0000
  870:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	  return _M_widen[static_cast<unsigned char>(__c)];
- 1761              		.loc 12 870 0
- 1762 04b9 0FB64543 		movzbl	67(%rbp), %eax	# MEM[(const struct ctype *)D.67331_373]._M_widen, D.67336
- 1763              	.LVL132:
- 1764              	.L93:
- 1765              	.LBE1169:
- 1766              	.LBE1168:
- 1767              	.LBE1164:
+ 1766              		.loc 12 870 0
+ 1767 04c1 0FB64543 		movzbl	67(%rbp), %eax	# MEM[(const struct ctype *)D.67370_370]._M_widen, D.67375
+ 1768              	.LVL132:
+ 1769              	.L97:
+ 1770              	.LBE1177:
+ 1771              	.LBE1176:
+ 1772              	.LBE1172:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 1768              		.loc 5 563 0
- 1769 04bd 0FBEF0   		movsbl	%al, %esi	# D.67336, D.67336
- 1770 04c0 BF000000 		movl	$_ZSt4cout, %edi	#,
- 1770      00
- 1771 04c5 E8000000 		call	_ZNSo3putEc	#
- 1771      00
- 1772              	.LVL133:
- 1773              	.LBB1173:
- 1774              	.LBB1174:
- 1775              		.loc 5 585 0
- 1776 04ca 4889C7   		movq	%rax, %rdi	# D.67316,
- 1777 04cd E8000000 		call	_ZNSo5flushEv	#
- 1777      00
- 1778              	.LVL134:
- 1779              	.LBE1174:
- 1780              	.LBE1173:
- 1781              	.LBE1177:
- 1782              	.LBE1162:
- 1783              	.LBE1161:
- 1784              	.LBB1182:
- 1785              	.LBB1183:
- 1786              		.loc 13 239 0
- 1787 04d2 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 1787      000000
- 1788              	.LBE1183:
- 1789              	.LBE1182:
+ 1773              		.loc 4 563 0
+ 1774 04c5 0FBEF0   		movsbl	%al, %esi	# D.67375, D.67375
+ 1775 04c8 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1775      00
+ 1776 04cd E8000000 		call	_ZNSo3putEc	#
+ 1776      00
+ 1777              	.LVL133:
+ 1778              	.LBB1181:
+ 1779              	.LBB1182:
+ 1780              		.loc 4 585 0
+ 1781 04d2 4889C7   		movq	%rax, %rdi	# D.67355,
+ 1782 04d5 E8000000 		call	_ZNSo5flushEv	#
+ 1782      00
+ 1783              	.LVL134:
+ 1784              	.LBE1182:
+ 1785              	.LBE1181:
+ 1786              	.LBE1185:
+ 1787              	.LBE1170:
+ 1788              	.LBE1169:
+ 1789              	.LBB1190:
+ 1790              	.LBB1191:
+ 1791              		.loc 13 239 0
+ 1792 04da 488B0500 		movq	_ZSt4cout(%rip), %rax	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 1792      000000
+ 1793              	.LBE1191:
+ 1794              	.LBE1190:
   66:Fibonacci.cc  ****     cout << setw(2) << 93 << "   " << Red; 
- 1790              		.loc 10 66 0
- 1791 04d9 BE5D0000 		movl	$93, %esi	#,
- 1791      00
- 1792 04de BF000000 		movl	$_ZSt4cout, %edi	#,
- 1792      00
- 1793              	.LVL135:
- 1794              	.LBB1187:
- 1795              	.LBB1186:
- 1796              	.LBB1184:
- 1797              	.LBB1185:
- 1798              		.loc 6 658 0
- 1799 04e3 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66775_200 + -24B], MEM[(long int *)D.66775_200 + -24B]
- 1800              	.LVL136:
- 1801 04e7 48C78000 		movq	$2, _ZSt4cout+16(%rax)	#, MEM[(streamsize *)D.66772_203 + 16B]
- 1801      00000002 
- 1801      000000
- 1802              	.LBE1185:
- 1803              	.LBE1184:
- 1804              	.LBE1186:
- 1805              	.LBE1187:
+ 1795              		.loc 10 66 0
+ 1796 04e1 BE5D0000 		movl	$93, %esi	#,
+ 1796      00
+ 1797 04e6 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1797      00
+ 1798              	.LVL135:
+ 1799              	.LBB1195:
+ 1800              	.LBB1194:
+ 1801              	.LBB1192:
+ 1802              	.LBB1193:
+ 1803              		.loc 5 658 0
+ 1804 04eb 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66814_197 + -24B], MEM[(long int *)D.66814_197 + -24B]
+ 1805              	.LVL136:
+ 1806 04ef 48C78000 		movq	$2, _ZSt4cout+16(%rax)	#, MEM[(streamsize *)D.66811_200 + 16B]
+ 1806      00000002 
+ 1806      000000
+ 1807              	.LBE1193:
+ 1808              	.LBE1192:
+ 1809              	.LBE1194:
+ 1810              	.LBE1195:
   66:Fibonacci.cc  ****     cout << setw(2) << 93 << "   " << Red; 
- 1806              		.loc 10 66 0
- 1807 04f2 E8000000 		call	_ZNSolsEi	#
- 1807      00
- 1808              	.LVL137:
- 1809              	.LBB1188:
- 1810              	.LBB1189:
- 533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1811              		.loc 5 533 0
- 1812 04f7 BA030000 		movl	$3, %edx	#,
+ 1811              		.loc 10 66 0
+ 1812 04fa E8000000 		call	_ZNSolsEi	#
  1812      00
- 1813 04fc BE000000 		movl	$.LC6, %esi	#,
- 1813      00
- 1814 0501 4889C7   		movq	%rax, %rdi	# D.65526,
- 1815              	.LBE1189:
- 1816              	.LBE1188:
+ 1813              	.LVL137:
+ 1814              	.LBB1196:
+ 1815              	.LBB1197:
+ 533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
+ 1816              		.loc 4 533 0
+ 1817 04ff BA030000 		movl	$3, %edx	#,
+ 1817      00
+ 1818 0504 BE000000 		movl	$.LC6, %esi	#,
+ 1818      00
+ 1819 0509 4889C7   		movq	%rax, %rdi	# D.65549,
+ 1820              	.LBE1197:
+ 1821              	.LBE1196:
   66:Fibonacci.cc  ****     cout << setw(2) << 93 << "   " << Red; 
- 1817              		.loc 10 66 0
- 1818 0504 4889C5   		movq	%rax, %rbp	#, D.65526
- 1819              	.LVL138:
- 1820              	.LBB1191:
- 1821              	.LBB1190:
+ 1822              		.loc 10 66 0
+ 1823 050c 4889C5   		movq	%rax, %rbp	#, D.65549
+ 1824              	.LVL138:
+ 1825              	.LBB1199:
+ 1826              	.LBB1198:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1822              		.loc 5 533 0
- 1823 0507 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1823      00
- 1824              	.LVL139:
- 1825              	.LBE1190:
- 1826              	.LBE1191:
- 1827              	.LBB1192:
- 1828              	.LBB1193:
- 1829              	.LBB1194:
- 1830              	.LBB1195:
- 1831              	.LBB1196:
- 1832              	.LBB1197:
- 1833              	.LBB1198:
+ 1827              		.loc 4 533 0
+ 1828 050f E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1828      00
+ 1829              	.LVL139:
+ 1830              	.LBE1198:
+ 1831              	.LBE1199:
+ 1832              	.LBB1200:
+ 1833              	.LBB1201:
+ 1834              	.LBB1202:
+ 1835              	.LBB1203:
+ 1836              	.LBB1204:
+ 1837              	.LBB1205:
+ 1838              	.LBB1206:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 1834              		.loc 11 290 0
- 1835 050c 488B3500 		movq	_ZL3Red(%rip), %rsi	# Red._M_dataplus._M_p, D.67355
- 1835      000000
- 1836              	.LVL140:
- 1837              	.LBE1198:
- 1838              	.LBE1197:
- 1839              	.LBE1196:
- 1840              	.LBE1195:
- 1841              	.LBE1194:
- 1842              		.loc 11 2755 0
- 1843 0513 4889EF   		movq	%rbp, %rdi	# D.65526,
- 1844 0516 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67355_393 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 1845 051a E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1845      00
- 1846              	.LVL141:
- 1847              	.LBE1193:
- 1848              	.LBE1192:
- 1849              	.LBB1199:
- 1850              	.LBB1200:
+ 1839              		.loc 11 290 0
+ 1840 0514 488B3500 		movq	_ZL3Red(%rip), %rsi	# Red._M_dataplus._M_p, D.67394
+ 1840      000000
+ 1841              	.LVL140:
+ 1842              	.LBE1206:
+ 1843              	.LBE1205:
+ 1844              	.LBE1204:
+ 1845              	.LBE1203:
+ 1846              	.LBE1202:
+ 1847              		.loc 11 2755 0
+ 1848 051b 4889EF   		movq	%rbp, %rdi	# D.65549,
+ 1849 051e 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67394_390 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 1850 0522 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1850      00
+ 1851              	.LVL141:
+ 1852              	.LBE1201:
+ 1853              	.LBE1200:
+ 1854              	.LBB1207:
+ 1855              	.LBB1208:
   69:Fibonacci.cc  ****         fibo_t f = functors[i];
- 1851              		.loc 10 69 0
- 1852 051f 488B2C24 		movq	(%rsp), %rbp	# functors, f
- 1853              	.LVL142:
+ 1856              		.loc 10 69 0
+ 1857 0527 488B2C24 		movq	(%rsp), %rbp	# functors, f
+ 1858              	.LVL142:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 1854              		.loc 10 70 0
- 1855 0523 BF5C0000 		movl	$92, %edi	#,
- 1855      00
- 1856 0528 FFD5     		call	*%rbp	# f
- 1857              	.LVL143:
- 1858 052a 4989C4   		movq	%rax, %r12	#, D.65534
- 1859 052d BF5B0000 		movl	$91, %edi	#,
- 1859      00
- 1860 0532 FFD5     		call	*%rbp	# f
- 1861              	.LVL144:
- 1862              	.LBB1201:
- 1863              	.LBB1202:
- 1864              		.loc 13 239 0
- 1865 0534 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 1865      000000
- 1866              	.LBE1202:
- 1867              	.LBE1201:
+ 1859              		.loc 10 70 0
+ 1860 052b BF5C0000 		movl	$92, %edi	#,
+ 1860      00
+ 1861 0530 FFD5     		call	*%rbp	# f
+ 1862              	.LVL143:
+ 1863 0532 BF5B0000 		movl	$91, %edi	#,
+ 1863      00
+ 1864 0537 4989C4   		movq	%rax, %r12	#, D.65557
+ 1865              	.LVL144:
+ 1866 053a FFD5     		call	*%rbp	# f
+ 1867              	.LVL145:
+ 1868              	.LBB1209:
+ 1869              	.LBB1210:
+ 1870              		.loc 13 239 0
+ 1871 053c 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 1871      000000
+ 1872              	.LBE1210:
+ 1873              	.LBE1209:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 1868              		.loc 10 70 0
- 1869 053b 4A8D3420 		leaq	(%rax,%r12), %rsi	#, tmp385
- 1870              	.LBB1222:
- 1871              	.LBB1223:
+ 1874              		.loc 10 70 0
+ 1875 0543 498D3404 		leaq	(%r12,%rax), %rsi	#, tmp385
+ 1876              	.LBB1230:
+ 1877              	.LBB1231:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1872              		.loc 5 204 0
- 1873 053f BF000000 		movl	$_ZSt4cout, %edi	#,
- 1873      00
- 1874              	.LVL145:
- 1875              	.LBE1223:
- 1876              	.LBE1222:
- 1877              	.LBB1233:
- 1878              	.LBB1213:
- 1879              	.LBB1203:
- 1880              	.LBB1204:
- 1881              		.loc 6 658 0
- 1882 0544 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66789_516 + -24B], MEM[(long int *)D.66789_516 + -24B]
- 1883              	.LVL146:
- 1884 0548 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66786_548 + 16B]
- 1884      00000017 
- 1884      000000
- 1885              	.LVL147:
- 1886              	.LBE1204:
- 1887              	.LBE1203:
- 1888              	.LBE1213:
- 1889              	.LBE1233:
- 1890              	.LBB1234:
- 1891              	.LBB1224:
+ 1878              		.loc 4 204 0
+ 1879 0547 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1879      00
+ 1880              	.LVL146:
+ 1881              	.LBE1231:
+ 1882              	.LBE1230:
+ 1883              	.LBB1241:
+ 1884              	.LBB1221:
+ 1885              	.LBB1211:
+ 1886              	.LBB1212:
+ 1887              		.loc 5 658 0
+ 1888 054c 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66828_522 + -24B], MEM[(long int *)D.66828_522 + -24B]
+ 1889              	.LVL147:
+ 1890 0550 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66825_531 + 16B]
+ 1890      00000017 
+ 1890      000000
+ 1891              	.LVL148:
+ 1892              	.LBE1212:
+ 1893              	.LBE1211:
+ 1894              	.LBE1221:
+ 1895              	.LBE1241:
+ 1896              	.LBB1242:
+ 1897              	.LBB1232:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1892              		.loc 5 204 0
- 1893 0553 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 1893      00
- 1894              	.LVL148:
- 1895              	.LBE1224:
- 1896              	.LBE1234:
- 1897              	.LBB1235:
- 1898              	.LBB1236:
+ 1898              		.loc 4 204 0
+ 1899 055b E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 1899      00
+ 1900              	.LVL149:
+ 1901              	.LBE1232:
+ 1902              	.LBE1242:
+ 1903              	.LBB1243:
+ 1904              	.LBB1244:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1899              		.loc 5 533 0
- 1900 0558 BA030000 		movl	$3, %edx	#,
- 1900      00
- 1901 055d BE000000 		movl	$.LC6, %esi	#,
- 1901      00
- 1902 0562 4889C7   		movq	%rax, %rdi	# D.66795,
- 1903 0565 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1903      00
- 1904              	.LVL149:
- 1905              	.LBE1236:
- 1906              	.LBE1235:
+ 1905              		.loc 4 533 0
+ 1906 0560 BA030000 		movl	$3, %edx	#,
+ 1906      00
+ 1907 0565 BE000000 		movl	$.LC6, %esi	#,
+ 1907      00
+ 1908 056a 4889C7   		movq	%rax, %rdi	# D.66834,
+ 1909 056d E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1909      00
+ 1910              	.LVL150:
+ 1911              	.LBE1244:
+ 1912              	.LBE1243:
   69:Fibonacci.cc  ****         fibo_t f = functors[i];
- 1907              		.loc 10 69 0
- 1908 056a 488B6C24 		movq	8(%rsp), %rbp	# functors, f
- 1908      08
- 1909              	.LVL150:
+ 1913              		.loc 10 69 0
+ 1914 0572 488B6C24 		movq	8(%rsp), %rbp	# functors, f
+ 1914      08
+ 1915              	.LVL151:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 1910              		.loc 10 70 0
- 1911 056f BF5C0000 		movl	$92, %edi	#,
- 1911      00
- 1912 0574 FFD5     		call	*%rbp	# f
- 1913              	.LVL151:
- 1914 0576 4989C4   		movq	%rax, %r12	#, D.65534
- 1915 0579 BF5B0000 		movl	$91, %edi	#,
- 1915      00
- 1916 057e FFD5     		call	*%rbp	# f
- 1917              	.LVL152:
- 1918              	.LBB1241:
- 1919              	.LBB1214:
- 1920              		.loc 13 239 0
- 1921 0580 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 1921      000000
- 1922              	.LBE1214:
- 1923              	.LBE1241:
+ 1916              		.loc 10 70 0
+ 1917 0577 BF5C0000 		movl	$92, %edi	#,
+ 1917      00
+ 1918 057c FFD5     		call	*%rbp	# f
+ 1919              	.LVL152:
+ 1920 057e BF5B0000 		movl	$91, %edi	#,
+ 1920      00
+ 1921 0583 4989C4   		movq	%rax, %r12	#, D.65557
+ 1922 0586 FFD5     		call	*%rbp	# f
+ 1923              	.LVL153:
+ 1924              	.LBB1249:
+ 1925              	.LBB1222:
+ 1926              		.loc 13 239 0
+ 1927 0588 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 1927      000000
+ 1928              	.LBE1222:
+ 1929              	.LBE1249:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 1924              		.loc 10 70 0
- 1925 0587 4A8D3420 		leaq	(%rax,%r12), %rsi	#, tmp389
- 1926              	.LBB1242:
- 1927              	.LBB1225:
+ 1930              		.loc 10 70 0
+ 1931 058f 498D3404 		leaq	(%r12,%rax), %rsi	#, tmp389
+ 1932              	.LBB1250:
+ 1933              	.LBB1233:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1928              		.loc 5 204 0
- 1929 058b BF000000 		movl	$_ZSt4cout, %edi	#,
- 1929      00
- 1930              	.LVL153:
- 1931              	.LBE1225:
- 1932              	.LBE1242:
- 1933              	.LBB1243:
- 1934              	.LBB1215:
- 1935              	.LBB1209:
- 1936              	.LBB1205:
- 1937              		.loc 6 658 0
- 1938 0590 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66789_600 + -24B], MEM[(long int *)D.66789_600 + -24B]
- 1939              	.LVL154:
- 1940 0594 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66786_643 + 16B]
- 1940      00000017 
- 1940      000000
- 1941              	.LVL155:
- 1942              	.LBE1205:
- 1943              	.LBE1209:
- 1944              	.LBE1215:
- 1945              	.LBE1243:
- 1946              	.LBB1244:
- 1947              	.LBB1226:
+ 1934              		.loc 4 204 0
+ 1935 0593 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1935      00
+ 1936              	.LVL154:
+ 1937              	.LBE1233:
+ 1938              	.LBE1250:
+ 1939              	.LBB1251:
+ 1940              	.LBB1223:
+ 1941              	.LBB1217:
+ 1942              	.LBB1213:
+ 1943              		.loc 5 658 0
+ 1944 0598 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66828_617 + -24B], MEM[(long int *)D.66828_617 + -24B]
+ 1945              	.LVL155:
+ 1946 059c 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66825_642 + 16B]
+ 1946      00000017 
+ 1946      000000
+ 1947              	.LVL156:
+ 1948              	.LBE1213:
+ 1949              	.LBE1217:
+ 1950              	.LBE1223:
+ 1951              	.LBE1251:
+ 1952              	.LBB1252:
+ 1953              	.LBB1234:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1948              		.loc 5 204 0
- 1949 059f E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 1949      00
- 1950              	.LVL156:
- 1951              	.LBE1226:
- 1952              	.LBE1244:
- 1953              	.LBB1245:
- 1954              	.LBB1237:
+ 1954              		.loc 4 204 0
+ 1955 05a7 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 1955      00
+ 1956              	.LVL157:
+ 1957              	.LBE1234:
+ 1958              	.LBE1252:
+ 1959              	.LBB1253:
+ 1960              	.LBB1245:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 1955              		.loc 5 533 0
- 1956 05a4 BA030000 		movl	$3, %edx	#,
- 1956      00
- 1957 05a9 BE000000 		movl	$.LC6, %esi	#,
- 1957      00
- 1958 05ae 4889C7   		movq	%rax, %rdi	# D.66795,
- 1959 05b1 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 1959      00
- 1960              	.LVL157:
- 1961              	.LBE1237:
- 1962              	.LBE1245:
+ 1961              		.loc 4 533 0
+ 1962 05ac BA030000 		movl	$3, %edx	#,
+ 1962      00
+ 1963 05b1 BE000000 		movl	$.LC6, %esi	#,
+ 1963      00
+ 1964 05b6 4889C7   		movq	%rax, %rdi	# D.66834,
+ 1965 05b9 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 1965      00
+ 1966              	.LVL158:
+ 1967              	.LBE1245:
+ 1968              	.LBE1253:
   69:Fibonacci.cc  ****         fibo_t f = functors[i];
- 1963              		.loc 10 69 0
- 1964 05b6 488B6C24 		movq	16(%rsp), %rbp	# functors, f
- 1964      10
- 1965              	.LVL158:
+ 1969              		.loc 10 69 0
+ 1970 05be 488B6C24 		movq	16(%rsp), %rbp	# functors, f
+ 1970      10
+ 1971              	.LVL159:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 1966              		.loc 10 70 0
- 1967 05bb BF5C0000 		movl	$92, %edi	#,
- 1967      00
- 1968 05c0 FFD5     		call	*%rbp	# f
- 1969              	.LVL159:
- 1970 05c2 4989C4   		movq	%rax, %r12	#, D.65534
- 1971 05c5 BF5B0000 		movl	$91, %edi	#,
- 1971      00
- 1972 05ca FFD5     		call	*%rbp	# f
- 1973              	.LVL160:
- 1974              	.LBB1246:
- 1975              	.LBB1216:
- 1976              		.loc 13 239 0
- 1977 05cc 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 1977      000000
- 1978              	.LBE1216:
- 1979              	.LBE1246:
+ 1972              		.loc 10 70 0
+ 1973 05c3 BF5C0000 		movl	$92, %edi	#,
+ 1973      00
+ 1974 05c8 FFD5     		call	*%rbp	# f
+ 1975              	.LVL160:
+ 1976 05ca BF5B0000 		movl	$91, %edi	#,
+ 1976      00
+ 1977 05cf 4989C4   		movq	%rax, %r12	#, D.65557
+ 1978 05d2 FFD5     		call	*%rbp	# f
+ 1979              	.LVL161:
+ 1980              	.LBB1254:
+ 1981              	.LBB1224:
+ 1982              		.loc 13 239 0
+ 1983 05d4 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 1983      000000
+ 1984              	.LBE1224:
+ 1985              	.LBE1254:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 1980              		.loc 10 70 0
- 1981 05d3 4A8D3420 		leaq	(%rax,%r12), %rsi	#, tmp393
- 1982              	.LBB1247:
- 1983              	.LBB1227:
+ 1986              		.loc 10 70 0
+ 1987 05db 498D3404 		leaq	(%r12,%rax), %rsi	#, tmp393
+ 1988              	.LBB1255:
+ 1989              	.LBB1235:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 1984              		.loc 5 204 0
- 1985 05d7 BF000000 		movl	$_ZSt4cout, %edi	#,
- 1985      00
- 1986              	.LVL161:
- 1987              	.LBE1227:
- 1988              	.LBE1247:
- 1989              	.LBB1248:
- 1990              	.LBB1217:
- 1991              	.LBB1210:
- 1992              	.LBB1206:
- 1993              		.loc 6 658 0
- 1994 05dc 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66789_442 + -24B], MEM[(long int *)D.66789_442 + -24B]
- 1995              	.LVL162:
- 1996 05e0 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66786_276 + 16B]
- 1996      00000017 
- 1996      000000
- 1997              	.LVL163:
- 1998              	.LBE1206:
- 1999              	.LBE1210:
- 2000              	.LBE1217:
- 2001              	.LBE1248:
- 2002              	.LBB1249:
- 2003              	.LBB1228:
+ 1990              		.loc 4 204 0
+ 1991 05df BF000000 		movl	$_ZSt4cout, %edi	#,
+ 1991      00
+ 1992              	.LVL162:
+ 1993              	.LBE1235:
+ 1994              	.LBE1255:
+ 1995              	.LBB1256:
+ 1996              	.LBB1225:
+ 1997              	.LBB1218:
+ 1998              	.LBB1214:
+ 1999              		.loc 5 658 0
+ 2000 05e4 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66828_7 + -24B], MEM[(long int *)D.66828_7 + -24B]
+ 2001              	.LVL163:
+ 2002 05e8 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66825_436 + 16B]
+ 2002      00000017 
+ 2002      000000
+ 2003              	.LVL164:
+ 2004              	.LBE1214:
+ 2005              	.LBE1218:
+ 2006              	.LBE1225:
+ 2007              	.LBE1256:
+ 2008              	.LBB1257:
+ 2009              	.LBB1236:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2004              		.loc 5 204 0
- 2005 05eb E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 2005      00
- 2006              	.LVL164:
- 2007              	.LBE1228:
- 2008              	.LBE1249:
- 2009              	.LBB1250:
- 2010              	.LBB1238:
+ 2010              		.loc 4 204 0
+ 2011 05f3 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 2011      00
+ 2012              	.LVL165:
+ 2013              	.LBE1236:
+ 2014              	.LBE1257:
+ 2015              	.LBB1258:
+ 2016              	.LBB1246:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2011              		.loc 5 533 0
- 2012 05f0 BA030000 		movl	$3, %edx	#,
- 2012      00
- 2013 05f5 BE000000 		movl	$.LC6, %esi	#,
- 2013      00
- 2014 05fa 4889C7   		movq	%rax, %rdi	# D.66795,
- 2015 05fd E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2015      00
- 2016              	.LVL165:
- 2017              	.LBE1238:
- 2018              	.LBE1250:
+ 2017              		.loc 4 533 0
+ 2018 05f8 BA030000 		movl	$3, %edx	#,
+ 2018      00
+ 2019 05fd BE000000 		movl	$.LC6, %esi	#,
+ 2019      00
+ 2020 0602 4889C7   		movq	%rax, %rdi	# D.66834,
+ 2021 0605 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2021      00
+ 2022              	.LVL166:
+ 2023              	.LBE1246:
+ 2024              	.LBE1258:
   69:Fibonacci.cc  ****         fibo_t f = functors[i];
- 2019              		.loc 10 69 0
- 2020 0602 488B6C24 		movq	24(%rsp), %rbp	# functors, f
- 2020      18
- 2021              	.LVL166:
+ 2025              		.loc 10 69 0
+ 2026 060a 488B6C24 		movq	24(%rsp), %rbp	# functors, f
+ 2026      18
+ 2027              	.LVL167:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 2022              		.loc 10 70 0
- 2023 0607 BF5C0000 		movl	$92, %edi	#,
- 2023      00
- 2024 060c FFD5     		call	*%rbp	# f
- 2025              	.LVL167:
- 2026 060e 4989C4   		movq	%rax, %r12	#, D.65534
- 2027 0611 BF5B0000 		movl	$91, %edi	#,
- 2027      00
- 2028 0616 FFD5     		call	*%rbp	# f
- 2029              	.LVL168:
- 2030              	.LBB1251:
- 2031              	.LBB1218:
- 2032              		.loc 13 239 0
- 2033 0618 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 2033      000000
- 2034              	.LBE1218:
- 2035              	.LBE1251:
+ 2028              		.loc 10 70 0
+ 2029 060f BF5C0000 		movl	$92, %edi	#,
+ 2029      00
+ 2030 0614 FFD5     		call	*%rbp	# f
+ 2031              	.LVL168:
+ 2032 0616 BF5B0000 		movl	$91, %edi	#,
+ 2032      00
+ 2033 061b 4989C4   		movq	%rax, %r12	#, D.65557
+ 2034 061e FFD5     		call	*%rbp	# f
+ 2035              	.LVL169:
+ 2036              	.LBB1259:
+ 2037              	.LBB1226:
+ 2038              		.loc 13 239 0
+ 2039 0620 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 2039      000000
+ 2040              	.LBE1226:
+ 2041              	.LBE1259:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 2036              		.loc 10 70 0
- 2037 061f 4A8D3420 		leaq	(%rax,%r12), %rsi	#, tmp397
- 2038              	.LBB1252:
- 2039              	.LBB1229:
+ 2042              		.loc 10 70 0
+ 2043 0627 498D3404 		leaq	(%r12,%rax), %rsi	#, tmp397
+ 2044              	.LBB1260:
+ 2045              	.LBB1237:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2040              		.loc 5 204 0
- 2041 0623 BF000000 		movl	$_ZSt4cout, %edi	#,
- 2041      00
- 2042              	.LVL169:
- 2043              	.LBE1229:
- 2044              	.LBE1252:
- 2045              	.LBB1253:
- 2046              	.LBB1219:
- 2047              	.LBB1211:
- 2048              	.LBB1207:
- 2049              		.loc 6 658 0
- 2050 0628 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66789_604 + -24B], MEM[(long int *)D.66789_604 + -24B]
- 2051              	.LVL170:
- 2052 062c 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66786_427 + 16B]
- 2052      00000017 
- 2052      000000
- 2053              	.LVL171:
- 2054              	.LBE1207:
- 2055              	.LBE1211:
- 2056              	.LBE1219:
- 2057              	.LBE1253:
- 2058              	.LBB1254:
- 2059              	.LBB1230:
+ 2046              		.loc 4 204 0
+ 2047 062b BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2047      00
+ 2048              	.LVL170:
+ 2049              	.LBE1237:
+ 2050              	.LBE1260:
+ 2051              	.LBB1261:
+ 2052              	.LBB1227:
+ 2053              	.LBB1219:
+ 2054              	.LBB1215:
+ 2055              		.loc 5 658 0
+ 2056 0630 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66828_422 + -24B], MEM[(long int *)D.66828_422 + -24B]
+ 2057              	.LVL171:
+ 2058 0634 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66825_415 + 16B]
+ 2058      00000017 
+ 2058      000000
+ 2059              	.LVL172:
+ 2060              	.LBE1215:
+ 2061              	.LBE1219:
+ 2062              	.LBE1227:
+ 2063              	.LBE1261:
+ 2064              	.LBB1262:
+ 2065              	.LBB1238:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2060              		.loc 5 204 0
- 2061 0637 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 2061      00
- 2062              	.LVL172:
- 2063              	.LBE1230:
- 2064              	.LBE1254:
- 2065              	.LBB1255:
- 2066              	.LBB1239:
+ 2066              		.loc 4 204 0
+ 2067 063f E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 2067      00
+ 2068              	.LVL173:
+ 2069              	.LBE1238:
+ 2070              	.LBE1262:
+ 2071              	.LBB1263:
+ 2072              	.LBB1247:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2067              		.loc 5 533 0
- 2068 063c BA030000 		movl	$3, %edx	#,
- 2068      00
- 2069 0641 BE000000 		movl	$.LC6, %esi	#,
- 2069      00
- 2070 0646 4889C7   		movq	%rax, %rdi	# D.66795,
- 2071 0649 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2071      00
- 2072              	.LVL173:
- 2073              	.LBE1239:
- 2074              	.LBE1255:
+ 2073              		.loc 4 533 0
+ 2074 0644 BA030000 		movl	$3, %edx	#,
+ 2074      00
+ 2075 0649 BE000000 		movl	$.LC6, %esi	#,
+ 2075      00
+ 2076 064e 4889C7   		movq	%rax, %rdi	# D.66834,
+ 2077 0651 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2077      00
+ 2078              	.LVL174:
+ 2079              	.LBE1247:
+ 2080              	.LBE1263:
   69:Fibonacci.cc  ****         fibo_t f = functors[i];
- 2075              		.loc 10 69 0
- 2076 064e 488B6C24 		movq	32(%rsp), %rbp	# functors, f
- 2076      20
- 2077              	.LVL174:
+ 2081              		.loc 10 69 0
+ 2082 0656 488B6C24 		movq	32(%rsp), %rbp	# functors, f
+ 2082      20
+ 2083              	.LVL175:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 2078              		.loc 10 70 0
- 2079 0653 BF5C0000 		movl	$92, %edi	#,
- 2079      00
- 2080 0658 FFD5     		call	*%rbp	# f
- 2081              	.LVL175:
- 2082 065a 4989C4   		movq	%rax, %r12	#, D.65534
- 2083 065d BF5B0000 		movl	$91, %edi	#,
- 2083      00
- 2084 0662 FFD5     		call	*%rbp	# f
- 2085              	.LVL176:
- 2086              	.LBB1256:
- 2087              	.LBB1220:
- 2088              		.loc 13 239 0 discriminator 1
- 2089 0664 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
- 2089      000000
- 2090              	.LBE1220:
- 2091              	.LBE1256:
+ 2084              		.loc 10 70 0
+ 2085 065b BF5C0000 		movl	$92, %edi	#,
+ 2085      00
+ 2086 0660 FFD5     		call	*%rbp	# f
+ 2087              	.LVL176:
+ 2088 0662 BF5B0000 		movl	$91, %edi	#,
+ 2088      00
+ 2089 0667 4989C4   		movq	%rax, %r12	#, D.65557
+ 2090 066a FFD5     		call	*%rbp	# f
+ 2091              	.LVL177:
+ 2092              	.LBB1264:
+ 2093              	.LBB1228:
+ 2094              		.loc 13 239 0
+ 2095 066c 488B1500 		movq	_ZSt4cout(%rip), %rdx	# cout._vptr.basic_ostream, cout._vptr.basic_ostream
+ 2095      000000
+ 2096              	.LBE1228:
+ 2097              	.LBE1264:
   70:Fibonacci.cc  ****         cout << setw(23) << f(92) + f(91) <<  "   ";
- 2092              		.loc 10 70 0 discriminator 1
- 2093 066b 4A8D3420 		leaq	(%rax,%r12), %rsi	#, tmp401
- 2094              	.LBB1257:
- 2095              	.LBB1231:
+ 2098              		.loc 10 70 0
+ 2099 0673 4A8D3420 		leaq	(%rax,%r12), %rsi	#, tmp401
+ 2100              	.LBB1265:
+ 2101              	.LBB1239:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2096              		.loc 5 204 0 discriminator 1
- 2097 066f BF000000 		movl	$_ZSt4cout, %edi	#,
- 2097      00
- 2098              	.LVL177:
- 2099              	.LBE1231:
- 2100              	.LBE1257:
- 2101              	.LBB1258:
- 2102              	.LBB1221:
- 2103              	.LBB1212:
- 2104              	.LBB1208:
- 2105              		.loc 6 658 0 discriminator 1
- 2106 0674 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66789_206 + -24B], MEM[(long int *)D.66789_206 + -24B]
- 2107              	.LVL178:
- 2108 0678 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66786_209 + 16B]
- 2108      00000017 
- 2108      000000
- 2109              	.LVL179:
- 2110              	.LBE1208:
- 2111              	.LBE1212:
- 2112              	.LBE1221:
- 2113              	.LBE1258:
- 2114              	.LBB1259:
- 2115              	.LBB1232:
+ 2102              		.loc 4 204 0
+ 2103 0677 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2103      00
+ 2104              	.LVL178:
+ 2105              	.LBE1239:
+ 2106              	.LBE1265:
+ 2107              	.LBB1266:
+ 2108              	.LBB1229:
+ 2109              	.LBB1220:
+ 2110              	.LBB1216:
+ 2111              		.loc 5 658 0
+ 2112 067c 488B52E8 		movq	-24(%rdx), %rdx	# MEM[(long int *)D.66828_203 + -24B], MEM[(long int *)D.66828_203 + -24B]
+ 2113              	.LVL179:
+ 2114 0680 48C78200 		movq	$23, _ZSt4cout+16(%rdx)	#, MEM[(streamsize *)D.66825_206 + 16B]
+ 2114      00000017 
+ 2114      000000
+ 2115              	.LVL180:
+ 2116              	.LBE1216:
+ 2117              	.LBE1220:
+ 2118              	.LBE1229:
+ 2119              	.LBE1266:
+ 2120              	.LBB1267:
+ 2121              	.LBB1240:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2116              		.loc 5 204 0 discriminator 1
- 2117 0683 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 2117      00
- 2118              	.LVL180:
- 2119              	.LBE1232:
- 2120              	.LBE1259:
- 2121              	.LBB1260:
- 2122              	.LBB1240:
+ 2122              		.loc 4 204 0
+ 2123 068b E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
+ 2123      00
+ 2124              	.LVL181:
+ 2125              	.LBE1240:
+ 2126              	.LBE1267:
+ 2127              	.LBB1268:
+ 2128              	.LBB1248:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2123              		.loc 5 533 0 discriminator 1
- 2124 0688 BA030000 		movl	$3, %edx	#,
- 2124      00
- 2125 068d BE000000 		movl	$.LC6, %esi	#,
- 2125      00
- 2126 0692 4889C7   		movq	%rax, %rdi	# D.66795,
- 2127 0695 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2127      00
- 2128              	.LVL181:
- 2129              	.LBE1240:
- 2130              	.LBE1260:
- 2131              	.LBE1200:
- 2132              	.LBE1199:
- 2133              	.LBB1261:
- 2134              	.LBB1262:
- 2135              	.LBB1263:
- 2136              	.LBB1264:
- 2137              	.LBB1265:
- 2138              	.LBB1266:
- 2139              	.LBB1267:
+ 2129              		.loc 4 533 0
+ 2130 0690 BA030000 		movl	$3, %edx	#,
+ 2130      00
+ 2131 0695 BE000000 		movl	$.LC6, %esi	#,
+ 2131      00
+ 2132 069a 4889C7   		movq	%rax, %rdi	# D.66834,
+ 2133 069d E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2133      00
+ 2134              	.LVL182:
+ 2135              	.LBE1248:
+ 2136              	.LBE1268:
+ 2137              	.LBE1208:
+ 2138              	.LBE1207:
+ 2139              	.LBB1269:
+ 2140              	.LBB1270:
+ 2141              	.LBB1271:
+ 2142              	.LBB1272:
+ 2143              	.LBB1273:
+ 2144              	.LBB1274:
+ 2145              	.LBB1275:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 2140              		.loc 11 290 0
- 2141 069a 488B3500 		movq	_ZL5Reset(%rip), %rsi	# Reset._M_dataplus._M_p, D.67372
- 2141      000000
- 2142              	.LVL182:
- 2143              	.LBE1267:
- 2144              	.LBE1266:
- 2145              	.LBE1265:
- 2146              	.LBE1264:
- 2147              	.LBE1263:
- 2148              		.loc 11 2755 0
- 2149 06a1 BF000000 		movl	$_ZSt4cout, %edi	#,
- 2149      00
- 2150 06a6 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67372_399 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 2151 06aa E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2151      00
- 2152              	.LVL183:
- 2153 06af 4989C4   		movq	%rax, %r12	#, D.67369
- 2154              	.LVL184:
- 2155              	.LBE1262:
- 2156              	.LBE1261:
- 2157              	.LBB1268:
- 2158              	.LBB1269:
- 2159              	.LBB1270:
+ 2146              		.loc 11 290 0
+ 2147 06a2 488B3500 		movq	_ZL5Reset(%rip), %rsi	# Reset._M_dataplus._M_p, D.67411
+ 2147      000000
+ 2148              	.LVL183:
+ 2149              	.LBE1275:
+ 2150              	.LBE1274:
+ 2151              	.LBE1273:
+ 2152              	.LBE1272:
+ 2153              	.LBE1271:
+ 2154              		.loc 11 2755 0
+ 2155 06a9 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2155      00
+ 2156 06ae 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67411_396 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 2157 06b2 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2157      00
+ 2158              	.LVL184:
+ 2159 06b7 4989C4   		movq	%rax, %r12	#, D.67408
+ 2160              	.LVL185:
+ 2161              	.LBE1270:
+ 2162              	.LBE1269:
+ 2163              	.LBB1276:
+ 2164              	.LBB1277:
+ 2165              	.LBB1278:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 2160              		.loc 5 563 0
- 2161 06b2 488B00   		movq	(%rax), %rax	# D.67369_402->_vptr.basic_ostream, D.67369_402->_vptr.basic_ostream
- 2162              	.LVL185:
- 2163              	.LBE1270:
- 2164              		.loc 10 104 0
- 2165 06b5 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67385_403 + -24B], MEM[(long int *)D.67385_403 + -24B]
- 2166 06b9 498BAC04 		movq	240(%r12,%rax), %rbp	# MEM[(const struct basic_ios *)D.67382_406 + 240B], D.67394
- 2166      F0000000 
- 2167              	.LVL186:
- 2168              	.LBB1284:
- 2169              	.LBB1271:
- 2170              	.LBB1272:
- 2171              	.LBB1273:
+ 2166              		.loc 4 563 0
+ 2167 06ba 488B00   		movq	(%rax), %rax	# D.67408_399->_vptr.basic_ostream, D.67408_399->_vptr.basic_ostream
+ 2168              	.LVL186:
+ 2169              	.LBE1278:
+ 2170              		.loc 10 104 0
+ 2171 06bd 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67424_400 + -24B], MEM[(long int *)D.67424_400 + -24B]
+ 2172 06c1 498BAC04 		movq	240(%r12,%rax), %rbp	# MEM[(const struct basic_ios *)D.67421_403 + 240B], D.67433
+ 2172      F0000000 
+ 2173              	.LVL187:
+ 2174              	.LBB1292:
+ 2175              	.LBB1279:
+ 2176              	.LBB1280:
+ 2177              	.LBB1281:
   50:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       if (!__f)
- 2172              		.loc 7 50 0
- 2173 06c1 4885ED   		testq	%rbp, %rbp	# D.67394
- 2174 06c4 0F84C300 		je	.L114	#,
- 2174      0000
- 2175              	.LVL187:
- 2176              	.LBE1273:
- 2177              	.LBE1272:
- 2178              	.LBB1275:
- 2179              	.LBB1276:
+ 2178              		.loc 6 50 0
+ 2179 06c9 4885ED   		testq	%rbp, %rbp	# D.67433
+ 2180 06cc 0F84C300 		je	.L118	#,
+ 2180      0000
+ 2181              	.LVL188:
+ 2182              	.LBE1281:
+ 2183              	.LBE1280:
+ 2184              	.LBB1283:
+ 2185              	.LBB1284:
  869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
- 2180              		.loc 12 869 0
- 2181 06ca 807D3800 		cmpb	$0, 56(%rbp)	#, MEM[(const struct ctype *)D.67394_407]._M_widen_ok
- 2182 06ce 7455     		je	.L95	#,
+ 2186              		.loc 12 869 0
+ 2187 06d2 807D3800 		cmpb	$0, 56(%rbp)	#, MEM[(const struct ctype *)D.67433_404]._M_widen_ok
+ 2188 06d6 7455     		je	.L99	#,
  870:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	  return _M_widen[static_cast<unsigned char>(__c)];
- 2183              		.loc 12 870 0
- 2184 06d0 0FB64543 		movzbl	67(%rbp), %eax	# MEM[(const struct ctype *)D.67394_407]._M_widen, D.67399
- 2185              	.LVL188:
- 2186              	.L96:
- 2187              	.LBE1276:
- 2188              	.LBE1275:
- 2189              	.LBE1271:
+ 2189              		.loc 12 870 0
+ 2190 06d8 0FB64543 		movzbl	67(%rbp), %eax	# MEM[(const struct ctype *)D.67433_404]._M_widen, D.67438
+ 2191              	.LVL189:
+ 2192              	.L100:
+ 2193              	.LBE1284:
+ 2194              	.LBE1283:
+ 2195              	.LBE1279:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 2190              		.loc 5 563 0
- 2191 06d4 0FBEF0   		movsbl	%al, %esi	# D.67399, D.67399
- 2192 06d7 4C89E7   		movq	%r12, %rdi	# D.67369,
- 2193 06da E8000000 		call	_ZNSo3putEc	#
- 2193      00
- 2194              	.LVL189:
- 2195              	.LBB1280:
- 2196              	.LBB1281:
- 2197              		.loc 5 585 0
- 2198 06df 4889C7   		movq	%rax, %rdi	# D.67379,
- 2199 06e2 E8000000 		call	_ZNSo5flushEv	#
+ 2196              		.loc 4 563 0
+ 2197 06dc 0FBEF0   		movsbl	%al, %esi	# D.67438, D.67438
+ 2198 06df 4C89E7   		movq	%r12, %rdi	# D.67408,
+ 2199 06e2 E8000000 		call	_ZNSo3putEc	#
  2199      00
- 2200              	.LEHE1:
- 2201              	.LVL190:
- 2202              	.LBE1281:
- 2203              	.LBE1280:
- 2204              	.LBE1284:
- 2205              	.LBE1269:
- 2206              	.LBE1268:
- 2207              	.LBE1312:
+ 2200              	.LVL190:
+ 2201              	.LBB1288:
+ 2202              	.LBB1289:
+ 2203              		.loc 4 585 0
+ 2204 06e7 4889C7   		movq	%rax, %rdi	# D.67418,
+ 2205 06ea E8000000 		call	_ZNSo5flushEv	#
+ 2205      00
+ 2206              	.LEHE1:
+ 2207              	.LVL191:
+ 2208              	.LBE1289:
+ 2209              	.LBE1288:
+ 2210              	.LBE1292:
+ 2211              	.LBE1277:
+ 2212              	.LBE1276:
+ 2213              	.LBE1320:
   73:Fibonacci.cc  **** } // void ShowResults()
- 2208              		.loc 10 73 0
- 2209 06e7 4883C430 		addq	$48, %rsp	#,
- 2210              		.cfi_remember_state
- 2211              		.cfi_def_cfa_offset 48
- 2212              	.LBB1313:
- 2213              	.LBB1289:
- 2214              	.LBB1290:
- 2215              	.LBB1291:
- 2216              	.LBB1292:
- 2217              	.LBB1293:
+ 2214              		.loc 10 73 0
+ 2215 06ef 4883C430 		addq	$48, %rsp	#,
+ 2216              		.cfi_remember_state
+ 2217              		.cfi_def_cfa_offset 48
+ 2218              	.LBB1321:
+ 2219              	.LBB1297:
+ 2220              	.LBB1298:
+ 2221              	.LBB1299:
+ 2222              	.LBB1300:
+ 2223              	.LBB1301:
   94:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h ****       }
   95:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h **** 
   96:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h ****       // __p is not permitted to be a null pointer.
   97:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h ****       void
   98:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h ****       deallocate(pointer __p, size_type)
   99:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ext/new_allocator.h ****       { ::operator delete(__p); }
- 2218              		.loc 16 100 0
- 2219 06eb 4889DF   		movq	%rbx, %rdi	# results$_M_impl$_M_start,
- 2220              	.LBE1293:
- 2221              	.LBE1292:
- 2222              	.LBE1291:
- 2223              	.LBE1290:
- 2224              	.LBE1289:
- 2225              	.LBE1313:
+ 2224              		.loc 16 100 0
+ 2225 06f3 4889DF   		movq	%rbx, %rdi	# results$_M_impl$_M_start,
+ 2226              	.LBE1301:
+ 2227              	.LBE1300:
+ 2228              	.LBE1299:
+ 2229              	.LBE1298:
+ 2230              	.LBE1297:
+ 2231              	.LBE1321:
   73:Fibonacci.cc  **** } // void ShowResults()
- 2226              		.loc 10 73 0
- 2227 06ee 5B       		popq	%rbx	#
- 2228              		.cfi_def_cfa_offset 40
- 2229              	.LVL191:
- 2230 06ef 5D       		popq	%rbp	#
- 2231              		.cfi_def_cfa_offset 32
- 2232              	.LVL192:
- 2233 06f0 415C     		popq	%r12	#
- 2234              		.cfi_def_cfa_offset 24
- 2235              	.LVL193:
- 2236 06f2 415D     		popq	%r13	#
- 2237              		.cfi_def_cfa_offset 16
- 2238              	.LVL194:
- 2239 06f4 415E     		popq	%r14	#
- 2240              		.cfi_def_cfa_offset 8
- 2241              	.LVL195:
- 2242              	.LBB1314:
- 2243              	.LBB1298:
- 2244              	.LBB1297:
- 2245              	.LBB1296:
- 2246              	.LBB1295:
- 2247              	.LBB1294:
- 2248              		.loc 16 100 0
- 2249 06f6 E9000000 		jmp	_ZdlPv	#
- 2249      00
- 2250              	.LVL196:
- 2251              	.L109:
- 2252              		.cfi_restore_state
- 2253 06fb BF000000 		movl	$_ZSt4cout, %edi	#,
- 2253      00
- 2254              	.LEHB2:
- 2255 0700 E8FBF8FF 		call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc.part.2	#
- 2255      FF
- 2256              	.LVL197:
- 2257 0705 E91AFAFF 		jmp	.L78	#
- 2257      FF
- 2258              	.LVL198:
- 2259              	.L75:
- 2260              	.LBE1294:
- 2261              	.LBE1295:
- 2262              	.LBE1296:
- 2263              	.LBE1297:
- 2264              	.LBE1298:
- 2265              	.LBB1299:
- 2266              	.LBB902:
- 2267              	.LBB900:
- 2268              	.LBB897:
- 2269              	.LBB893:
- 2270              	.LBB892:
+ 2232              		.loc 10 73 0
+ 2233 06f6 5B       		popq	%rbx	#
+ 2234              		.cfi_def_cfa_offset 40
+ 2235              	.LVL192:
+ 2236 06f7 5D       		popq	%rbp	#
+ 2237              		.cfi_def_cfa_offset 32
+ 2238              	.LVL193:
+ 2239 06f8 415C     		popq	%r12	#
+ 2240              		.cfi_def_cfa_offset 24
+ 2241              	.LVL194:
+ 2242 06fa 415D     		popq	%r13	#
+ 2243              		.cfi_def_cfa_offset 16
+ 2244 06fc 415E     		popq	%r14	#
+ 2245              		.cfi_def_cfa_offset 8
+ 2246              	.LVL195:
+ 2247              	.LBB1322:
+ 2248              	.LBB1306:
+ 2249              	.LBB1305:
+ 2250              	.LBB1304:
+ 2251              	.LBB1303:
+ 2252              	.LBB1302:
+ 2253              		.loc 16 100 0
+ 2254 06fe E9000000 		jmp	_ZdlPv	#
+ 2254      00
+ 2255              	.LVL196:
+ 2256              	.L113:
+ 2257              		.cfi_restore_state
+ 2258 0703 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2258      00
+ 2259              	.LEHB2:
+ 2260 0708 E8F3F8FF 		call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc.part.1	#
+ 2260      FF
+ 2261              	.LVL197:
+ 2262 070d E912FAFF 		jmp	.L82	#
+ 2262      FF
+ 2263              	.LVL198:
+ 2264              	.L79:
+ 2265              	.LBE1302:
+ 2266              	.LBE1303:
+ 2267              	.LBE1304:
+ 2268              	.LBE1305:
+ 2269              	.LBE1306:
+ 2270              	.LBB1307:
+ 2271              	.LBB910:
+ 2272              	.LBB908:
+ 2273              	.LBB905:
+ 2274              	.LBB901:
+ 2275              	.LBB900:
  871:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	this->_M_widen_init();
- 2271              		.loc 12 871 0
- 2272 070a 4889DF   		movq	%rbx, %rdi	# D.67153,
- 2273 070d E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
- 2273      00
- 2274              	.LVL199:
- 2275              		.loc 12 872 0
- 2276 0712 488B03   		movq	(%rbx), %rax	# MEM[(const struct ctype *)D.67153_275].D.22576._vptr.facet, MEM[(const struct 
- 2277 0715 BE0A0000 		movl	$10, %esi	#,
- 2277      00
- 2278 071a 4889DF   		movq	%rbx, %rdi	# D.67153,
- 2279 071d FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67161_288 + 48B]
- 2280              	.LEHE2:
- 2281              	.LVL200:
- 2282 0720 E96DF9FF 		jmp	.L76	#
- 2282      FF
- 2283              	.LVL201:
- 2284              	.L95:
- 2285              	.LBE892:
- 2286              	.LBE893:
- 2287              	.LBE897:
- 2288              	.LBE900:
- 2289              	.LBE902:
- 2290              	.LBE1299:
- 2291              	.LBB1300:
- 2292              	.LBB1287:
- 2293              	.LBB1285:
- 2294              	.LBB1282:
- 2295              	.LBB1278:
- 2296              	.LBB1277:
+ 2276              		.loc 12 871 0
+ 2277 0712 4889DF   		movq	%rbx, %rdi	# D.67192,
+ 2278 0715 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
+ 2278      00
+ 2279              	.LVL199:
+ 2280              		.loc 12 872 0
+ 2281 071a 488B03   		movq	(%rbx), %rax	# MEM[(const struct ctype *)D.67192_272].D.22576._vptr.facet, MEM[(const struct 
+ 2282 071d BE0A0000 		movl	$10, %esi	#,
+ 2282      00
+ 2283 0722 4889DF   		movq	%rbx, %rdi	# D.67192,
+ 2284 0725 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67200_285 + 48B]
+ 2285              	.LEHE2:
+ 2286              	.LVL200:
+ 2287 0728 E965F9FF 		jmp	.L80	#
+ 2287      FF
+ 2288              	.LVL201:
+ 2289              	.L99:
+ 2290              	.LBE900:
+ 2291              	.LBE901:
+ 2292              	.LBE905:
+ 2293              	.LBE908:
+ 2294              	.LBE910:
+ 2295              	.LBE1307:
+ 2296              	.LBB1308:
+ 2297              	.LBB1295:
+ 2298              	.LBB1293:
+ 2299              	.LBB1290:
+ 2300              	.LBB1286:
+ 2301              	.LBB1285:
  871:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	this->_M_widen_init();
- 2297              		.loc 12 871 0
- 2298 0725 4889EF   		movq	%rbp, %rdi	# D.67394,
- 2299              	.LEHB3:
- 2300 0728 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
- 2300      00
- 2301              	.LVL202:
- 2302              		.loc 12 872 0
- 2303 072d 488B4500 		movq	0(%rbp), %rax	# MEM[(const struct ctype *)D.67394_407].D.22576._vptr.facet, MEM[(const struct
- 2304 0731 BE0A0000 		movl	$10, %esi	#,
- 2304      00
- 2305 0736 4889EF   		movq	%rbp, %rdi	# D.67394,
- 2306 0739 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67402_420 + 48B]
- 2307              	.LVL203:
- 2308 073c EB96     		jmp	.L96	#
- 2309              	.LVL204:
- 2310              	.L92:
- 2311              	.LBE1277:
- 2312              	.LBE1278:
- 2313              	.LBE1282:
- 2314              	.LBE1285:
- 2315              	.LBE1287:
- 2316              	.LBE1300:
- 2317              	.LBB1301:
- 2318              	.LBB1180:
- 2319              	.LBB1178:
- 2320              	.LBB1175:
- 2321              	.LBB1171:
- 2322              	.LBB1170:
+ 2302              		.loc 12 871 0
+ 2303 072d 4889EF   		movq	%rbp, %rdi	# D.67433,
+ 2304              	.LEHB3:
+ 2305 0730 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
+ 2305      00
+ 2306              	.LVL202:
+ 2307              		.loc 12 872 0
+ 2308 0735 488B4500 		movq	0(%rbp), %rax	# MEM[(const struct ctype *)D.67433_404].D.22576._vptr.facet, MEM[(const struct
+ 2309 0739 BE0A0000 		movl	$10, %esi	#,
+ 2309      00
+ 2310 073e 4889EF   		movq	%rbp, %rdi	# D.67433,
+ 2311 0741 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67441_417 + 48B]
+ 2312              	.LVL203:
+ 2313 0744 EB96     		jmp	.L100	#
+ 2314              	.LVL204:
+ 2315              	.L96:
+ 2316              	.LBE1285:
+ 2317              	.LBE1286:
+ 2318              	.LBE1290:
+ 2319              	.LBE1293:
+ 2320              	.LBE1295:
+ 2321              	.LBE1308:
+ 2322              	.LBB1309:
+ 2323              	.LBB1188:
+ 2324              	.LBB1186:
+ 2325              	.LBB1183:
+ 2326              	.LBB1179:
+ 2327              	.LBB1178:
  871:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	this->_M_widen_init();
- 2323              		.loc 12 871 0
- 2324 073e 4889EF   		movq	%rbp, %rdi	# D.67331,
- 2325 0741 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
- 2325      00
- 2326              	.LVL205:
- 2327              		.loc 12 872 0
- 2328 0746 488B4500 		movq	0(%rbp), %rax	# MEM[(const struct ctype *)D.67331_373].D.22576._vptr.facet, MEM[(const struct
- 2329 074a BE0A0000 		movl	$10, %esi	#,
- 2329      00
- 2330 074f 4889EF   		movq	%rbp, %rdi	# D.67331,
- 2331 0752 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67339_386 + 48B]
- 2332              	.LEHE3:
- 2333              	.LVL206:
- 2334 0755 E963FDFF 		jmp	.L93	#
- 2334      FF
- 2335              	.LVL207:
- 2336              	.L81:
- 2337              	.LBE1170:
- 2338              	.LBE1171:
- 2339              	.LBE1175:
- 2340              	.LBE1178:
- 2341              	.LBE1180:
- 2342              	.LBE1301:
- 2343              	.LBB1302:
- 2344              	.LBB946:
- 2345              	.LBB943:
- 2346              	.LBB939:
- 2347              	.LBB934:
- 2348              	.LBB933:
+ 2328              		.loc 12 871 0
+ 2329 0746 4889EF   		movq	%rbp, %rdi	# D.67370,
+ 2330 0749 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
+ 2330      00
+ 2331              	.LVL205:
+ 2332              		.loc 12 872 0
+ 2333 074e 488B4500 		movq	0(%rbp), %rax	# MEM[(const struct ctype *)D.67370_370].D.22576._vptr.facet, MEM[(const struct
+ 2334 0752 BE0A0000 		movl	$10, %esi	#,
+ 2334      00
+ 2335 0757 4889EF   		movq	%rbp, %rdi	# D.67370,
+ 2336 075a FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67378_383 + 48B]
+ 2337              	.LEHE3:
+ 2338              	.LVL206:
+ 2339 075d E963FDFF 		jmp	.L97	#
+ 2339      FF
+ 2340              	.LVL207:
+ 2341              	.L85:
+ 2342              	.LBE1178:
+ 2343              	.LBE1179:
+ 2344              	.LBE1183:
+ 2345              	.LBE1186:
+ 2346              	.LBE1188:
+ 2347              	.LBE1309:
+ 2348              	.LBB1310:
+ 2349              	.LBB954:
+ 2350              	.LBB951:
+ 2351              	.LBB947:
+ 2352              	.LBB942:
+ 2353              	.LBB941:
  871:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	this->_M_widen_init();
- 2349              		.loc 12 871 0
- 2350 075a 4889DF   		movq	%rbx, %rdi	# D.67198,
- 2351              	.LEHB4:
- 2352 075d E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
- 2352      00
- 2353              	.LVL208:
- 2354              		.loc 12 872 0
- 2355 0762 488B03   		movq	(%rbx), %rax	# MEM[(const struct ctype *)D.67198_301].D.22576._vptr.facet, MEM[(const struct 
- 2356 0765 BE0A0000 		movl	$10, %esi	#,
- 2356      00
- 2357 076a 4889DF   		movq	%rbx, %rdi	# D.67198,
- 2358 076d FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67206_314 + 48B]
- 2359              	.LEHE4:
- 2360              	.LVL209:
- 2361 0770 E9E5F9FF 		jmp	.L82	#
- 2361      FF
- 2362              	.LVL210:
- 2363              	.L111:
- 2364              	.LEHB5:
- 2365              	.LBE933:
- 2366              	.LBE934:
- 2367              	.LBE939:
- 2368              	.LBE943:
- 2369              	.LBE946:
- 2370              	.LBE1302:
- 2371              	.LBB1303:
- 2372              	.LBB1155:
- 2373              	.LBB1140:
- 2374              	.LBB1138:
- 2375              	.LBB1135:
- 2376              	.LBB1131:
- 2377              	.LBB1129:
+ 2354              		.loc 12 871 0
+ 2355 0762 4889DF   		movq	%rbx, %rdi	# D.67237,
+ 2356              	.LEHB4:
+ 2357 0765 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
+ 2357      00
+ 2358              	.LVL208:
+ 2359              		.loc 12 872 0
+ 2360 076a 488B03   		movq	(%rbx), %rax	# MEM[(const struct ctype *)D.67237_298].D.22576._vptr.facet, MEM[(const struct 
+ 2361 076d BE0A0000 		movl	$10, %esi	#,
+ 2361      00
+ 2362 0772 4889DF   		movq	%rbx, %rdi	# D.67237,
+ 2363 0775 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67245_311 + 48B]
+ 2364              	.LEHE4:
+ 2365              	.LVL209:
+ 2366 0778 E9DDF9FF 		jmp	.L86	#
+ 2366      FF
+ 2367              	.LVL210:
+ 2368              	.L115:
+ 2369              	.LEHB5:
+ 2370              	.LBE941:
+ 2371              	.LBE942:
+ 2372              	.LBE947:
+ 2373              	.LBE951:
+ 2374              	.LBE954:
+ 2375              	.LBE1310:
+ 2376              	.LBB1311:
+ 2377              	.LBB1163:
+ 2378              	.LBB1148:
+ 2379              	.LBB1146:
+ 2380              	.LBB1143:
+ 2381              	.LBB1139:
+ 2382              	.LBB1137:
   51:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h **** 	__throw_bad_cast();
- 2378              		.loc 7 51 0
- 2379 0775 E8000000 		call	_ZSt16__throw_bad_castv	#
- 2379      00
- 2380              	.LEHE5:
- 2381              	.LVL211:
- 2382              	.L102:
- 2383 077a 4889C5   		movq	%rax, %rbp	#, tmp409
- 2384              	.LVL212:
- 2385              	.LBE1129:
- 2386              	.LBE1131:
- 2387              	.LBE1135:
- 2388              	.LBE1138:
- 2389              	.LBE1140:
- 2390              	.LBE1155:
- 2391              	.LBE1303:
- 2392              	.LBB1304:
- 2393              	.LBB1305:
- 2394              	.LBB1306:
- 2395              	.LBB1307:
- 2396              	.LBB1308:
- 2397              		.loc 16 100 0
- 2398 077d 4889DF   		movq	%rbx, %rdi	# results$_M_impl$_M_start,
- 2399 0780 E8000000 		call	_ZdlPv	#
- 2399      00
- 2400              	.LVL213:
- 2401 0785 4889EF   		movq	%rbp, %rdi	# tmp409,
- 2402              	.LEHB6:
- 2403 0788 E8000000 		call	_Unwind_Resume	#
- 2403      00
- 2404              	.LEHE6:
- 2405              	.LVL214:
- 2406              	.L114:
- 2407              	.LEHB7:
- 2408              	.LBE1308:
- 2409              	.LBE1307:
- 2410              	.LBE1306:
- 2411              	.LBE1305:
- 2412              	.LBE1304:
- 2413              	.LBB1309:
- 2414              	.LBB1288:
- 2415              	.LBB1286:
- 2416              	.LBB1283:
- 2417              	.LBB1279:
- 2418              	.LBB1274:
+ 2383              		.loc 6 51 0
+ 2384 077d E8000000 		call	_ZSt16__throw_bad_castv	#
+ 2384      00
+ 2385              	.LEHE5:
+ 2386              	.LVL211:
+ 2387              	.L106:
+ 2388 0782 4889C5   		movq	%rax, %rbp	#, tmp409
+ 2389              	.LVL212:
+ 2390              	.LBE1137:
+ 2391              	.LBE1139:
+ 2392              	.LBE1143:
+ 2393              	.LBE1146:
+ 2394              	.LBE1148:
+ 2395              	.LBE1163:
+ 2396              	.LBE1311:
+ 2397              	.LBB1312:
+ 2398              	.LBB1313:
+ 2399              	.LBB1314:
+ 2400              	.LBB1315:
+ 2401              	.LBB1316:
+ 2402              		.loc 16 100 0
+ 2403 0785 4889DF   		movq	%rbx, %rdi	# results$_M_impl$_M_start,
+ 2404 0788 E8000000 		call	_ZdlPv	#
+ 2404      00
+ 2405              	.LVL213:
+ 2406 078d 4889EF   		movq	%rbp, %rdi	# tmp409,
+ 2407              	.LEHB6:
+ 2408 0790 E8000000 		call	_Unwind_Resume	#
+ 2408      00
+ 2409              	.LEHE6:
+ 2410              	.LVL214:
+ 2411              	.L118:
+ 2412              	.LEHB7:
+ 2413              	.LBE1316:
+ 2414              	.LBE1315:
+ 2415              	.LBE1314:
+ 2416              	.LBE1313:
+ 2417              	.LBE1312:
+ 2418              	.LBB1317:
+ 2419              	.LBB1296:
+ 2420              	.LBB1294:
+ 2421              	.LBB1291:
+ 2422              	.LBB1287:
+ 2423              	.LBB1282:
   51:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h **** 	__throw_bad_cast();
- 2419              		.loc 7 51 0
- 2420 078d E8000000 		call	_ZSt16__throw_bad_castv	#
- 2420      00
- 2421              	.LVL215:
- 2422              	.L113:
- 2423              	.LBE1274:
- 2424              	.LBE1279:
- 2425              	.LBE1283:
- 2426              	.LBE1286:
- 2427              	.LBE1288:
- 2428              	.LBE1309:
- 2429              	.LBB1310:
- 2430              	.LBB1181:
- 2431              	.LBB1179:
- 2432              	.LBB1176:
- 2433              	.LBB1172:
- 2434              	.LBB1167:
- 2435 0792 E8000000 		call	_ZSt16__throw_bad_castv	#
- 2435      00
- 2436              	.LEHE7:
- 2437              	.LVL216:
- 2438              	.L80:
- 2439              	.LBE1167:
- 2440              	.LBE1172:
- 2441              	.LBE1176:
- 2442              	.LBE1179:
- 2443              	.LBE1181:
- 2444              	.LBE1310:
- 2445              	.LBB1311:
- 2446              	.LBB903:
- 2447              	.LBB901:
- 2448              	.LBB898:
- 2449              	.LBB894:
- 2450              	.LBB889:
- 2451              		.p2align 4,,5
- 2452              	.LEHB8:
- 2453 0797 E8000000 		call	_ZSt16__throw_bad_castv	#
- 2453      00
- 2454              	.LEHE8:
- 2455              	.LVL217:
- 2456              	.LBE889:
- 2457              	.LBE894:
- 2458              	.LBE898:
- 2459              	.LBE901:
- 2460              	.LBE903:
- 2461              	.LBE1311:
- 2462              	.LBE1314:
- 2463              		.cfi_endproc
- 2464              	.LFE3251:
- 2465              		.globl	__gxx_personality_v0
- 2466              		.section	.gcc_except_table,"a",@progbits
- 2467              	.LLSDA3251:
- 2468 0000 FF       		.byte	0xff
- 2469 0001 FF       		.byte	0xff
- 2470 0002 01       		.byte	0x1
- 2471 0003 32       		.uleb128 .LLSDACSE3251-.LLSDACSB3251
- 2472              	.LLSDACSB3251:
- 2473 0004 1C       		.uleb128 .LEHB0-.LFB3251
- 2474 0005 C502     		.uleb128 .LEHE0-.LEHB0
- 2475 0007 00       		.uleb128 0
- 2476 0008 00       		.uleb128 0
- 2477 0009 9D03     		.uleb128 .LEHB1-.LFB3251
- 2478 000b AA0A     		.uleb128 .LEHE1-.LEHB1
- 2479 000d DA0E     		.uleb128 .L102-.LFB3251
- 2480 000f 00       		.uleb128 0
- 2481 0010 E00D     		.uleb128 .LEHB2-.LFB3251
- 2482 0012 20       		.uleb128 .LEHE2-.LEHB2
- 2483 0013 00       		.uleb128 0
- 2484 0014 00       		.uleb128 0
- 2485 0015 880E     		.uleb128 .LEHB3-.LFB3251
- 2486 0017 2D       		.uleb128 .LEHE3-.LEHB3
- 2487 0018 DA0E     		.uleb128 .L102-.LFB3251
- 2488 001a 00       		.uleb128 0
- 2489 001b BD0E     		.uleb128 .LEHB4-.LFB3251
- 2490 001d 13       		.uleb128 .LEHE4-.LEHB4
- 2491 001e 00       		.uleb128 0
- 2492 001f 00       		.uleb128 0
- 2493 0020 D50E     		.uleb128 .LEHB5-.LFB3251
- 2494 0022 05       		.uleb128 .LEHE5-.LEHB5
- 2495 0023 DA0E     		.uleb128 .L102-.LFB3251
- 2496 0025 00       		.uleb128 0
- 2497 0026 E80E     		.uleb128 .LEHB6-.LFB3251
- 2498 0028 05       		.uleb128 .LEHE6-.LEHB6
- 2499 0029 00       		.uleb128 0
- 2500 002a 00       		.uleb128 0
- 2501 002b ED0E     		.uleb128 .LEHB7-.LFB3251
- 2502 002d 0A       		.uleb128 .LEHE7-.LEHB7
- 2503 002e DA0E     		.uleb128 .L102-.LFB3251
- 2504 0030 00       		.uleb128 0
- 2505 0031 F70E     		.uleb128 .LEHB8-.LFB3251
- 2506 0033 05       		.uleb128 .LEHE8-.LEHB8
- 2507 0034 00       		.uleb128 0
- 2508 0035 00       		.uleb128 0
- 2509              	.LLSDACSE3251:
- 2510              		.text
- 2512              		.section	.rodata.str1.8
- 2513 0064 00000000 		.align 8
- 2514              	.LC8:
- 2515 0068 4E6F7720 		.string	"Now we'll spend a minute or two running the slow, bad version of Fibonacci"
- 2515      7765276C 
- 2515      6C207370 
- 2515      656E6420 
- 2515      61206D69 
- 2516              		.section	.rodata.str1.1
- 2517              	.LC10:
- 2518 0007 5B00     		.string	"["
- 2519              	.LC11:
- 2520 0009 5D3A0900 		.string	"]:\t"
- 2521              	.LC13:
- 2522 000d 20746F6F 		.string	" took "
- 2522      6B2000
- 2523              	.LC14:
- 2524 0014 20736563 		.string	" seconds to run just ONCE "
- 2524      6F6E6473 
- 2524      20746F20 
- 2524      72756E20 
- 2524      6A757374 
- 2525              		.text
- 2526 079c 0F1F4000 		.p2align 4,,15
- 2527              		.globl	_Z21TestBadAndInefficientv
- 2529              	_Z21TestBadAndInefficientv:
- 2530              	.LFB3256:
+ 2424              		.loc 6 51 0
+ 2425 0795 E8000000 		call	_ZSt16__throw_bad_castv	#
+ 2425      00
+ 2426              	.LVL215:
+ 2427              	.L117:
+ 2428              	.LBE1282:
+ 2429              	.LBE1287:
+ 2430              	.LBE1291:
+ 2431              	.LBE1294:
+ 2432              	.LBE1296:
+ 2433              	.LBE1317:
+ 2434              	.LBB1318:
+ 2435              	.LBB1189:
+ 2436              	.LBB1187:
+ 2437              	.LBB1184:
+ 2438              	.LBB1180:
+ 2439              	.LBB1175:
+ 2440 079a E8000000 		call	_ZSt16__throw_bad_castv	#
+ 2440      00
+ 2441              	.LEHE7:
+ 2442              	.LVL216:
+ 2443              	.L84:
+ 2444              	.LBE1175:
+ 2445              	.LBE1180:
+ 2446              	.LBE1184:
+ 2447              	.LBE1187:
+ 2448              	.LBE1189:
+ 2449              	.LBE1318:
+ 2450              	.LBB1319:
+ 2451              	.LBB911:
+ 2452              	.LBB909:
+ 2453              	.LBB906:
+ 2454              	.LBB902:
+ 2455              	.LBB897:
+ 2456 079f 90       		.p2align 4,,5
+ 2457              	.LEHB8:
+ 2458 07a0 E8000000 		call	_ZSt16__throw_bad_castv	#
+ 2458      00
+ 2459              	.LEHE8:
+ 2460              	.LVL217:
+ 2461              	.LBE897:
+ 2462              	.LBE902:
+ 2463              	.LBE906:
+ 2464              	.LBE909:
+ 2465              	.LBE911:
+ 2466              	.LBE1319:
+ 2467              	.LBE1322:
+ 2468              		.cfi_endproc
+ 2469              	.LFE3252:
+ 2470              		.globl	__gxx_personality_v0
+ 2471              		.section	.gcc_except_table,"a",@progbits
+ 2472              	.LLSDA3252:
+ 2473 0000 FF       		.byte	0xff
+ 2474 0001 FF       		.byte	0xff
+ 2475 0002 01       		.byte	0x1
+ 2476 0003 32       		.uleb128 .LLSDACSE3252-.LLSDACSB3252
+ 2477              	.LLSDACSB3252:
+ 2478 0004 1C       		.uleb128 .LEHB0-.LFB3252
+ 2479 0005 C502     		.uleb128 .LEHE0-.LEHB0
+ 2480 0007 00       		.uleb128 0
+ 2481 0008 00       		.uleb128 0
+ 2482 0009 9E03     		.uleb128 .LEHB1-.LFB3252
+ 2483 000b B10A     		.uleb128 .LEHE1-.LEHB1
+ 2484 000d E20E     		.uleb128 .L106-.LFB3252
+ 2485 000f 00       		.uleb128 0
+ 2486 0010 E80D     		.uleb128 .LEHB2-.LFB3252
+ 2487 0012 20       		.uleb128 .LEHE2-.LEHB2
+ 2488 0013 00       		.uleb128 0
+ 2489 0014 00       		.uleb128 0
+ 2490 0015 900E     		.uleb128 .LEHB3-.LFB3252
+ 2491 0017 2D       		.uleb128 .LEHE3-.LEHB3
+ 2492 0018 E20E     		.uleb128 .L106-.LFB3252
+ 2493 001a 00       		.uleb128 0
+ 2494 001b C50E     		.uleb128 .LEHB4-.LFB3252
+ 2495 001d 13       		.uleb128 .LEHE4-.LEHB4
+ 2496 001e 00       		.uleb128 0
+ 2497 001f 00       		.uleb128 0
+ 2498 0020 DD0E     		.uleb128 .LEHB5-.LFB3252
+ 2499 0022 05       		.uleb128 .LEHE5-.LEHB5
+ 2500 0023 E20E     		.uleb128 .L106-.LFB3252
+ 2501 0025 00       		.uleb128 0
+ 2502 0026 F00E     		.uleb128 .LEHB6-.LFB3252
+ 2503 0028 05       		.uleb128 .LEHE6-.LEHB6
+ 2504 0029 00       		.uleb128 0
+ 2505 002a 00       		.uleb128 0
+ 2506 002b F50E     		.uleb128 .LEHB7-.LFB3252
+ 2507 002d 0A       		.uleb128 .LEHE7-.LEHB7
+ 2508 002e E20E     		.uleb128 .L106-.LFB3252
+ 2509 0030 00       		.uleb128 0
+ 2510 0031 800F     		.uleb128 .LEHB8-.LFB3252
+ 2511 0033 05       		.uleb128 .LEHE8-.LEHB8
+ 2512 0034 00       		.uleb128 0
+ 2513 0035 00       		.uleb128 0
+ 2514              	.LLSDACSE3252:
+ 2515              		.text
+ 2517              		.section	.rodata.str1.8
+ 2518 0064 00000000 		.align 8
+ 2519              	.LC8:
+ 2520 0068 4E6F7720 		.string	"Now we'll spend a minute or two running the slow, bad version of Fibonacci"
+ 2520      7765276C 
+ 2520      6C207370 
+ 2520      656E6420 
+ 2520      61206D69 
+ 2521              		.section	.rodata.str1.1
+ 2522              	.LC10:
+ 2523 0007 5B00     		.string	"["
+ 2524              	.LC11:
+ 2525 0009 5D3A0900 		.string	"]:\t"
+ 2526              	.LC13:
+ 2527 000d 20746F6F 		.string	" took "
+ 2527      6B2000
+ 2528              	.LC14:
+ 2529 0014 20736563 		.string	" seconds to run just ONCE "
+ 2529      6F6E6473 
+ 2529      20746F20 
+ 2529      72756E20 
+ 2529      6A757374 
+ 2530              		.text
+ 2531 07a5 66662E0F 		.p2align 4,,15
+ 2531      1F840000 
+ 2531      000000
+ 2532              		.globl	_Z21TestBadAndInefficientv
+ 2534              	_Z21TestBadAndInefficientv:
+ 2535              	.LFB3259:
   77:Fibonacci.cc  **** {
- 2531              		.loc 10 77 0
- 2532              		.cfi_startproc
- 2533              	.LVL218:
- 2534 07a0 4154     		pushq	%r12	#
- 2535              		.cfi_def_cfa_offset 16
- 2536              		.cfi_offset 12, -16
- 2537              	.LBB1452:
- 2538              	.LBB1453:
- 2539              		.loc 11 2755 0
- 2540 07a2 BF000000 		movl	$_ZSt4cout, %edi	#,
- 2540      00
- 2541              	.LBE1453:
- 2542              	.LBE1452:
+ 2536              		.loc 10 77 0
+ 2537              		.cfi_startproc
+ 2538              	.LVL218:
+ 2539 07b0 4154     		pushq	%r12	#
+ 2540              		.cfi_def_cfa_offset 16
+ 2541              		.cfi_offset 12, -16
+ 2542              	.LBB1460:
+ 2543              	.LBB1461:
+ 2544              		.loc 11 2755 0
+ 2545 07b2 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2545      00
+ 2546              	.LBE1461:
+ 2547              	.LBE1460:
   77:Fibonacci.cc  **** {
- 2543              		.loc 10 77 0
- 2544 07a7 55       		pushq	%rbp	#
- 2545              		.cfi_def_cfa_offset 24
- 2546              		.cfi_offset 6, -24
- 2547 07a8 53       		pushq	%rbx	#
- 2548              		.cfi_def_cfa_offset 32
- 2549              		.cfi_offset 3, -32
- 2550 07a9 4883EC20 		subq	$32, %rsp	#,
- 2551              		.cfi_def_cfa_offset 64
- 2552              	.LBB1461:
- 2553              	.LBB1459:
- 2554              	.LBB1454:
- 2555              	.LBB1455:
- 2556              	.LBB1456:
- 2557              	.LBB1457:
- 2558              	.LBB1458:
+ 2548              		.loc 10 77 0
+ 2549 07b7 55       		pushq	%rbp	#
+ 2550              		.cfi_def_cfa_offset 24
+ 2551              		.cfi_offset 6, -24
+ 2552 07b8 53       		pushq	%rbx	#
+ 2553              		.cfi_def_cfa_offset 32
+ 2554              		.cfi_offset 3, -32
+ 2555 07b9 4883EC20 		subq	$32, %rsp	#,
+ 2556              		.cfi_def_cfa_offset 64
+ 2557              	.LBB1469:
+ 2558              	.LBB1467:
+ 2559              	.LBB1462:
+ 2560              	.LBB1463:
+ 2561              	.LBB1464:
+ 2562              	.LBB1465:
+ 2563              	.LBB1466:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 2559              		.loc 11 290 0
- 2560 07ad 488B3500 		movq	_ZL10BeginTitle(%rip), %rsi	# BeginTitle._M_dataplus._M_p, D.67557
- 2560      000000
- 2561              	.LVL219:
- 2562              	.LBE1458:
- 2563              	.LBE1457:
- 2564              	.LBE1456:
- 2565              	.LBE1455:
- 2566              	.LBE1454:
- 2567              		.loc 11 2755 0
- 2568 07b4 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67557_141 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 2569 07b8 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2569      00
- 2570              	.LVL220:
- 2571              	.LBE1459:
- 2572              	.LBE1461:
- 2573              	.LBB1462:
- 2574              	.LBB1463:
+ 2564              		.loc 11 290 0
+ 2565 07bd 488B3500 		movq	_ZL10BeginTitle(%rip), %rsi	# BeginTitle._M_dataplus._M_p, D.67593
+ 2565      000000
+ 2566              	.LVL219:
+ 2567              	.LBE1466:
+ 2568              	.LBE1465:
+ 2569              	.LBE1464:
+ 2570              	.LBE1463:
+ 2571              	.LBE1462:
+ 2572              		.loc 11 2755 0
+ 2573 07c4 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67593_140 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 2574 07c8 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2574      00
+ 2575              	.LVL220:
+ 2576              	.LBE1467:
+ 2577              	.LBE1469:
+ 2578              	.LBB1470:
+ 2579              	.LBB1471:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2575              		.loc 5 533 0
- 2576 07bd BA4A0000 		movl	$74, %edx	#,
- 2576      00
- 2577 07c2 BE000000 		movl	$.LC8, %esi	#,
- 2577      00
- 2578 07c7 4889C7   		movq	%rax, %rdi	# D.67554,
- 2579              	.LBE1463:
- 2580              	.LBE1462:
- 2581              	.LBB1465:
- 2582              	.LBB1460:
- 2583              		.loc 11 2755 0
- 2584 07ca 4889C3   		movq	%rax, %rbx	#, D.67554
- 2585              	.LVL221:
- 2586              	.LBE1460:
- 2587              	.LBE1465:
- 2588              	.LBB1466:
- 2589              	.LBB1464:
+ 2580              		.loc 4 533 0
+ 2581 07cd BA4A0000 		movl	$74, %edx	#,
+ 2581      00
+ 2582 07d2 BE000000 		movl	$.LC8, %esi	#,
+ 2582      00
+ 2583 07d7 4889C7   		movq	%rax, %rdi	# D.67590,
+ 2584              	.LBE1471:
+ 2585              	.LBE1470:
+ 2586              	.LBB1473:
+ 2587              	.LBB1468:
+ 2588              		.loc 11 2755 0
+ 2589 07da 4889C3   		movq	%rax, %rbx	#, D.67590
+ 2590              	.LVL221:
+ 2591              	.LBE1468:
+ 2592              	.LBE1473:
+ 2593              	.LBB1474:
+ 2594              	.LBB1472:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2590              		.loc 5 533 0
- 2591 07cd E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2591      00
- 2592              	.LVL222:
- 2593              	.LBE1464:
- 2594              	.LBE1466:
- 2595              	.LBB1467:
- 2596              	.LBB1468:
- 2597              	.LBB1469:
- 2598              	.LBB1470:
- 2599              	.LBB1471:
- 2600              	.LBB1472:
- 2601              	.LBB1473:
+ 2595              		.loc 4 533 0
+ 2596 07dd E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2596      00
+ 2597              	.LVL222:
+ 2598              	.LBE1472:
+ 2599              	.LBE1474:
+ 2600              	.LBB1475:
+ 2601              	.LBB1476:
+ 2602              	.LBB1477:
+ 2603              	.LBB1478:
+ 2604              	.LBB1479:
+ 2605              	.LBB1480:
+ 2606              	.LBB1481:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 2602              		.loc 11 290 0
- 2603 07d2 488B3500 		movq	_ZL8EndTitle(%rip), %rsi	# EndTitle._M_dataplus._M_p, D.67570
- 2603      000000
- 2604              	.LVL223:
- 2605              	.LBE1473:
- 2606              	.LBE1472:
- 2607              	.LBE1471:
- 2608              	.LBE1470:
- 2609              	.LBE1469:
- 2610              		.loc 11 2755 0
- 2611 07d9 4889DF   		movq	%rbx, %rdi	# D.67554,
- 2612 07dc 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67570_147 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 2613 07e0 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2613      00
- 2614              	.LVL224:
- 2615 07e5 4889C5   		movq	%rax, %rbp	#, D.67573
- 2616              	.LVL225:
- 2617              	.LBE1468:
- 2618              	.LBE1467:
- 2619              	.LBB1474:
- 2620              	.LBB1475:
- 2621              	.LBB1476:
+ 2607              		.loc 11 290 0
+ 2608 07e2 488B3500 		movq	_ZL8EndTitle(%rip), %rsi	# EndTitle._M_dataplus._M_p, D.67606
+ 2608      000000
+ 2609              	.LVL223:
+ 2610              	.LBE1481:
+ 2611              	.LBE1480:
+ 2612              	.LBE1479:
+ 2613              	.LBE1478:
+ 2614              	.LBE1477:
+ 2615              		.loc 11 2755 0
+ 2616 07e9 4889DF   		movq	%rbx, %rdi	# D.67590,
+ 2617 07ec 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67606_146 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 2618 07f0 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2618      00
+ 2619              	.LVL224:
+ 2620 07f5 4889C5   		movq	%rax, %rbp	#, D.67609
+ 2621              	.LVL225:
+ 2622              	.LBE1476:
+ 2623              	.LBE1475:
+ 2624              	.LBB1482:
+ 2625              	.LBB1483:
+ 2626              	.LBB1484:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 2622              		.loc 5 563 0
- 2623 07e8 488B00   		movq	(%rax), %rax	# D.67573_150->_vptr.basic_ostream, D.67573_150->_vptr.basic_ostream
- 2624              	.LVL226:
- 2625              	.LBE1476:
- 2626              		.loc 10 104 0
- 2627 07eb 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67585_151 + -24B], MEM[(long int *)D.67585_151 + -24B]
- 2628 07ef 488B9C05 		movq	240(%rbp,%rax), %rbx	# MEM[(const struct basic_ios *)D.67582_154 + 240B], D.67594
- 2628      F0000000 
- 2629              	.LVL227:
- 2630              	.LBB1491:
- 2631              	.LBB1477:
- 2632              	.LBB1478:
- 2633              	.LBB1479:
+ 2627              		.loc 4 563 0
+ 2628 07f8 488B00   		movq	(%rax), %rax	# D.67609_149->_vptr.basic_ostream, D.67609_149->_vptr.basic_ostream
+ 2629              	.LVL226:
+ 2630              	.LBE1484:
+ 2631              		.loc 10 104 0
+ 2632 07fb 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67621_150 + -24B], MEM[(long int *)D.67621_150 + -24B]
+ 2633 07ff 488B9C05 		movq	240(%rbp,%rax), %rbx	# MEM[(const struct basic_ios *)D.67618_153 + 240B], D.67630
+ 2633      F0000000 
+ 2634              	.LVL227:
+ 2635              	.LBB1499:
+ 2636              	.LBB1485:
+ 2637              	.LBB1486:
+ 2638              	.LBB1487:
   50:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       if (!__f)
- 2634              		.loc 7 50 0
- 2635 07f7 4885DB   		testq	%rbx, %rbx	# D.67594
- 2636 07fa 0F840D02 		je	.L124	#,
- 2636      0000
- 2637              	.LVL228:
- 2638              	.LBE1479:
- 2639              	.LBE1478:
- 2640              	.LBB1481:
- 2641              	.LBB1482:
+ 2639              		.loc 6 50 0
+ 2640 0807 4885DB   		testq	%rbx, %rbx	# D.67630
+ 2641 080a 0F844002 		je	.L129	#,
+ 2641      0000
+ 2642              	.LVL228:
+ 2643              	.LBE1487:
+ 2644              	.LBE1486:
+ 2645              	.LBB1489:
+ 2646              	.LBB1490:
  869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
- 2642              		.loc 12 869 0
- 2643 0800 807B3800 		cmpb	$0, 56(%rbx)	#, MEM[(const struct ctype *)D.67594_155]._M_widen_ok
- 2644 0804 0F84E801 		je	.L117	#,
- 2644      0000
+ 2647              		.loc 12 869 0
+ 2648 0810 807B3800 		cmpb	$0, 56(%rbx)	#, MEM[(const struct ctype *)D.67630_154]._M_widen_ok
+ 2649 0814 0F841B02 		je	.L121	#,
+ 2649      0000
  870:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	  return _M_widen[static_cast<unsigned char>(__c)];
- 2645              		.loc 12 870 0
- 2646 080a 0FB64343 		movzbl	67(%rbx), %eax	# MEM[(const struct ctype *)D.67594_155]._M_widen, D.67599
- 2647              	.LVL229:
- 2648              	.L118:
- 2649              	.LBE1482:
- 2650              	.LBE1481:
- 2651              	.LBE1477:
+ 2650              		.loc 12 870 0
+ 2651 081a 0FB64343 		movzbl	67(%rbx), %eax	# MEM[(const struct ctype *)D.67630_154]._M_widen, D.67635
+ 2652              	.LVL229:
+ 2653              	.L122:
+ 2654              	.LBE1490:
+ 2655              	.LBE1489:
+ 2656              	.LBE1485:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 2652              		.loc 5 563 0
- 2653 080e 0FBEF0   		movsbl	%al, %esi	# D.67599, D.67599
- 2654 0811 4889EF   		movq	%rbp, %rdi	# D.67573,
- 2655              	.LBE1491:
- 2656              	.LBE1475:
- 2657              	.LBE1474:
- 2658              	.LBB1498:
- 2659              	.LBB1499:
- 2660              	.LBB1500:
- 2661              	.LBB1501:
- 2662              	.LBB1502:
+ 2657              		.loc 4 563 0
+ 2658 081e 0FBEF0   		movsbl	%al, %esi	# D.67635, D.67635
+ 2659 0821 4889EF   		movq	%rbp, %rdi	# D.67609,
+ 2660              	.LBE1499:
+ 2661              	.LBE1483:
+ 2662              	.LBE1482:
+ 2663              	.LBB1506:
+ 2664              	.LBB1507:
+ 2665              	.LBB1508:
+ 2666              	.LBB1509:
+ 2667              	.LBB1510:
   79:Fibonacci.cc  ****     for (uint_fast16_t n = 0; n < 93; ++n)
- 2663              		.loc 10 79 0
- 2664 0814 4531E4   		xorl	%r12d, %r12d	# n
- 2665              	.LBE1502:
- 2666              	.LBE1501:
- 2667              	.LBE1500:
- 2668              	.LBE1499:
- 2669              	.LBE1498:
- 2670              	.LBB1630:
- 2671              	.LBB1495:
- 2672              	.LBB1492:
+ 2668              		.loc 10 79 0
+ 2669 0824 4531E4   		xorl	%r12d, %r12d	# n
+ 2670              	.LBE1510:
+ 2671              	.LBE1509:
+ 2672              	.LBE1508:
+ 2673              	.LBE1507:
+ 2674              	.LBE1506:
+ 2675              	.LBB1638:
+ 2676              	.LBB1503:
+ 2677              	.LBB1500:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 2673              		.loc 5 563 0
- 2674 0817 E8000000 		call	_ZNSo3putEc	#
- 2674      00
- 2675              	.LVL230:
- 2676              	.LBB1486:
- 2677              	.LBB1487:
- 2678              		.loc 5 585 0
- 2679 081c 4889C7   		movq	%rax, %rdi	# D.67579,
- 2680              	.LBE1487:
- 2681              	.LBE1486:
- 2682              	.LBE1492:
- 2683              	.LBE1495:
- 2684              	.LBE1630:
- 2685              	.LBB1631:
- 2686              	.LBB1626:
- 2687              	.LBB1511:
- 2688              	.LBB1507:
- 2689              	.LBB1503:
- 2690              		.file 17 "StopWatch.h"
+ 2678              		.loc 4 563 0
+ 2679 0827 E8000000 		call	_ZNSo3putEc	#
+ 2679      00
+ 2680              	.LVL230:
+ 2681              	.LBB1494:
+ 2682              	.LBB1495:
+ 2683              		.loc 4 585 0
+ 2684 082c 4889C7   		movq	%rax, %rdi	# D.67615,
+ 2685              	.LBE1495:
+ 2686              	.LBE1494:
+ 2687              	.LBE1500:
+ 2688              	.LBE1503:
+ 2689              	.LBE1638:
+ 2690              	.LBB1639:
+ 2691              	.LBB1634:
+ 2692              	.LBB1519:
+ 2693              	.LBB1515:
+ 2694              	.LBB1511:
+ 2695              		.file 17 "StopWatch.h"
    0:StopWatch.h   **** // Performance measuring is orthogonal to whatever we're trying to do, so it will be abstracted int
-   1:StopWatch.h   **** class StopWatch 
-   2:StopWatch.h   **** {
-   3:StopWatch.h   ****     typedef std::chrono::high_resolution_clock clock_t; // could also use steady_clock. 
-   4:StopWatch.h   ****     typedef std::chrono::time_point<clock_t> timePoint_t; 
-   5:StopWatch.h   ****     timePoint_t start_;
-   6:StopWatch.h   ****     timePoint_t end_;
-   7:StopWatch.h   **** public:    
-   8:StopWatch.h   ****     void Start() {
-   9:StopWatch.h   ****         start_ = clock_t::now();
- 2691              		.loc 17 10 0
- 2692 081f 31ED     		xorl	%ebp, %ebp	# add_acc.156
- 2693              	.LVL231:
- 2694              	.LBE1503:
- 2695              	.LBE1507:
- 2696              	.LBE1511:
- 2697              	.LBE1626:
- 2698              	.LBE1631:
- 2699              	.LBB1632:
- 2700              	.LBB1496:
- 2701              	.LBB1493:
- 2702              	.LBB1489:
- 2703              	.LBB1488:
- 2704              		.loc 5 585 0
- 2705 0821 E8000000 		call	_ZNSo5flushEv	#
- 2705      00
- 2706              	.LVL232:
- 2707              	.LBE1488:
- 2708              	.LBE1489:
- 2709              	.LBE1493:
- 2710              	.LBE1496:
- 2711              	.LBE1632:
- 2712              	.LBB1633:
- 2713              	.LBB1627:
- 2714              	.LBB1512:
- 2715              	.LBB1508:
- 2716              	.LBB1504:
- 2717              		.loc 17 10 0
- 2718 0826 E8000000 		call	_ZNSt6chrono12system_clock3nowEv	#
- 2718      00
- 2719              	.LVL233:
- 2720 082b 48894424 		movq	%rax, 16(%rsp)	# tmp136, sw.start_
- 2720      10
- 2721              	.LVL234:
- 2722              		.p2align 4,,10
- 2723              		.p2align 3
- 2724              	.L137:
- 2725              	.LBE1504:
- 2726              	.LBE1508:
- 2727              	.LBE1512:
- 2728              	.LBB1513:
- 2729              	.LBB1514:
-  10:StopWatch.h   ****     }
-  11:StopWatch.h   ****     StopWatch & Stop() {
-  12:StopWatch.h   ****         end_ = clock_t::now();
- 2730              		.loc 17 13 0
- 2731 0830 E8000000 		call	_ZNSt6chrono12system_clock3nowEv	#
- 2731      00
- 2732              	.LVL235:
- 2733 0835 48894424 		movq	%rax, 24(%rsp)	# tmp139, sw.end_
- 2733      18
- 2734              	.LVL236:
- 2735              	.LBE1514:
- 2736              	.LBE1513:
- 2737              	.LBB1515:
- 2738              	.LBB1516:
- 2739              	.LBB1517:
- 2740              	.LBB1518:
- 2741              		.file 18 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+   1:StopWatch.h   **** #pragma once
+   2:StopWatch.h   **** 
+   3:StopWatch.h   **** class StopWatch 
+   4:StopWatch.h   **** {
+   5:StopWatch.h   ****     typedef std::chrono::high_resolution_clock clock_t; // could also use steady_clock. 
+   6:StopWatch.h   ****     typedef std::chrono::time_point<clock_t> timePoint_t; 
+   7:StopWatch.h   ****     timePoint_t start_;
+   8:StopWatch.h   ****     timePoint_t end_;
+   9:StopWatch.h   **** public:    
+  10:StopWatch.h   ****     void Start() {
+  11:StopWatch.h   ****         start_ = clock_t::now();
+ 2696              		.loc 17 12 0
+ 2697 082f 31ED     		xorl	%ebp, %ebp	# add_acc.161
+ 2698              	.LVL231:
+ 2699              	.LBE1511:
+ 2700              	.LBE1515:
+ 2701              	.LBE1519:
+ 2702              	.LBE1634:
+ 2703              	.LBE1639:
+ 2704              	.LBB1640:
+ 2705              	.LBB1504:
+ 2706              	.LBB1501:
+ 2707              	.LBB1497:
+ 2708              	.LBB1496:
+ 2709              		.loc 4 585 0
+ 2710 0831 E8000000 		call	_ZNSo5flushEv	#
+ 2710      00
+ 2711              	.LVL232:
+ 2712              	.LBE1496:
+ 2713              	.LBE1497:
+ 2714              	.LBE1501:
+ 2715              	.LBE1504:
+ 2716              	.LBE1640:
+ 2717              	.LBB1641:
+ 2718              	.LBB1635:
+ 2719              	.LBB1520:
+ 2720              	.LBB1516:
+ 2721              	.LBB1512:
+ 2722              		.loc 17 12 0
+ 2723 0836 E8000000 		call	_ZNSt6chrono12system_clock3nowEv	#
+ 2723      00
+ 2724              	.LVL233:
+  25:HorribleRecursiveFibonacci.h ****         return (n > 92) ? -1 : (n < 2) ? 1 : fibonacci(n-1) + fibonacci(n-2);
+ 2725              		.loc 9 25 0
+ 2726 083b BE010000 		movl	$1, %esi	#, iftmp.55
+ 2726      00
+ 2727              		.loc 17 12 0
+ 2728 0840 48894424 		movq	%rax, 16(%rsp)	# tmp137, sw.start_
+ 2728      10
+ 2729              	.LVL234:
+ 2730              		.p2align 4,,10
+ 2731 0845 0F1F00   		.p2align 3
+ 2732              	.L142:
+ 2733 0848 4801F5   		addq	%rsi, %rbp	# iftmp.55, fibo
+ 2734              	.LVL235:
+ 2735              	.LBE1512:
+ 2736              	.LBE1516:
+ 2737              	.LBE1520:
+ 2738              	.LBB1521:
+ 2739              	.LBB1522:
+  12:StopWatch.h   ****     }
+  13:StopWatch.h   ****     StopWatch & Stop() {
+  14:StopWatch.h   ****         end_ = clock_t::now();
+ 2740              		.loc 17 15 0
+ 2741 084b E8000000 		call	_ZNSt6chrono12system_clock3nowEv	#
+ 2741      00
+ 2742              	.LVL236:
+ 2743 0850 48894424 		movq	%rax, 24(%rsp)	# tmp140, sw.end_
+ 2743      18
+ 2744              	.LVL237:
+ 2745              	.LBE1522:
+ 2746              	.LBE1521:
+ 2747              	.LBB1523:
+ 2748              	.LBB1524:
+ 2749              	.LBB1525:
+ 2750              	.LBB1526:
+ 2751              		.file 18 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/chrono **** // <chrono> -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/chrono **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/chrono **** // Copyright (C) 2008, 2009, 2010, 2011 Free Software Foundation, Inc.
@@ -10649,653 +10686,675 @@
  373:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/chrono **** 	typedef duration<_Rep2, _Period2>			__dur2;
  374:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/chrono **** 	typedef typename common_type<__dur1,__dur2>::type	__cd;
  375:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/chrono **** 	return __cd(__cd(__lhs).count() - __cd(__rhs).count());
- 2742              		.loc 18 376 0
- 2743 083a 482B4424 		subq	16(%rsp), %rax	# MEM[(const struct time_point *)&sw].__r, tmp140
- 2743      10
- 2744              	.LBE1518:
- 2745              	.LBE1517:
- 2746              	.LBE1516:
- 2747              	.LBE1515:
- 2748              	.LBB1524:
- 2749              	.LBB1525:
+ 2752              		.loc 18 376 0
+ 2753 0855 482B4424 		subq	16(%rsp), %rax	# MEM[(const struct time_point *)&sw].__r, tmp141
+ 2753      10
+ 2754              	.LBE1526:
+ 2755              	.LBE1525:
+ 2756              	.LBE1524:
+ 2757              	.LBE1523:
+ 2758              	.LBB1532:
+ 2759              	.LBB1533:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2750              		.loc 5 533 0
- 2751 083f BA010000 		movl	$1, %edx	#,
- 2751      00
- 2752 0844 BE000000 		movl	$.LC10, %esi	#,
- 2752      00
- 2753 0849 BF000000 		movl	$_ZSt4cout, %edi	#,
- 2753      00
- 2754              	.LBE1525:
- 2755              	.LBE1524:
- 2756              	.LBB1527:
- 2757              	.LBB1519:
- 2758              	.LBB1520:
- 2759              	.LBB1521:
- 2760              	.LBB1522:
- 2761              	.LBB1523:
+ 2760              		.loc 4 533 0
+ 2761 085a BA010000 		movl	$1, %edx	#,
+ 2761      00
+ 2762 085f BE000000 		movl	$.LC10, %esi	#,
+ 2762      00
+ 2763 0864 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2763      00
+ 2764              	.LBE1533:
+ 2765              	.LBE1532:
+ 2766              	.LBB1535:
+ 2767              	.LBB1527:
+ 2768              	.LBB1528:
+ 2769              	.LBB1529:
+ 2770              	.LBB1530:
+ 2771              	.LBB1531:
  142:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/chrono **** 	      static_cast<_CR>(__d.count()) / static_cast<_CR>(_CF::den)));
- 2762              		.loc 18 142 0
- 2763 084e F2480F2A 		cvtsi2sdq	%rax, %xmm0	# tmp140,
- 2763      C0
- 2764 0853 F20F5E05 		divsd	.LC9(%rip), %xmm0	#,
- 2764      00000000 
- 2765 085b F20F1144 		movsd	%xmm0, 8(%rsp)	#, %sfp
- 2765      2408
- 2766              	.LVL237:
- 2767              	.LBE1523:
- 2768              	.LBE1522:
- 2769              	.LBE1521:
- 2770              	.LBE1520:
- 2771              	.LBE1519:
- 2772              	.LBE1527:
- 2773              	.LBB1528:
- 2774              	.LBB1526:
+ 2772              		.loc 18 142 0
+ 2773 0869 F2480F2A 		cvtsi2sdq	%rax, %xmm0	# tmp141,
+ 2773      C0
+ 2774 086e F20F5E05 		divsd	.LC9(%rip), %xmm0	#,
+ 2774      00000000 
+ 2775 0876 F20F1144 		movsd	%xmm0, 8(%rsp)	#, %sfp
+ 2775      2408
+ 2776              	.LVL238:
+ 2777              	.LBE1531:
+ 2778              	.LBE1530:
+ 2779              	.LBE1529:
+ 2780              	.LBE1528:
+ 2781              	.LBE1527:
+ 2782              	.LBE1535:
+ 2783              	.LBB1536:
+ 2784              	.LBB1534:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2775              		.loc 5 533 0
- 2776 0861 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2776      00
- 2777              	.LVL238:
- 2778              	.LBE1526:
- 2779              	.LBE1528:
- 2780              	.LBB1529:
- 2781              	.LBB1530:
+ 2785              		.loc 4 533 0
+ 2786 087c E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2786      00
+ 2787              	.LVL239:
+ 2788              	.LBE1534:
+ 2789              	.LBE1536:
+ 2790              	.LBB1537:
+ 2791              	.LBB1538:
  169:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2782              		.loc 5 169 0
- 2783 0866 4C89E6   		movq	%r12, %rsi	# n,
- 2784 0869 BF000000 		movl	$_ZSt4cout, %edi	#,
- 2784      00
- 2785 086e E8000000 		call	_ZNSo9_M_insertImEERSoT_	#
- 2785      00
- 2786              	.LVL239:
- 2787              	.LBE1530:
- 2788              	.LBE1529:
- 2789              	.LBB1532:
- 2790              	.LBB1533:
+ 2792              		.loc 4 169 0
+ 2793 0881 4C89E6   		movq	%r12, %rsi	# n,
+ 2794 0884 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2794      00
+ 2795 0889 E8000000 		call	_ZNSo9_M_insertImEERSoT_	#
+ 2795      00
+ 2796              	.LVL240:
+ 2797              	.LBE1538:
+ 2798              	.LBE1537:
+ 2799              	.LBB1540:
+ 2800              	.LBB1541:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2791              		.loc 5 533 0
- 2792 0873 BA030000 		movl	$3, %edx	#,
- 2792      00
- 2793              	.LBE1533:
- 2794              	.LBE1532:
- 2795              	.LBB1535:
- 2796              	.LBB1531:
+ 2801              		.loc 4 533 0
+ 2802 088e BA030000 		movl	$3, %edx	#,
+ 2802      00
+ 2803              	.LBE1541:
+ 2804              	.LBE1540:
+ 2805              	.LBB1543:
+ 2806              	.LBB1539:
  169:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2797              		.loc 5 169 0
- 2798 0878 4889C3   		movq	%rax, %rbx	#, D.66209
- 2799              	.LVL240:
- 2800              	.LBE1531:
- 2801              	.LBE1535:
- 2802              	.LBB1536:
- 2803              	.LBB1534:
+ 2807              		.loc 4 169 0
+ 2808 0893 4889C3   		movq	%rax, %rbx	#, D.66261
+ 2809              	.LVL241:
+ 2810              	.LBE1539:
+ 2811              	.LBE1543:
+ 2812              	.LBB1544:
+ 2813              	.LBB1542:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2804              		.loc 5 533 0
- 2805 087b BE000000 		movl	$.LC11, %esi	#,
- 2805      00
- 2806 0880 4889C7   		movq	%rax, %rdi	# D.66209,
- 2807 0883 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2807      00
- 2808              	.LVL241:
- 2809              	.LBE1534:
- 2810              	.LBE1536:
- 2811              	.LBB1537:
- 2812              	.LBB1538:
- 2813              		.loc 13 239 0
- 2814 0888 488B03   		movq	(%rbx), %rax	# MEM[(struct basic_ostream *)D.66209_80]._vptr.basic_ostream, MEM[(struct basic
- 2815              	.LBE1538:
- 2816              	.LBE1537:
- 2817              	.LBB1542:
- 2818              	.LBB1543:
+ 2814              		.loc 4 533 0
+ 2815 0896 BE000000 		movl	$.LC11, %esi	#,
+ 2815      00
+ 2816 089b 4889C7   		movq	%rax, %rdi	# D.66261,
+ 2817 089e E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2817      00
+ 2818              	.LVL242:
+ 2819              	.LBE1542:
+ 2820              	.LBE1544:
+ 2821              	.LBB1545:
+ 2822              	.LBB1546:
+ 2823              		.loc 13 239 0
+ 2824 08a3 488B03   		movq	(%rbx), %rax	# MEM[(struct basic_ostream *)D.66261_79]._vptr.basic_ostream, MEM[(struct basic
+ 2825              	.LBE1546:
+ 2826              	.LBE1545:
+ 2827              	.LBB1550:
+ 2828              	.LBB1551:
  204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2819              		.loc 5 204 0
- 2820 088b 488D7501 		leaq	1(%rbp), %rsi	#, tmp147
- 2821 088f 4889DF   		movq	%rbx, %rdi	# D.66209,
- 2822              	.LBE1543:
- 2823              	.LBE1542:
- 2824              	.LBB1545:
- 2825              	.LBB1541:
- 2826              	.LBB1539:
- 2827              	.LBB1540:
- 2828              		.loc 6 658 0
- 2829 0892 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66219_83 + -24B], MEM[(long int *)D.66219_83 + -24B]
- 2830 0896 48C74403 		movq	$22, 16(%rbx,%rax)	#, MEM[(streamsize *)D.66216_86 + 16B]
- 2830      10160000 
- 2830      00
- 2831              	.LVL242:
- 2832              	.LBE1540:
- 2833              	.LBE1539:
- 2834              	.LBE1541:
- 2835              	.LBE1545:
-  87:Fibonacci.cc  ****             << (elapsed_seconds > 1.0 ? Red: Empty)
- 2836              		.loc 10 87 0
- 2837 089f BB000000 		movl	$_ZL5Empty, %ebx	#, iftmp.54
- 2837      00
- 2838              	.LVL243:
- 2839              	.LBB1546:
- 2840              	.LBB1544:
- 204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
- 2841              		.loc 5 204 0
- 2842 08a4 E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
- 2842      00
- 2843              	.LVL244:
- 2844              	.LBE1544:
- 2845              	.LBE1546:
+ 2829              		.loc 4 204 0
+ 2830 08a6 4889EE   		movq	%rbp, %rsi	# fibo,
+ 2831 08a9 4889DF   		movq	%rbx, %rdi	# D.66261,
+ 2832              	.LBE1551:
+ 2833              	.LBE1550:
+ 2834              	.LBB1553:
+ 2835              	.LBB1549:
+ 2836              	.LBB1547:
+ 2837              	.LBB1548:
+ 2838              		.loc 5 658 0
+ 2839 08ac 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.66271_82 + -24B], MEM[(long int *)D.66271_82 + -24B]
+ 2840 08b0 48C74403 		movq	$22, 16(%rbx,%rax)	#, MEM[(streamsize *)D.66268_85 + 16B]
+ 2840      10160000 
+ 2840      00
+ 2841              	.LVL243:
+ 2842              	.LBE1548:
+ 2843              	.LBE1547:
+ 2844              	.LBE1549:
+ 2845              	.LBE1553:
   87:Fibonacci.cc  ****             << (elapsed_seconds > 1.0 ? Red: Empty)
  2846              		.loc 10 87 0
- 2847 08a9 F20F1044 		movsd	8(%rsp), %xmm0	# %sfp,
- 2847      2408
- 2848 08af B8000000 		movl	$_ZL3Red, %eax	#, tmp165
- 2848      00
- 2849              	.LBB1547:
- 2850              	.LBB1548:
- 533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2851              		.loc 5 533 0
- 2852 08b4 BA060000 		movl	$6, %edx	#,
+ 2847 08b9 BB000000 		movl	$_ZL5Empty, %ebx	#, iftmp.54
+ 2847      00
+ 2848              	.LVL244:
+ 2849              	.LBB1554:
+ 2850              	.LBB1552:
+ 204:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__n); }
+ 2851              		.loc 4 204 0
+ 2852 08be E8000000 		call	_ZNSo9_M_insertIyEERSoT_	#
  2852      00
- 2853 08b9 BE000000 		movl	$.LC13, %esi	#,
- 2853      00
- 2854 08be BF000000 		movl	$_ZSt4cout, %edi	#,
- 2854      00
- 2855              	.LBE1548:
- 2856              	.LBE1547:
+ 2853              	.LVL245:
+ 2854              	.LBE1552:
+ 2855              	.LBE1554:
   87:Fibonacci.cc  ****             << (elapsed_seconds > 1.0 ? Red: Empty)
- 2857              		.loc 10 87 0
- 2858 08c3 660F2E05 		ucomisd	.LC12(%rip), %xmm0	#,
- 2858      00000000 
- 2859 08cb 480F47D8 		cmova	%rax, %rbx	# tmp165,, iftmp.54
- 2860              	.LVL245:
- 2861              	.LBB1550:
- 2862              	.LBB1549:
+ 2856              		.loc 10 87 0
+ 2857 08c3 F20F1044 		movsd	8(%rsp), %xmm0	# %sfp,
+ 2857      2408
+ 2858 08c9 B8000000 		movl	$_ZL3Red, %eax	#, tmp165
+ 2858      00
+ 2859              	.LBB1555:
+ 2860              	.LBB1556:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 2863              		.loc 5 533 0
- 2864 08cf E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2861              		.loc 4 533 0
+ 2862 08ce BA060000 		movl	$6, %edx	#,
+ 2862      00
+ 2863 08d3 BE000000 		movl	$.LC13, %esi	#,
+ 2863      00
+ 2864 08d8 BF000000 		movl	$_ZSt4cout, %edi	#,
  2864      00
- 2865              	.LVL246:
- 2866              	.LBE1549:
- 2867              	.LBE1550:
- 2868              	.LBB1551:
- 2869              	.LBB1552:
- 2870              	.LBB1553:
- 2871              	.LBB1554:
- 2872              	.LBB1555:
- 2873              	.LBB1556:
- 2874              	.LBB1557:
+ 2865              	.LBE1556:
+ 2866              	.LBE1555:
+  87:Fibonacci.cc  ****             << (elapsed_seconds > 1.0 ? Red: Empty)
+ 2867              		.loc 10 87 0
+ 2868 08dd 660F2E05 		ucomisd	.LC12(%rip), %xmm0	#,
+ 2868      00000000 
+ 2869 08e5 480F47D8 		cmova	%rax, %rbx	# tmp165,, iftmp.54
+ 2870              	.LVL246:
+ 2871              	.LBB1558:
+ 2872              	.LBB1557:
+ 533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
+ 2873              		.loc 4 533 0
+ 2874 08e9 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2874      00
+ 2875              	.LVL247:
+ 2876              	.LBE1557:
+ 2877              	.LBE1558:
+ 2878              	.LBB1559:
+ 2879              	.LBB1560:
+ 2880              	.LBB1561:
+ 2881              	.LBB1562:
+ 2882              	.LBB1563:
+ 2883              	.LBB1564:
+ 2884              	.LBB1565:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 2875              		.loc 11 290 0
- 2876 08d4 488B33   		movq	(%rbx), %rsi	# MEM[(const struct basic_string *)iftmp.54_2]._M_dataplus._M_p, D.67644
- 2877              	.LVL247:
- 2878              	.LBE1557:
- 2879              	.LBE1556:
- 2880              	.LBE1555:
- 2881              	.LBE1554:
- 2882              	.LBE1553:
- 2883              		.loc 11 2755 0
- 2884 08d7 BF000000 		movl	$_ZSt4cout, %edi	#,
- 2884      00
- 2885 08dc 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67644_190 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 2886 08e0 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2886      00
+ 2885              		.loc 11 290 0
+ 2886 08ee 488B33   		movq	(%rbx), %rsi	# MEM[(const struct basic_string *)iftmp.54_2]._M_dataplus._M_p, D.67680
  2887              	.LVL248:
- 2888              	.LBE1552:
- 2889              	.LBE1551:
- 2890              	.LBB1558:
- 2891              	.LBB1559:
- 2892              		.loc 13 239 0
- 2893 08e5 488B10   		movq	(%rax), %rdx	# D.67647_193->_vptr.basic_ostream, D.66235
- 2894              	.LVL249:
- 2895              	.LBE1559:
- 2896              	.LBE1558:
- 2897              	.LBB1563:
- 2898              	.LBB1564:
+ 2888              	.LBE1565:
+ 2889              	.LBE1564:
+ 2890              	.LBE1563:
+ 2891              	.LBE1562:
+ 2892              	.LBE1561:
+ 2893              		.loc 11 2755 0
+ 2894 08f1 BF000000 		movl	$_ZSt4cout, %edi	#,
+ 2894      00
+ 2895 08f6 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67680_190 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 2896 08fa E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 2896      00
+ 2897              	.LVL249:
+ 2898              	.LBE1560:
+ 2899              	.LBE1559:
+ 2900              	.LBB1566:
+ 2901              	.LBB1567:
+ 2902              		.loc 13 239 0
+ 2903 08ff 488B10   		movq	(%rax), %rdx	# D.67683_193->_vptr.basic_ostream, D.66287
+ 2904              	.LVL250:
+ 2905              	.LBE1567:
+ 2906              	.LBE1566:
+ 2907              	.LBB1571:
+ 2908              	.LBB1572:
  219:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__f); }
- 2899              		.loc 5 219 0
- 2900 08e8 F20F1044 		movsd	8(%rsp), %xmm0	# %sfp,
- 2900      2408
- 2901 08ee 4889C7   		movq	%rax, %rdi	# D.67647,
- 2902              	.LBE1564:
- 2903              	.LBE1563:
- 2904              	.LBB1566:
- 2905              	.LBB1562:
- 2906              	.LBB1560:
- 2907              	.LBB1561:
- 2908              		.loc 6 658 0
- 2909 08f1 488B4AE8 		movq	-24(%rdx), %rcx	# MEM[(long int *)D.66235_89 + -24B], MEM[(long int *)D.66235_89 + -24B]
- 2910 08f5 48C74408 		movq	$10, 16(%rax,%rcx)	#, MEM[(streamsize *)D.66232_92 + 16B]
- 2910      100A0000 
- 2910      00
- 2911              	.LBE1561:
- 2912              	.LBE1560:
- 2913              	.LBE1562:
- 2914              	.LBE1566:
- 2915              	.LBB1567:
+ 2909              		.loc 4 219 0
+ 2910 0902 F20F1044 		movsd	8(%rsp), %xmm0	# %sfp,
+ 2910      2408
+ 2911 0908 4889C7   		movq	%rax, %rdi	# D.67683,
+ 2912              	.LBE1572:
+ 2913              	.LBE1571:
+ 2914              	.LBB1574:
+ 2915              	.LBB1570:
  2916              	.LBB1568:
+ 2917              	.LBB1569:
+ 2918              		.loc 5 658 0
+ 2919 090b 488B4AE8 		movq	-24(%rdx), %rcx	# MEM[(long int *)D.66287_88 + -24B], MEM[(long int *)D.66287_88 + -24B]
+ 2920 090f 48C74408 		movq	$10, 16(%rax,%rcx)	#, MEM[(streamsize *)D.66284_91 + 16B]
+ 2920      100A0000 
+ 2920      00
+ 2921              	.LBE1569:
+ 2922              	.LBE1568:
+ 2923              	.LBE1570:
+ 2924              	.LBE1574:
+ 2925              	.LBB1575:
+ 2926              	.LBB1576:
  130:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__pf(*this);
- 2917              		.loc 5 130 0
- 2918 08fe 4889C1   		movq	%rax, %rcx	# D.67647, D.66242
- 2919 0901 48034AE8 		addq	-24(%rdx), %rcx	# MEM[(long int *)D.66235_89 + -24B], D.66242
- 2920              	.LVL250:
- 2921              	.LBB1569:
- 2922              	.LBB1570:
- 2923              	.LBB1571:
- 2924              	.LBB1572:
- 2925              	.LBB1573:
+ 2927              		.loc 4 130 0
+ 2928 0918 4889C1   		movq	%rax, %rcx	# D.67683, D.66294
+ 2929 091b 48034AE8 		addq	-24(%rdx), %rcx	# MEM[(long int *)D.66287_88 + -24B], D.66294
+ 2930              	.LVL251:
+ 2931              	.LBB1577:
+ 2932              	.LBB1578:
+ 2933              	.LBB1579:
+ 2934              	.LBB1580:
+ 2935              	.LBB1581:
   78:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   { return _Ios_Fmtflags(static_cast<int>(__a) & static_cast<int>(__b)); }
- 2926              		.loc 6 78 0
- 2927 0905 8B5118   		movl	24(%rcx), %edx	# D.66242_96->_M_flags, tmp154
- 2928              	.LVL251:
- 2929              	.LBE1573:
- 2930              	.LBE1572:
- 2931              	.LBE1571:
- 2932              	.LBE1570:
- 2933              	.LBE1569:
- 2934              	.LBE1568:
- 2935              	.LBE1567:
- 2936              	.LBB1583:
- 2937              	.LBB1584:
- 2938              	.LBB1585:
+ 2936              		.loc 5 78 0
+ 2937 091f 8B5118   		movl	24(%rcx), %edx	# D.66294_95->_M_flags, tmp154
+ 2938              	.LVL252:
+ 2939              	.LBE1581:
+ 2940              	.LBE1580:
+ 2941              	.LBE1579:
+ 2942              	.LBE1578:
+ 2943              	.LBE1577:
+ 2944              	.LBE1576:
+ 2945              	.LBE1575:
+ 2946              	.LBB1591:
+ 2947              	.LBB1592:
+ 2948              	.LBB1593:
  635:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****       _M_precision = __prec;
- 2939              		.loc 6 635 0
- 2940 0908 48C74108 		movq	$6, 8(%rcx)	#, MEM[(streamsize *)D.66242_96 + 8B]
- 2940      06000000 
- 2941              	.LBE1585:
- 2942              	.LBE1584:
- 2943              	.LBE1583:
- 2944              	.LBB1586:
- 2945              	.LBB1582:
- 2946              	.LBB1581:
- 2947              	.LBB1580:
- 2948              	.LBB1579:
- 2949              	.LBB1575:
- 2950              	.LBB1574:
+ 2949              		.loc 5 635 0
+ 2950 0922 48C74108 		movq	$6, 8(%rcx)	#, MEM[(streamsize *)D.66294_95 + 8B]
+ 2950      06000000 
+ 2951              	.LBE1593:
+ 2952              	.LBE1592:
+ 2953              	.LBE1591:
+ 2954              	.LBB1594:
+ 2955              	.LBB1590:
+ 2956              	.LBB1589:
+ 2957              	.LBB1588:
+ 2958              	.LBB1587:
+ 2959              	.LBB1583:
+ 2960              	.LBB1582:
   78:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   { return _Ios_Fmtflags(static_cast<int>(__a) & static_cast<int>(__b)); }
- 2951              		.loc 6 78 0
- 2952 0910 81E2FBFE 		andl	$-261, %edx	#, tmp154
- 2952      FFFF
- 2953              	.LVL252:
- 2954              	.LBE1574:
- 2955              	.LBE1575:
- 2956              	.LBB1576:
- 2957              	.LBB1577:
- 2958              	.LBB1578:
+ 2961              		.loc 5 78 0
+ 2962 092a 81E2FBFE 		andl	$-261, %edx	#, tmp154
+ 2962      FFFF
+ 2963              	.LVL253:
+ 2964              	.LBE1582:
+ 2965              	.LBE1583:
+ 2966              	.LBB1584:
+ 2967              	.LBB1585:
+ 2968              	.LBB1586:
   82:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/ios_base.h ****   { return _Ios_Fmtflags(static_cast<int>(__a) | static_cast<int>(__b)); }
- 2959              		.loc 6 82 0
- 2960 0916 83CA04   		orl	$4, %edx	#, tmp154
- 2961              	.LVL253:
- 2962 0919 895118   		movl	%edx, 24(%rcx)	# tmp154, MEM[(_Ios_Fmtflags &)D.66242_96 + 24]
- 2963              	.LVL254:
- 2964              	.LBE1578:
- 2965              	.LBE1577:
- 2966              	.LBE1576:
- 2967              	.LBE1579:
- 2968              	.LBE1580:
- 2969              	.LBE1581:
- 2970              	.LBE1582:
- 2971              	.LBE1586:
- 2972              	.LBB1587:
- 2973              	.LBB1565:
+ 2969              		.loc 5 82 0
+ 2970 0930 83CA04   		orl	$4, %edx	#, tmp154
+ 2971              	.LVL254:
+ 2972 0933 895118   		movl	%edx, 24(%rcx)	# tmp154, MEM[(_Ios_Fmtflags &)D.66294_95 + 24]
+ 2973              	.LVL255:
+ 2974              	.LBE1586:
+ 2975              	.LBE1585:
+ 2976              	.LBE1584:
+ 2977              	.LBE1587:
+ 2978              	.LBE1588:
+ 2979              	.LBE1589:
+ 2980              	.LBE1590:
+ 2981              	.LBE1594:
+ 2982              	.LBB1595:
+ 2983              	.LBB1573:
  219:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****       { return _M_insert(__f); }
- 2974              		.loc 5 219 0
- 2975 091c E8000000 		call	_ZNSo9_M_insertIdEERSoT_	#
- 2975      00
- 2976              	.LVL255:
- 2977              	.LBE1565:
- 2978              	.LBE1587:
- 2979              	.LBB1588:
- 2980              	.LBB1589:
- 2981              	.LBB1590:
- 2982              	.LBB1591:
- 2983              	.LBB1592:
- 2984              	.LBB1593:
- 2985              	.LBB1594:
+ 2984              		.loc 4 219 0
+ 2985 0936 E8000000 		call	_ZNSo9_M_insertIdEERSoT_	#
+ 2985      00
+ 2986              	.LVL256:
+ 2987              	.LBE1573:
+ 2988              	.LBE1595:
+ 2989              	.LBB1596:
+ 2990              	.LBB1597:
+ 2991              	.LBB1598:
+ 2992              	.LBB1599:
+ 2993              	.LBB1600:
+ 2994              	.LBB1601:
+ 2995              	.LBB1602:
  290:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       { return  _M_dataplus._M_p; }
- 2986              		.loc 11 290 0
- 2987 0921 488B3500 		movq	_ZL5Reset(%rip), %rsi	# Reset._M_dataplus._M_p, D.67655
- 2987      000000
- 2988              	.LVL256:
- 2989              	.LBE1594:
- 2990              	.LBE1593:
- 2991              	.LBE1592:
- 2992              	.LBE1591:
- 2993              	.LBE1590:
- 2994              		.loc 11 2755 0
- 2995 0928 4889C7   		movq	%rax, %rdi	# D.66261,
- 2996 092b 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67655_194 + -24B].D.19289._M_length, MEM[(struct _Rep 
- 2997 092f E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 2997      00
+ 2996              		.loc 11 290 0
+ 2997 093b 488B3500 		movq	_ZL5Reset(%rip), %rsi	# Reset._M_dataplus._M_p, D.67691
+ 2997      000000
  2998              	.LVL257:
- 2999              	.LBE1589:
- 3000              	.LBE1588:
- 3001              	.LBB1596:
- 3002              	.LBB1597:
+ 2999              	.LBE1602:
+ 3000              	.LBE1601:
+ 3001              	.LBE1600:
+ 3002              	.LBE1599:
+ 3003              	.LBE1598:
+ 3004              		.loc 11 2755 0
+ 3005 0942 4889C7   		movq	%rax, %rdi	# D.66313,
+ 3006 0945 488B56E8 		movq	-24(%rsi), %rdx	# MEM[(struct _Rep *)D.67691_194 + -24B].D.19289._M_length, MEM[(struct _Rep 
+ 3007 0949 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 3007      00
+ 3008              	.LVL258:
+ 3009              	.LBE1597:
+ 3010              	.LBE1596:
+ 3011              	.LBB1604:
+ 3012              	.LBB1605:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 3003              		.loc 5 533 0
- 3004 0934 BA1A0000 		movl	$26, %edx	#,
- 3004      00
- 3005              	.LBE1597:
- 3006              	.LBE1596:
- 3007              	.LBB1599:
- 3008              	.LBB1595:
- 3009              		.loc 11 2755 0
- 3010 0939 4889C3   		movq	%rax, %rbx	#, D.67652
- 3011              	.LVL258:
- 3012              	.LBE1595:
- 3013              	.LBE1599:
- 3014              	.LBB1600:
- 3015              	.LBB1598:
+ 3013              		.loc 4 533 0
+ 3014 094e BA1A0000 		movl	$26, %edx	#,
+ 3014      00
+ 3015              	.LBE1605:
+ 3016              	.LBE1604:
+ 3017              	.LBB1607:
+ 3018              	.LBB1603:
+ 3019              		.loc 11 2755 0
+ 3020 0953 4889C3   		movq	%rax, %rbx	#, D.67688
+ 3021              	.LVL259:
+ 3022              	.LBE1603:
+ 3023              	.LBE1607:
+ 3024              	.LBB1608:
+ 3025              	.LBB1606:
  533:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream **** 	__ostream_insert(__out, __s,
- 3016              		.loc 5 533 0
- 3017 093c BE000000 		movl	$.LC14, %esi	#,
- 3017      00
- 3018 0941 4889C7   		movq	%rax, %rdi	# D.67652,
- 3019 0944 E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
- 3019      00
- 3020              	.LVL259:
- 3021              	.LBE1598:
- 3022              	.LBE1600:
- 3023              	.LBB1601:
- 3024              	.LBB1602:
- 3025              	.LBB1603:
+ 3026              		.loc 4 533 0
+ 3027 0956 BE000000 		movl	$.LC14, %esi	#,
+ 3027      00
+ 3028 095b 4889C7   		movq	%rax, %rdi	# D.67688,
+ 3029 095e E8000000 		call	_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l	#
+ 3029      00
+ 3030              	.LVL260:
+ 3031              	.LBE1606:
+ 3032              	.LBE1608:
+ 3033              	.LBB1609:
+ 3034              	.LBB1610:
+ 3035              	.LBB1611:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 3026              		.loc 5 563 0
- 3027 0949 488B03   		movq	(%rbx), %rax	# D.67652_197->_vptr.basic_ostream, D.67652_197->_vptr.basic_ostream
- 3028              	.LBE1603:
- 3029              		.loc 10 104 0
- 3030 094c 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67674_200 + -24B], MEM[(long int *)D.67674_200 + -24B]
- 3031 0950 488BAC03 		movq	240(%rbx,%rax), %rbp	# MEM[(const struct basic_ios *)D.67671_203 + 240B], D.67683
- 3031      F0000000 
- 3032              	.LVL260:
- 3033              	.LBB1614:
- 3034              	.LBB1604:
- 3035              	.LBB1605:
- 3036              	.LBB1606:
+ 3036              		.loc 4 563 0
+ 3037 0963 488B03   		movq	(%rbx), %rax	# D.67688_197->_vptr.basic_ostream, D.67688_197->_vptr.basic_ostream
+ 3038              	.LBE1611:
+ 3039              		.loc 10 104 0
+ 3040 0966 488B40E8 		movq	-24(%rax), %rax	# MEM[(long int *)D.67710_200 + -24B], MEM[(long int *)D.67710_200 + -24B]
+ 3041 096a 488BAC03 		movq	240(%rbx,%rax), %rbp	# MEM[(const struct basic_ios *)D.67707_203 + 240B], D.67719
+ 3041      F0000000 
+ 3042              	.LVL261:
+ 3043              	.LBB1622:
+ 3044              	.LBB1612:
+ 3045              	.LBB1613:
+ 3046              	.LBB1614:
   50:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h ****       if (!__f)
- 3037              		.loc 7 50 0
- 3038 0958 4885ED   		testq	%rbp, %rbp	# D.67683
- 3039 095b 0F84AC00 		je	.L124	#,
- 3039      0000
- 3040              	.LVL261:
- 3041              	.LBE1606:
- 3042              	.LBE1605:
- 3043              	.LBB1607:
- 3044              	.LBB1608:
- 869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
- 3045              		.loc 12 869 0
- 3046 0961 807D3800 		cmpb	$0, 56(%rbp)	#, MEM[(const struct ctype *)D.67683_204]._M_widen_ok
- 3047 0965 7469     		je	.L125	#,
- 870:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	  return _M_widen[static_cast<unsigned char>(__c)];
- 3048              		.loc 12 870 0
- 3049 0967 0FB64543 		movzbl	67(%rbp), %eax	# MEM[(const struct ctype *)D.67683_204]._M_widen, D.67688
+ 3047              		.loc 6 50 0
+ 3048 0972 4885ED   		testq	%rbp, %rbp	# D.67719
+ 3049 0975 0F84D500 		je	.L129	#,
+ 3049      0000
  3050              	.LVL262:
- 3051              	.L126:
- 3052              	.LBE1608:
- 3053              	.LBE1607:
- 3054              	.LBE1604:
+ 3051              	.LBE1614:
+ 3052              	.LBE1613:
+ 3053              	.LBB1615:
+ 3054              	.LBB1616:
+ 869:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	if (_M_widen_ok)
+ 3055              		.loc 12 869 0
+ 3056 097b 807D3800 		cmpb	$0, 56(%rbp)	#, MEM[(const struct ctype *)D.67719_204]._M_widen_ok
+ 3057 097f 0F848B00 		je	.L130	#,
+ 3057      0000
+ 870:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	  return _M_widen[static_cast<unsigned char>(__c)];
+ 3058              		.loc 12 870 0
+ 3059 0985 0FB64543 		movzbl	67(%rbp), %eax	# MEM[(const struct ctype *)D.67719_204]._M_widen, D.67724
+ 3060              	.LVL263:
+ 3061              	.L131:
+ 3062              	.LBE1616:
+ 3063              	.LBE1615:
+ 3064              	.LBE1612:
  563:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/ostream ****     { return flush(__os.put(__os.widen('\n'))); }
- 3055              		.loc 5 563 0
- 3056 096b 0FBEF0   		movsbl	%al, %esi	# D.67688, D.67688
- 3057 096e 4889DF   		movq	%rbx, %rdi	# D.67652,
- 3058 0971 E8000000 		call	_ZNSo3putEc	#
- 3058      00
- 3059              	.LVL263:
- 3060              	.LBB1611:
- 3061              	.LBB1612:
- 3062              		.loc 5 585 0
- 3063 0976 4889C7   		movq	%rax, %rdi	# D.67668,
- 3064 0979 E8000000 		call	_ZNSo5flushEv	#
- 3064      00
- 3065              	.LVL264:
- 3066              	.LBE1612:
- 3067              	.LBE1611:
- 3068              	.LBE1614:
- 3069              	.LBE1602:
- 3070              	.LBE1601:
+ 3065              		.loc 4 563 0
+ 3066 0989 0FBEF0   		movsbl	%al, %esi	# D.67724, D.67724
+ 3067 098c 4889DF   		movq	%rbx, %rdi	# D.67688,
+ 3068 098f E8000000 		call	_ZNSo3putEc	#
+ 3068      00
+ 3069              	.LVL264:
+ 3070              	.LBB1619:
+ 3071              	.LBB1620:
+ 3072              		.loc 4 585 0
+ 3073 0994 4889C7   		movq	%rax, %rdi	# D.67704,
+ 3074 0997 E8000000 		call	_ZNSo5flushEv	#
+ 3074      00
+ 3075              	.LVL265:
+ 3076              	.LBE1620:
+ 3077              	.LBE1619:
+ 3078              	.LBE1622:
+ 3079              	.LBE1610:
+ 3080              	.LBE1609:
   91:Fibonacci.cc  ****         if (elapsed_seconds > 10.0) 
- 3071              		.loc 10 91 0
- 3072 097e F20F1044 		movsd	8(%rsp), %xmm0	# %sfp,
- 3072      2408
- 3073 0984 660F2E05 		ucomisd	.LC15(%rip), %xmm0	#,
- 3073      00000000 
- 3074 098c 775B     		ja	.L115	#,
- 3075              	.LBE1627:
+ 3081              		.loc 10 91 0
+ 3082 099c F20F1044 		movsd	8(%rsp), %xmm0	# %sfp,
+ 3082      2408
+ 3083 09a2 660F2E05 		ucomisd	.LC15(%rip), %xmm0	#,
+ 3083      00000000 
+ 3084 09aa 0F877C00 		ja	.L119	#,
+ 3084      0000
+ 3085              	.LBE1635:
   79:Fibonacci.cc  ****     for (uint_fast16_t n = 0; n < 93; ++n)
- 3076              		.loc 10 79 0
- 3077 098e 4983C401 		addq	$1, %r12	#, n
- 3078              	.LVL265:
- 3079 0992 4983FC5D 		cmpq	$93, %r12	#, n
- 3080 0996 7451     		je	.L115	#,
- 3081              	.LBB1628:
- 3082              	.LBB1617:
- 3083              	.LBB1509:
- 3084              	.LBB1505:
-  10:StopWatch.h   ****         start_ = clock_t::now();
- 3085              		.loc 17 10 0
- 3086 0998 E8000000 		call	_ZNSt6chrono12system_clock3nowEv	#
- 3086      00
- 3087              	.LVL266:
- 3088              	.LBE1505:
- 3089              	.LBE1509:
- 3090              	.LBE1617:
- 3091              	.LBB1618:
- 3092              	.LBB1619:
-  10:HorribleRecursiveFibonacci.h ****         if (n < 2) return 1;
- 3093              		.loc 9 10 0
- 3094 099d 4983FC01 		cmpq	$1, %r12	#, n
- 3095              	.LBE1619:
- 3096              	.LBE1618:
- 3097              	.LBB1622:
- 3098              	.LBB1510:
- 3099              	.LBB1506:
-  10:StopWatch.h   ****         start_ = clock_t::now();
- 3100              		.loc 17 10 0
- 3101 09a1 48894424 		movq	%rax, 16(%rsp)	# tmp137, sw.start_
- 3101      10
- 3102              	.LVL267:
- 3103              	.LBE1506:
- 3104              	.LBE1510:
- 3105              	.LBE1622:
- 3106              	.LBB1623:
- 3107              	.LBB1620:
-  10:HorribleRecursiveFibonacci.h ****         if (n < 2) return 1;
- 3108              		.loc 9 10 0
- 3109 09a6 746A     		je	.L130	#,
- 3110 09a8 4C89E3   		movq	%r12, %rbx	# n, n
- 3111              	.LVL268:
- 3112 09ab 31ED     		xorl	%ebp, %ebp	# add_acc.156
- 3113              	.LVL269:
- 3114 09ad 0F1F00   		.p2align 4,,10
- 3115              		.p2align 3
- 3116              	.L121:
+ 3086              		.loc 10 79 0
+ 3087 09b0 4983C401 		addq	$1, %r12	#, n
+ 3088              	.LVL266:
+ 3089 09b4 4983FC5D 		cmpq	$93, %r12	#, n
+ 3090 09b8 7472     		je	.L119	#,
+ 3091              	.LBB1636:
+ 3092              	.LBB1625:
+ 3093              	.LBB1517:
+ 3094              	.LBB1513:
+  12:StopWatch.h   ****         start_ = clock_t::now();
+ 3095              		.loc 17 12 0
+ 3096 09ba E8000000 		call	_ZNSt6chrono12system_clock3nowEv	#
+ 3096      00
+ 3097              	.LVL267:
+ 3098              	.LBE1513:
+ 3099              	.LBE1517:
+ 3100              	.LBE1625:
+ 3101              	.LBB1626:
+ 3102              	.LBB1627:
+  25:HorribleRecursiveFibonacci.h ****         return (n > 92) ? -1 : (n < 2) ? 1 : fibonacci(n-1) + fibonacci(n-2);
+ 3103              		.loc 9 25 0
+ 3104 09bf 4983FC01 		cmpq	$1, %r12	#, n
+ 3105              	.LBE1627:
+ 3106              	.LBE1626:
+ 3107              	.LBB1630:
+ 3108              	.LBB1518:
+ 3109              	.LBB1514:
+  12:StopWatch.h   ****         start_ = clock_t::now();
+ 3110              		.loc 17 12 0
+ 3111 09c3 48894424 		movq	%rax, 16(%rsp)	# tmp138, sw.start_
+ 3111      10
+ 3112              	.LVL268:
+ 3113              	.LBE1514:
+ 3114              	.LBE1518:
+ 3115              	.LBE1630:
+ 3116              	.LBB1631:
+ 3117              	.LBB1628:
+  25:HorribleRecursiveFibonacci.h ****         return (n > 92) ? -1 : (n < 2) ? 1 : fibonacci(n-1) + fibonacci(n-2);
+ 3118              		.loc 9 25 0
+ 3119 09c8 0F848700 		je	.L144	#,
+ 3119      0000
+ 3120 09ce 4C89E3   		movq	%r12, %rbx	# n, n
+ 3121              	.LVL269:
+ 3122 09d1 31ED     		xorl	%ebp, %ebp	# add_acc.161
+ 3123              	.LVL270:
+ 3124 09d3 EB09     		jmp	.L124	#
+ 3125              		.p2align 4,,10
+ 3126 09d5 0F1F00   		.p2align 3
+ 3127              	.L126:
+ 3128 09d8 4883FB01 		cmpq	$1, %rbx	#, n
+ 3129 09dc 7622     		jbe	.L145	#,
+ 3130              	.L124:
   76:Fibonacci.cc  **** void TestBadAndInefficient() 
- 3117              		.loc 10 76 0
- 3118 09b0 488D7BFF 		leaq	-1(%rbx), %rdi	#, tmp138
-  13:HorribleRecursiveFibonacci.h ****         return fibonacci(n-1) + fibonacci(n-2);
- 3119              		.loc 9 13 0
- 3120 09b4 4883EB02 		subq	$2, %rbx	#, n
- 3121 09b8 E8000000 		call	_ZN21evilBadAndInefficient9fibonacciEm	#
- 3121      00
- 3122              	.LVL270:
- 3123 09bd 4801C5   		addq	%rax, %rbp	# D.67612, add_acc.156
-  10:HorribleRecursiveFibonacci.h ****         if (n < 2) return 1;
- 3124              		.loc 9 10 0
- 3125 09c0 4883FB01 		cmpq	$1, %rbx	#, n
- 3126 09c4 77EA     		ja	.L121	#,
- 3127 09c6 E965FEFF 		jmp	.L137	#
- 3127      FF
- 3128              	.LVL271:
- 3129 09cb 0F1F4400 		.p2align 4,,10
- 3129      00
- 3130              		.p2align 3
- 3131              	.L125:
- 3132              	.LBE1620:
- 3133              	.LBE1623:
- 3134              	.LBB1624:
- 3135              	.LBB1616:
- 3136              	.LBB1615:
- 3137              	.LBB1613:
- 3138              	.LBB1610:
- 3139              	.LBB1609:
+ 3131              		.loc 10 76 0
+ 3132 09de 488D7BFF 		leaq	-1(%rbx), %rdi	#, tmp139
+  25:HorribleRecursiveFibonacci.h ****         return (n > 92) ? -1 : (n < 2) ? 1 : fibonacci(n-1) + fibonacci(n-2);
+ 3133              		.loc 9 25 0
+ 3134 09e2 4883EB02 		subq	$2, %rbx	#, n
+ 3135 09e6 E8000000 		call	_ZN21evilBadAndInefficient9fibonacciEm	#
+ 3135      00
+ 3136              	.LVL271:
+ 3137 09eb 4801C5   		addq	%rax, %rbp	# D.67648, add_acc.161
+ 3138 09ee 4883FB5C 		cmpq	$92, %rbx	#, n
+ 3139 09f2 76E4     		jbe	.L126	#,
+ 3140 09f4 48C7C6FF 		movq	$-1, %rsi	#, iftmp.55
+ 3140      FFFFFF
+ 3141 09fb E948FEFF 		jmp	.L142	#
+ 3141      FF
+ 3142              		.p2align 4,,10
+ 3143              		.p2align 3
+ 3144              	.L145:
+ 3145 0a00 BE010000 		movl	$1, %esi	#, iftmp.55
+ 3145      00
+ 3146 0a05 E93EFEFF 		jmp	.L142	#
+ 3146      FF
+ 3147              	.LVL272:
+ 3148 0a0a 660F1F44 		.p2align 4,,10
+ 3148      0000
+ 3149              		.p2align 3
+ 3150              	.L130:
+ 3151              	.LBE1628:
+ 3152              	.LBE1631:
+ 3153              	.LBB1632:
+ 3154              	.LBB1624:
+ 3155              	.LBB1623:
+ 3156              	.LBB1621:
+ 3157              	.LBB1618:
+ 3158              	.LBB1617:
  871:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	this->_M_widen_init();
- 3140              		.loc 12 871 0
- 3141 09d0 4889EF   		movq	%rbp, %rdi	# D.67683,
- 3142 09d3 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
- 3142      00
- 3143              	.LVL272:
- 3144              		.loc 12 872 0
- 3145 09d8 488B4500 		movq	0(%rbp), %rax	# MEM[(const struct ctype *)D.67683_204].D.22576._vptr.facet, MEM[(const struct
- 3146 09dc BE0A0000 		movl	$10, %esi	#,
- 3146      00
- 3147 09e1 4889EF   		movq	%rbp, %rdi	# D.67683,
- 3148 09e4 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67691_217 + 48B]
- 3149              	.LVL273:
- 3150 09e7 EB82     		jmp	.L126	#
- 3151              	.LVL274:
- 3152              	.L115:
- 3153              	.LBE1609:
- 3154              	.LBE1610:
- 3155              	.LBE1613:
- 3156              	.LBE1615:
- 3157              	.LBE1616:
- 3158              	.LBE1624:
- 3159              	.LBE1628:
- 3160              	.LBE1633:
+ 3159              		.loc 12 871 0
+ 3160 0a10 4889EF   		movq	%rbp, %rdi	# D.67719,
+ 3161 0a13 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
+ 3161      00
+ 3162              	.LVL273:
+ 3163              		.loc 12 872 0
+ 3164 0a18 488B4500 		movq	0(%rbp), %rax	# MEM[(const struct ctype *)D.67719_204].D.22576._vptr.facet, MEM[(const struct
+ 3165 0a1c BE0A0000 		movl	$10, %esi	#,
+ 3165      00
+ 3166 0a21 4889EF   		movq	%rbp, %rdi	# D.67719,
+ 3167 0a24 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67727_217 + 48B]
+ 3168              	.LVL274:
+ 3169 0a27 E95DFFFF 		jmp	.L131	#
+ 3169      FF
+ 3170              	.LVL275:
+ 3171              	.L119:
+ 3172              	.LBE1617:
+ 3173              	.LBE1618:
+ 3174              	.LBE1621:
+ 3175              	.LBE1623:
+ 3176              	.LBE1624:
+ 3177              	.LBE1632:
+ 3178              	.LBE1636:
+ 3179              	.LBE1641:
   96:Fibonacci.cc  **** } // void TestEvil() 
- 3161              		.loc 10 96 0
- 3162 09e9 4883C420 		addq	$32, %rsp	#,
- 3163              		.cfi_remember_state
- 3164              		.cfi_def_cfa_offset 32
- 3165 09ed 5B       		popq	%rbx	#
- 3166              		.cfi_def_cfa_offset 24
- 3167              	.LVL275:
- 3168 09ee 5D       		popq	%rbp	#
- 3169              		.cfi_def_cfa_offset 16
- 3170              	.LVL276:
- 3171 09ef 415C     		popq	%r12	#
- 3172              		.cfi_def_cfa_offset 8
- 3173 09f1 C3       		ret
- 3174              	.LVL277:
- 3175              	.L117:
- 3176              		.cfi_restore_state
- 3177              	.LBB1634:
- 3178              	.LBB1497:
- 3179              	.LBB1494:
- 3180              	.LBB1490:
- 3181              	.LBB1484:
- 3182              	.LBB1483:
+ 3180              		.loc 10 96 0
+ 3181 0a2c 4883C420 		addq	$32, %rsp	#,
+ 3182              		.cfi_remember_state
+ 3183              		.cfi_def_cfa_offset 32
+ 3184 0a30 5B       		popq	%rbx	#
+ 3185              		.cfi_def_cfa_offset 24
+ 3186              	.LVL276:
+ 3187 0a31 5D       		popq	%rbp	#
+ 3188              		.cfi_def_cfa_offset 16
+ 3189              	.LVL277:
+ 3190 0a32 415C     		popq	%r12	#
+ 3191              		.cfi_def_cfa_offset 8
+ 3192 0a34 C3       		ret
+ 3193              	.LVL278:
+ 3194              	.L121:
+ 3195              		.cfi_restore_state
+ 3196              	.LBB1642:
+ 3197              	.LBB1505:
+ 3198              	.LBB1502:
+ 3199              	.LBB1498:
+ 3200              	.LBB1492:
+ 3201              	.LBB1491:
  871:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/locale_facets.h **** 	this->_M_widen_init();
- 3183              		.loc 12 871 0
- 3184 09f2 4889DF   		movq	%rbx, %rdi	# D.67594,
- 3185 09f5 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
- 3185      00
- 3186              	.LVL278:
- 3187              		.loc 12 872 0
- 3188 09fa 488B03   		movq	(%rbx), %rax	# MEM[(const struct ctype *)D.67594_155].D.22576._vptr.facet, MEM[(const struct 
- 3189 09fd BE0A0000 		movl	$10, %esi	#,
- 3189      00
- 3190 0a02 4889DF   		movq	%rbx, %rdi	# D.67594,
- 3191 0a05 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67602_168 + 48B]
- 3192              	.LVL279:
- 3193 0a08 E901FEFF 		jmp	.L118	#
- 3193      FF
- 3194              	.LVL280:
- 3195              	.L124:
- 3196              	.LBE1483:
- 3197              	.LBE1484:
- 3198              	.LBB1485:
- 3199              	.LBB1480:
+ 3202              		.loc 12 871 0
+ 3203 0a35 4889DF   		movq	%rbx, %rdi	# D.67630,
+ 3204 0a38 E8000000 		call	_ZNKSt5ctypeIcE13_M_widen_initEv	#
+ 3204      00
+ 3205              	.LVL279:
+ 3206              		.loc 12 872 0
+ 3207 0a3d 488B03   		movq	(%rbx), %rax	# MEM[(const struct ctype *)D.67630_154].D.22576._vptr.facet, MEM[(const struct 
+ 3208 0a40 BE0A0000 		movl	$10, %esi	#,
+ 3208      00
+ 3209 0a45 4889DF   		movq	%rbx, %rdi	# D.67630,
+ 3210 0a48 FF5030   		call	*48(%rax)	# MEM[(int (*__vtbl_ptr_type) () *)D.67638_167 + 48B]
+ 3211              	.LVL280:
+ 3212 0a4b E9CEFDFF 		jmp	.L122	#
+ 3212      FF
+ 3213              	.LVL281:
+ 3214              	.L129:
+ 3215              	.LBE1491:
+ 3216              	.LBE1492:
+ 3217              	.LBB1493:
+ 3218              	.LBB1488:
   51:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_ios.h **** 	__throw_bad_cast();
- 3200              		.loc 7 51 0
- 3201 0a0d E8000000 		call	_ZSt16__throw_bad_castv	#
- 3201      00
- 3202              	.LVL281:
- 3203              	.L130:
- 3204              	.LBE1480:
- 3205              	.LBE1485:
- 3206              	.LBE1490:
- 3207              	.LBE1494:
- 3208              	.LBE1497:
- 3209              	.LBE1634:
- 3210              	.LBB1635:
- 3211              	.LBB1629:
- 3212              	.LBB1625:
- 3213              	.LBB1621:
-  10:HorribleRecursiveFibonacci.h ****         if (n < 2) return 1;
- 3214              		.loc 9 10 0
- 3215 0a12 31ED     		xorl	%ebp, %ebp	# add_acc.156
- 3216              	.LVL282:
- 3217              		.p2align 4,,6
- 3218 0a14 E917FEFF 		jmp	.L137	#
- 3218      FF
- 3219              	.LBE1621:
- 3220              	.LBE1625:
- 3221              	.LBE1629:
- 3222              	.LBE1635:
- 3223              		.cfi_endproc
- 3224              	.LFE3256:
- 3226              		.section	.text.startup,"ax",@progbits
- 3227              		.p2align 4,,15
- 3228              		.globl	main
- 3230              	main:
- 3231              	.LFB3257:
+ 3219              		.loc 6 51 0
+ 3220 0a50 E8000000 		call	_ZSt16__throw_bad_castv	#
+ 3220      00
+ 3221              	.LVL282:
+ 3222              	.L144:
+ 3223              	.LBE1488:
+ 3224              	.LBE1493:
+ 3225              	.LBE1498:
+ 3226              	.LBE1502:
+ 3227              	.LBE1505:
+ 3228              	.LBE1642:
+ 3229              	.LBB1643:
+ 3230              	.LBB1637:
+ 3231              	.LBB1633:
+ 3232              	.LBB1629:
+  25:HorribleRecursiveFibonacci.h ****         return (n > 92) ? -1 : (n < 2) ? 1 : fibonacci(n-1) + fibonacci(n-2);
+ 3233              		.loc 9 25 0
+ 3234 0a55 31ED     		xorl	%ebp, %ebp	# add_acc.161
+ 3235              	.LVL283:
+ 3236 0a57 BE010000 		movl	$1, %esi	#, iftmp.55
+ 3236      00
+ 3237 0a5c E9E7FDFF 		jmp	.L142	#
+ 3237      FF
+ 3238              	.LBE1629:
+ 3239              	.LBE1633:
+ 3240              	.LBE1637:
+ 3241              	.LBE1643:
+ 3242              		.cfi_endproc
+ 3243              	.LFE3259:
+ 3245              		.section	.text.startup,"ax",@progbits
+ 3246              		.p2align 4,,15
+ 3247              		.globl	main
+ 3249              	main:
+ 3250              	.LFB3260:
   99:Fibonacci.cc  **** {
- 3232              		.loc 10 99 0
- 3233              		.cfi_startproc
- 3234 0000 4883EC08 		subq	$8, %rsp	#,
- 3235              		.cfi_def_cfa_offset 16
+ 3251              		.loc 10 99 0
+ 3252              		.cfi_startproc
+ 3253 0000 4883EC08 		subq	$8, %rsp	#,
+ 3254              		.cfi_def_cfa_offset 16
  100:Fibonacci.cc  ****     CompareResults();
- 3236              		.loc 10 100 0
- 3237 0004 E8000000 		call	_Z14CompareResultsv	#
- 3237      00
- 3238              	.LVL283:
+ 3255              		.loc 10 100 0
+ 3256 0004 E8000000 		call	_Z14CompareResultsv	#
+ 3256      00
+ 3257              	.LVL284:
  101:Fibonacci.cc  ****     Performance::Compare();
- 3239              		.loc 10 101 0
- 3240 0009 E8000000 		call	_ZN11Performance7CompareEv	#
- 3240      00
- 3241              	.LVL284:
- 102:Fibonacci.cc  ****     TestBadAndInefficient();
- 3242              		.loc 10 102 0
- 3243 000e E8000000 		call	_Z21TestBadAndInefficientv	#
- 3243      00
- 3244              	.LVL285:
- 3245              		.loc 10 104 0
- 3246 0013 31C0     		xorl	%eax, %eax	#
- 3247 0015 4883C408 		addq	$8, %rsp	#,
- 3248              		.cfi_def_cfa_offset 8
- 3249 0019 C3       		ret
- 3250              		.cfi_endproc
- 3251              	.LFE3257:
- 3253              		.section	.rodata.str1.1
- 3254              	.LC16:
- 3255 002f 1B5B3432 		.string	"\033[42m   "
- 3255      6D202020 
- 3255      00
- 3256              	.LC17:
- 3257 0038 1B5B304B 		.string	"\033[0K\033[0m"
- 3257      1B5B306D 
- 3257      00
- 3258              	.LC18:
- 3259 0041 1B5B304B 		.string	"\033[0K"
+ 3258              		.loc 10 101 0
+ 3259 0009 E8000000 		call	_ZN11Performance7CompareEv	#
  3259      00
- 3260              	.LC19:
- 3261 0046 1B5B3331 		.string	"\033[31;1m"
- 3261      3B316D00 
- 3262              	.LC20:
- 3263 004e 00       		.string	""
- 3264              	.LC21:
- 3265 004f 1B5B306D 		.string	"\033[0m"
- 3265      00
- 3266              		.section	.text.startup
- 3267 001a 660F1F44 		.p2align 4,,15
- 3267      0000
- 3269              	_GLOBAL__sub_I__Z14CompareResultsv:
- 3270              	.LFB3515:
- 3271              		.loc 10 104 0
- 3272              		.cfi_startproc
- 3273              	.LVL286:
- 3274 0020 4883EC18 		subq	$24, %rsp	#,
- 3275              		.cfi_def_cfa_offset 32
- 3276              	.LBB1638:
- 3277              	.LBB1639:
- 3278              		.file 19 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3260              	.LVL285:
+ 102:Fibonacci.cc  ****     TestBadAndInefficient();
+ 3261              		.loc 10 102 0
+ 3262 000e E8000000 		call	_Z21TestBadAndInefficientv	#
+ 3262      00
+ 3263              	.LVL286:
+ 3264              		.loc 10 104 0
+ 3265 0013 31C0     		xorl	%eax, %eax	#
+ 3266 0015 4883C408 		addq	$8, %rsp	#,
+ 3267              		.cfi_def_cfa_offset 8
+ 3268 0019 C3       		ret
+ 3269              		.cfi_endproc
+ 3270              	.LFE3260:
+ 3272              		.section	.rodata.str1.1
+ 3273              	.LC16:
+ 3274 002f 1B5B3432 		.string	"\033[42m   "
+ 3274      6D202020 
+ 3274      00
+ 3275              	.LC17:
+ 3276 0038 1B5B304B 		.string	"\033[0K\033[0m"
+ 3276      1B5B306D 
+ 3276      00
+ 3277              	.LC18:
+ 3278 0041 1B5B304B 		.string	"\033[0K"
+ 3278      00
+ 3279              	.LC19:
+ 3280 0046 1B5B3331 		.string	"\033[31;1m"
+ 3280      3B316D00 
+ 3281              	.LC20:
+ 3282 004e 00       		.string	""
+ 3283              	.LC21:
+ 3284 004f 1B5B306D 		.string	"\033[0m"
+ 3284      00
+ 3285              	.LC22:
+ 3286 0054 1B5B3630 		.string	"\033[60G"
+ 3286      4700
+ 3287              		.section	.text.startup
+ 3288 001a 660F1F44 		.p2align 4,,15
+ 3288      0000
+ 3290              	_GLOBAL__sub_I__Z14CompareResultsv:
+ 3291              	.LFB3518:
+ 3292              		.loc 10 104 0
+ 3293              		.cfi_startproc
+ 3294              		.cfi_personality 0x3,__gxx_personality_v0
+ 3295              		.cfi_lsda 0x3,.LLSDA3518
+ 3296              	.LVL287:
+ 3297 0020 53       		pushq	%rbx	#
+ 3298              		.cfi_def_cfa_offset 16
+ 3299              		.cfi_offset 3, -16
+ 3300              	.LBB1653:
+ 3301              	.LBB1654:
+ 3302              		.file 19 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
    0:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iostream **** // Standard iostream objects -*- C++ -*-
    1:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iostream **** 
    2:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iostream **** // Copyright (C) 1997, 1998, 1999, 2001, 2002, 2005, 2008, 2009, 2010
@@ -11371,310 +11430,411 @@
   72:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iostream **** 
   73:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iostream ****   // For construction of filebuffers for cout, cin, cerr, clog et. al.
   74:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/iostream ****   static ios_base::Init __ioinit;
- 3279              		.loc 19 75 0
- 3280 0024 BF000000 		movl	$_ZStL8__ioinit, %edi	#,
- 3280      00
- 3281 0029 E8000000 		call	_ZNSt8ios_base4InitC1Ev	#
- 3281      00
- 3282              	.LVL287:
- 3283 002e BA000000 		movl	$__dso_handle, %edx	#,
- 3283      00
- 3284 0033 BE000000 		movl	$_ZStL8__ioinit, %esi	#,
- 3284      00
- 3285 0038 BF000000 		movl	$_ZNSt8ios_base4InitD1Ev, %edi	#,
- 3285      00
- 3286 003d E8000000 		call	__cxa_atexit	#
- 3286      00
- 3287              	.LVL288:
- 3288              		.file 20 "ansi.h"
+ 3303              		.loc 19 75 0
+ 3304 0021 BF000000 		movl	$_ZStL8__ioinit, %edi	#,
+ 3304      00
+ 3305              	.LBE1654:
+ 3306              	.LBE1653:
+ 3307              		.loc 10 104 0
+ 3308 0026 4883EC10 		subq	$16, %rsp	#,
+ 3309              		.cfi_def_cfa_offset 32
+ 3310              	.LEHB9:
+ 3311              	.LBB1663:
+ 3312              	.LBB1661:
+ 3313              		.loc 19 75 0
+ 3314 002a E8000000 		call	_ZNSt8ios_base4InitC1Ev	#
+ 3314      00
+ 3315              	.LVL288:
+ 3316 002f BA000000 		movl	$__dso_handle, %edx	#,
+ 3316      00
+ 3317 0034 BE000000 		movl	$_ZStL8__ioinit, %esi	#,
+ 3317      00
+ 3318 0039 BF000000 		movl	$_ZNSt8ios_base4InitD1Ev, %edi	#,
+ 3318      00
+ 3319 003e E8000000 		call	__cxa_atexit	#
+ 3319      00
+ 3320              	.LVL289:
+ 3321              		.file 20 "ansi.h"
    0:ansi.h        **** #include <string>
    1:ansi.h        **** 
    2:ansi.h        **** // See http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
    3:ansi.h        **** 
    4:ansi.h        **** static const string BeginTitle = "\033[42m   "; // Green background, indented
- 3289              		.loc 20 5 0
- 3290 0042 488D5424 		leaq	15(%rsp), %rdx	#,
- 3290      0F
- 3291              	.LVL289:
- 3292 0047 BE000000 		movl	$.LC16, %esi	#,
- 3292      00
- 3293 004c BF000000 		movl	$_ZL10BeginTitle, %edi	#,
- 3293      00
- 3294 0051 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
- 3294      00
- 3295              	.LVL290:
- 3296 0056 BA000000 		movl	$__dso_handle, %edx	#,
- 3296      00
- 3297 005b BE000000 		movl	$_ZL10BeginTitle, %esi	#,
- 3297      00
- 3298 0060 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
- 3298      00
- 3299 0065 E8000000 		call	__cxa_atexit	#
- 3299      00
- 3300              	.LVL291:
-   5:ansi.h        **** static const string EndTitle = "\033[0K\033[0m"; // Clear to end of line, then reset.
- 3301              		.loc 20 6 0
- 3302 006a 488D5424 		leaq	15(%rsp), %rdx	#,
- 3302      0F
- 3303              	.LVL292:
- 3304 006f BE000000 		movl	$.LC17, %esi	#,
- 3304      00
- 3305 0074 BF000000 		movl	$_ZL8EndTitle, %edi	#,
- 3305      00
- 3306 0079 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
- 3306      00
- 3307              	.LVL293:
- 3308 007e BA000000 		movl	$__dso_handle, %edx	#,
- 3308      00
- 3309 0083 BE000000 		movl	$_ZL8EndTitle, %esi	#,
- 3309      00
- 3310 0088 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
- 3310      00
- 3311 008d E8000000 		call	__cxa_atexit	#
- 3311      00
- 3312              	.LVL294:
-   6:ansi.h        **** static const string ToEndOfLine = "\033[0K";
- 3313              		.loc 20 7 0
- 3314 0092 488D5424 		leaq	15(%rsp), %rdx	#,
- 3314      0F
- 3315              	.LVL295:
- 3316 0097 BE000000 		movl	$.LC18, %esi	#,
- 3316      00
- 3317 009c BF000000 		movl	$_ZL11ToEndOfLine, %edi	#,
- 3317      00
- 3318 00a1 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
- 3318      00
- 3319              	.LVL296:
- 3320 00a6 BA000000 		movl	$__dso_handle, %edx	#,
- 3320      00
- 3321 00ab BE000000 		movl	$_ZL11ToEndOfLine, %esi	#,
- 3321      00
- 3322 00b0 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
- 3322      00
- 3323 00b5 E8000000 		call	__cxa_atexit	#
- 3323      00
- 3324              	.LVL297:
-   7:ansi.h        **** static const string Red = "\033[31;1m";
- 3325              		.loc 20 8 0
- 3326 00ba 488D5424 		leaq	15(%rsp), %rdx	#,
- 3326      0F
- 3327              	.LVL298:
- 3328 00bf BE000000 		movl	$.LC19, %esi	#,
- 3328      00
- 3329 00c4 BF000000 		movl	$_ZL3Red, %edi	#,
+ 3322              		.loc 20 5 0
+ 3323 0043 488D5424 		leaq	15(%rsp), %rdx	#,
+ 3323      0F
+ 3324              	.LVL290:
+ 3325 0048 BE000000 		movl	$.LC16, %esi	#,
+ 3325      00
+ 3326 004d BF000000 		movl	$_ZL10BeginTitle, %edi	#,
+ 3326      00
+ 3327 0052 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3327      00
+ 3328              	.LVL291:
+ 3329 0057 BA000000 		movl	$__dso_handle, %edx	#,
  3329      00
- 3330 00c9 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3330 005c BE000000 		movl	$_ZL10BeginTitle, %esi	#,
  3330      00
- 3331              	.LVL299:
- 3332 00ce BA000000 		movl	$__dso_handle, %edx	#,
+ 3331 0061 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
+ 3331      00
+ 3332 0066 E8000000 		call	__cxa_atexit	#
  3332      00
- 3333 00d3 BE000000 		movl	$_ZL3Red, %esi	#,
- 3333      00
- 3334 00d8 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
- 3334      00
- 3335 00dd E8000000 		call	__cxa_atexit	#
- 3335      00
- 3336              	.LVL300:
-   8:ansi.h        **** static const string Empty = "";
- 3337              		.loc 20 9 0
- 3338 00e2 488D5424 		leaq	15(%rsp), %rdx	#,
- 3338      0F
- 3339              	.LVL301:
- 3340 00e7 BE000000 		movl	$.LC20, %esi	#,
- 3340      00
- 3341 00ec BF000000 		movl	$_ZL5Empty, %edi	#,
+ 3333              	.LVL292:
+   5:ansi.h        **** static const string EndTitle = "\033[0K\033[0m"; // Clear to end of line, then reset.
+ 3334              		.loc 20 6 0
+ 3335 006b 488D5424 		leaq	15(%rsp), %rdx	#,
+ 3335      0F
+ 3336              	.LVL293:
+ 3337 0070 BE000000 		movl	$.LC17, %esi	#,
+ 3337      00
+ 3338 0075 BF000000 		movl	$_ZL8EndTitle, %edi	#,
+ 3338      00
+ 3339 007a E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3339      00
+ 3340              	.LVL294:
+ 3341 007f BA000000 		movl	$__dso_handle, %edx	#,
  3341      00
- 3342 00f1 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3342 0084 BE000000 		movl	$_ZL8EndTitle, %esi	#,
  3342      00
- 3343              	.LVL302:
- 3344 00f6 BA000000 		movl	$__dso_handle, %edx	#,
+ 3343 0089 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
+ 3343      00
+ 3344 008e E8000000 		call	__cxa_atexit	#
  3344      00
- 3345 00fb BE000000 		movl	$_ZL5Empty, %esi	#,
- 3345      00
- 3346 0100 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
- 3346      00
- 3347 0105 E8000000 		call	__cxa_atexit	#
- 3347      00
- 3348              	.LVL303:
-   9:ansi.h        **** static const string Reset = "\033[0m"; // Just reset....
- 3349              		.loc 20 10 0
- 3350 010a 488D5424 		leaq	15(%rsp), %rdx	#,
- 3350      0F
- 3351              	.LVL304:
- 3352 010f BE000000 		movl	$.LC21, %esi	#,
- 3352      00
- 3353 0114 BF000000 		movl	$_ZL5Reset, %edi	#,
+ 3345              	.LVL295:
+   6:ansi.h        **** static const string ToEndOfLine = "\033[0K";
+ 3346              		.loc 20 7 0
+ 3347 0093 488D5424 		leaq	15(%rsp), %rdx	#,
+ 3347      0F
+ 3348              	.LVL296:
+ 3349 0098 BE000000 		movl	$.LC18, %esi	#,
+ 3349      00
+ 3350 009d BF000000 		movl	$_ZL11ToEndOfLine, %edi	#,
+ 3350      00
+ 3351 00a2 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3351      00
+ 3352              	.LVL297:
+ 3353 00a7 BA000000 		movl	$__dso_handle, %edx	#,
  3353      00
- 3354 0119 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3354 00ac BE000000 		movl	$_ZL11ToEndOfLine, %esi	#,
  3354      00
- 3355              	.LVL305:
- 3356 011e BA000000 		movl	$__dso_handle, %edx	#,
+ 3355 00b1 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
+ 3355      00
+ 3356 00b6 E8000000 		call	__cxa_atexit	#
  3356      00
- 3357 0123 BE000000 		movl	$_ZL5Reset, %esi	#,
- 3357      00
- 3358 0128 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
- 3358      00
- 3359 012d E8000000 		call	__cxa_atexit	#
- 3359      00
- 3360              	.LVL306:
- 3361              	.LBE1639:
- 3362              	.LBE1638:
- 3363              		.loc 10 104 0
- 3364 0132 4883C418 		addq	$24, %rsp	#,
- 3365              		.cfi_def_cfa_offset 8
- 3366 0136 C3       		ret
- 3367              		.cfi_endproc
- 3368              	.LFE3515:
- 3370              		.section	.init_array,"aw"
- 3371              		.align 8
- 3372 0000 00000000 		.quad	_GLOBAL__sub_I__Z14CompareResultsv
- 3372      00000000 
- 3373              		.local	_ZL10BeginTitle
- 3374              		.comm	_ZL10BeginTitle,8,8
- 3375              		.local	_ZL8EndTitle
- 3376              		.comm	_ZL8EndTitle,8,8
- 3377              		.section	.rodata.str1.1
- 3378              	.LC22:
- 3379 0054 1B5B3332 		.string	"\033[32;1mloop\033[0m"
- 3379      3B316D6C 
- 3379      6F6F701B 
- 3379      5B306D00 
- 3380              	.LC23:
- 3381 0064 1B5B3331 		.string	"\033[31;1mgoodRecursion\033[0m"
- 3381      3B316D67 
- 3381      6F6F6452 
- 3381      65637572 
- 3381      73696F6E 
- 3382              	.LC24:
- 3383 007d 1B5B3333 		.string	"\033[33;1mConstantTime\033[0m"
- 3383      3B316D43 
- 3383      6F6E7374 
- 3383      616E7454 
- 3383      696D651B 
- 3384              	.LC25:
- 3385 0095 1B5B3336 		.string	"\033[36;1mUsingMatrix\033[0m"
- 3385      3B316D55 
- 3385      73696E67 
- 3385      4D617472 
- 3385      69781B5B 
- 3386              		.section	.rodata.str1.8
- 3387 00b3 00000000 		.align 8
+ 3357              	.LVL298:
+   7:ansi.h        **** static const string Red = "\033[31;1m";
+ 3358              		.loc 20 8 0
+ 3359 00bb 488D5424 		leaq	15(%rsp), %rdx	#,
+ 3359      0F
+ 3360              	.LVL299:
+ 3361 00c0 BE000000 		movl	$.LC19, %esi	#,
+ 3361      00
+ 3362 00c5 BF000000 		movl	$_ZL3Red, %edi	#,
+ 3362      00
+ 3363 00ca E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3363      00
+ 3364              	.LVL300:
+ 3365 00cf BA000000 		movl	$__dso_handle, %edx	#,
+ 3365      00
+ 3366 00d4 BE000000 		movl	$_ZL3Red, %esi	#,
+ 3366      00
+ 3367 00d9 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
+ 3367      00
+ 3368 00de E8000000 		call	__cxa_atexit	#
+ 3368      00
+ 3369              	.LVL301:
+   8:ansi.h        **** static const string Empty = "";
+ 3370              		.loc 20 9 0
+ 3371 00e3 488D5424 		leaq	15(%rsp), %rdx	#,
+ 3371      0F
+ 3372              	.LVL302:
+ 3373 00e8 BE000000 		movl	$.LC20, %esi	#,
+ 3373      00
+ 3374 00ed BF000000 		movl	$_ZL5Empty, %edi	#,
+ 3374      00
+ 3375 00f2 E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
+ 3375      00
+ 3376              	.LVL303:
+ 3377 00f7 BA000000 		movl	$__dso_handle, %edx	#,
+ 3377      00
+ 3378 00fc BE000000 		movl	$_ZL5Empty, %esi	#,
+ 3378      00
+ 3379 0101 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
+ 3379      00
+ 3380 0106 E8000000 		call	__cxa_atexit	#
+ 3380      00
+ 3381              	.LVL304:
+   9:ansi.h        **** static const string Reset = "\033[0m"; // Just reset.
+ 3382              		.loc 20 10 0
+ 3383 010b 488D5424 		leaq	15(%rsp), %rdx	#,
+ 3383      0F
+ 3384              	.LVL305:
+ 3385 0110 BE000000 		movl	$.LC21, %esi	#,
+ 3385      00
+ 3386 0115 BF000000 		movl	$_ZL5Reset, %edi	#,
+ 3386      00
+ 3387 011a E8000000 		call	_ZNSsC1EPKcRKSaIcE	#
  3387      00
- 3388              	.LC26:
- 3389 00b8 1B5B3334 		.string	"\033[34;1mwithoutLoopsOrRecursion\033[0m"
- 3389      3B316D77 
- 3389      6974686F 
- 3389      75744C6F 
- 3389      6F70734F 
- 3390              		.section	.rodata
- 3391              		.align 32
- 3394              	._92:
- 3395 0000 00000000 		.quad	.LC22
- 3395      00000000 
- 3396 0008 00000000 		.quad	.LC23
- 3396      00000000 
- 3397 0010 00000000 		.quad	.LC24
- 3397      00000000 
- 3398 0018 00000000 		.quad	.LC25
- 3398      00000000 
- 3399 0020 00000000 		.quad	.LC26
- 3399      00000000 
- 3400              		.local	_ZL5Empty
- 3401              		.comm	_ZL5Empty,8,8
- 3402              		.local	_ZL5Reset
- 3403              		.comm	_ZL5Reset,8,8
- 3404              		.local	_ZL3Red
- 3405              		.comm	_ZL3Red,8,8
- 3406              		.local	_ZStL8__ioinit
- 3407              		.comm	_ZStL8__ioinit,1,1
- 3408              		.local	_ZL11ToEndOfLine
- 3409              		.comm	_ZL11ToEndOfLine,8,8
- 3410              		.section	.rodata.cst8,"aM",@progbits,8
- 3411              		.align 8
- 3412              	.LC0:
- 3413 0000 A8F4979B 		.long	2610427048
- 3414 0004 77E3F93F 		.long	1073341303
- 3415              		.align 8
- 3416              	.LC1:
- 3417 0008 C5EDBFC5 		.long	3317689797
- 3418 000c 259FDC3F 		.long	1071423269
- 3419              		.align 8
- 3420              	.LC2:
- 3421 0010 00000000 		.long	0
- 3422 0014 0000E03F 		.long	1071644672
- 3423              		.align 8
- 3424              	.LC3:
- 3425 0018 00000000 		.long	0
- 3426 001c 0000E043 		.long	1138753536
- 3427              		.align 8
- 3428              	.LC9:
- 3429 0020 00000000 		.long	0
- 3430 0024 80842E41 		.long	1093567616
- 3431              		.align 8
- 3432              	.LC12:
- 3433 0028 00000000 		.long	0
- 3434 002c 0000F03F 		.long	1072693248
- 3435              		.align 8
- 3436              	.LC15:
- 3437 0030 00000000 		.long	0
- 3438 0034 00002440 		.long	1076101120
- 3439              		.text
- 3440              	.Letext0:
- 3441              		.file 21 "/usr/include/libio.h"
- 3442              		.file 22 "/usr/include/stdio.h"
- 3443              		.file 23 "<built-in>"
- 3444              		.file 24 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3445              		.file 25 "/usr/include/wchar.h"
- 3446              		.file 26 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3447              		.file 27 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3448              		.file 28 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3449              		.file 29 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3450              		.file 30 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3451              		.file 31 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3452              		.file 32 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3453              		.file 33 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3454              		.file 34 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3455              		.file 35 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3456              		.file 36 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3457              		.file 37 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3458              		.file 38 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3459              		.file 39 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3460              		.file 40 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3461              		.file 41 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3462              		.file 42 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3463              		.file 43 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3464              		.file 44 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3465              		.file 45 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3466              		.file 46 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3467              		.file 47 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3468              		.file 48 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3469              		.file 49 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3470              		.file 50 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3471              		.file 51 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3472              		.file 52 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3473              		.file 53 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3474              		.file 54 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3475              		.file 55 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3476              		.file 56 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3477              		.file 57 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3478              		.file 58 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3479              		.file 59 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3480              		.file 60 "/usr/include/time.h"
- 3481              		.file 61 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3482              		.file 62 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3483              		.file 63 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3484              		.file 64 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3485              		.file 65 "/usr/include/stdint.h"
- 3486              		.file 66 "/usr/include/locale.h"
- 3487              		.file 67 "/usr/include/bits/types.h"
- 3488              		.file 68 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3489              		.file 69 "/usr/include/stdlib.h"
- 3490              		.file 70 "/usr/include/_G_config.h"
- 3491              		.file 71 "/usr/include/bits/stdio.h"
- 3492              		.file 72 "/usr/include/wctype.h"
- 3493              		.file 73 "/usr/include/bits/mathdef.h"
- 3494              		.file 74 "LogarithmicFibonacciUsingMatrices.h"
- 3495              		.file 75 "Performance.h"
- 3496              		.file 76 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3497              		.file 77 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
- 3498              		.file 78 "/usr/include/bits/mathcalls.h"
+ 3388              	.LVL306:
+ 3389 011f BA000000 		movl	$__dso_handle, %edx	#,
+ 3389      00
+ 3390 0124 BE000000 		movl	$_ZL5Reset, %esi	#,
+ 3390      00
+ 3391 0129 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
+ 3391      00
+ 3392 012e E8000000 		call	__cxa_atexit	#
+ 3392      00
+ 3393              	.LVL307:
+ 3394              	.LBB1655:
+ 3395              	.LBB1656:
+2402:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       basic_string<_CharT, _Traits, _Alloc> __str(__lhs);
+ 3396              		.loc 11 2402 0
+ 3397 0133 BE000000 		movl	$_ZL11ToEndOfLine, %esi	#,
+ 3397      00
+ 3398 0138 BF000000 		movl	$_ZL12GoToColumn60, %edi	#,
+ 3398      00
+ 3399 013d E8000000 		call	_ZNSsC1ERKSs	#
+ 3399      00
+ 3400              	.LEHE9:
+ 3401              	.LVL308:
+ 3402              	.LBB1657:
+ 3403              	.LBB1658:
+1006:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h **** 	return this->append(__s, traits_type::length(__s));
+ 3404              		.loc 11 1006 0
+ 3405 0142 BA050000 		movl	$5, %edx	#,
+ 3405      00
+ 3406 0147 BE000000 		movl	$.LC22, %esi	#,
+ 3406      00
+ 3407 014c BF000000 		movl	$_ZL12GoToColumn60, %edi	#,
+ 3407      00
+ 3408              	.LEHB10:
+ 3409 0151 E8000000 		call	_ZNSs6appendEPKcm	#
+ 3409      00
+ 3410              	.LEHE10:
+ 3411              	.LVL309:
+ 3412              	.LBE1658:
+ 3413              	.LBE1657:
+ 3414              	.LBE1656:
+ 3415              	.LBE1655:
+  10:ansi.h        **** static const string GoToColumn60 = ToEndOfLine + "\033[60G";...
+ 3416              		.loc 20 11 0
+ 3417 0156 BA000000 		movl	$__dso_handle, %edx	#,
+ 3417      00
+ 3418 015b BE000000 		movl	$_ZL12GoToColumn60, %esi	#,
+ 3418      00
+ 3419 0160 BF000000 		movl	$_ZNSsD1Ev, %edi	#,
+ 3419      00
+ 3420 0165 E8000000 		call	__cxa_atexit	#
+ 3420      00
+ 3421              	.LVL310:
+ 3422              	.LBE1661:
+ 3423              	.LBE1663:
+ 3424              		.loc 10 104 0
+ 3425 016a 4883C410 		addq	$16, %rsp	#,
+ 3426              		.cfi_remember_state
+ 3427              		.cfi_def_cfa_offset 16
+ 3428 016e 5B       		popq	%rbx	#
+ 3429              		.cfi_def_cfa_offset 8
+ 3430 016f C3       		ret
+ 3431              	.L150:
+ 3432              		.cfi_restore_state
+ 3433 0170 4889C3   		movq	%rax, %rbx	#, tmp66
+ 3434              	.LBB1664:
+ 3435              	.LBB1662:
+ 3436              	.LBB1660:
+ 3437              	.LBB1659:
+2404:/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/x86_64-redhat-linux/4.7.2/../../../../include/c++/4.7.2/bits/basic_string.h ****       return __str;
+ 3438              		.loc 11 2404 0
+ 3439 0173 BF000000 		movl	$_ZL12GoToColumn60, %edi	#,
+ 3439      00
+ 3440 0178 E8000000 		call	_ZNSsD1Ev	#
+ 3440      00
+ 3441              	.LVL311:
+ 3442 017d 4889DF   		movq	%rbx, %rdi	# tmp66,
+ 3443              	.LEHB11:
+ 3444 0180 E8000000 		call	_Unwind_Resume	#
+ 3444      00
+ 3445              	.LEHE11:
+ 3446              	.LVL312:
+ 3447              	.LBE1659:
+ 3448              	.LBE1660:
+ 3449              	.LBE1662:
+ 3450              	.LBE1664:
+ 3451              		.cfi_endproc
+ 3452              	.LFE3518:
+ 3453              		.section	.gcc_except_table
+ 3454              	.LLSDA3518:
+ 3455 0036 FF       		.byte	0xff
+ 3456 0037 FF       		.byte	0xff
+ 3457 0038 01       		.byte	0x1
+ 3458 0039 10       		.uleb128 .LLSDACSE3518-.LLSDACSB3518
+ 3459              	.LLSDACSB3518:
+ 3460 003a 0A       		.uleb128 .LEHB9-.LFB3518
+ 3461 003b 9802     		.uleb128 .LEHE9-.LEHB9
+ 3462 003d 00       		.uleb128 0
+ 3463 003e 00       		.uleb128 0
+ 3464 003f B102     		.uleb128 .LEHB10-.LFB3518
+ 3465 0041 05       		.uleb128 .LEHE10-.LEHB10
+ 3466 0042 D002     		.uleb128 .L150-.LFB3518
+ 3467 0044 00       		.uleb128 0
+ 3468 0045 E002     		.uleb128 .LEHB11-.LFB3518
+ 3469 0047 05       		.uleb128 .LEHE11-.LEHB11
+ 3470 0048 00       		.uleb128 0
+ 3471 0049 00       		.uleb128 0
+ 3472              	.LLSDACSE3518:
+ 3473              		.section	.text.startup
+ 3475              		.section	.init_array,"aw"
+ 3476              		.align 8
+ 3477 0000 00000000 		.quad	_GLOBAL__sub_I__Z14CompareResultsv
+ 3477      00000000 
+ 3478              		.local	_ZL10BeginTitle
+ 3479              		.comm	_ZL10BeginTitle,8,8
+ 3480              		.local	_ZL8EndTitle
+ 3481              		.comm	_ZL8EndTitle,8,8
+ 3482              		.section	.rodata.str1.1
+ 3483              	.LC23:
+ 3484 005a 1B5B3332 		.string	"\033[32;1mloop\033[0m"
+ 3484      3B316D6C 
+ 3484      6F6F701B 
+ 3484      5B306D00 
+ 3485              	.LC24:
+ 3486 006a 1B5B3331 		.string	"\033[31;1mgoodRecursion\033[0m"
+ 3486      3B316D67 
+ 3486      6F6F6452 
+ 3486      65637572 
+ 3486      73696F6E 
+ 3487              	.LC25:
+ 3488 0083 1B5B3333 		.string	"\033[33;1mConstantTime\033[0m"
+ 3488      3B316D43 
+ 3488      6F6E7374 
+ 3488      616E7454 
+ 3488      696D651B 
+ 3489              	.LC26:
+ 3490 009b 1B5B3336 		.string	"\033[36;1mUsingMatrix\033[0m"
+ 3490      3B316D55 
+ 3490      73696E67 
+ 3490      4D617472 
+ 3490      69781B5B 
+ 3491              		.section	.rodata.str1.8
+ 3492 00b3 00000000 		.align 8
+ 3492      00
+ 3493              	.LC27:
+ 3494 00b8 1B5B3334 		.string	"\033[34;1mwithoutLoopsOrRecursion\033[0m"
+ 3494      3B316D77 
+ 3494      6974686F 
+ 3494      75744C6F 
+ 3494      6F70734F 
+ 3495              		.section	.rodata
+ 3496              		.align 32
+ 3499              	._92:
+ 3500 0000 00000000 		.quad	.LC23
+ 3500      00000000 
+ 3501 0008 00000000 		.quad	.LC24
+ 3501      00000000 
+ 3502 0010 00000000 		.quad	.LC25
+ 3502      00000000 
+ 3503 0018 00000000 		.quad	.LC26
+ 3503      00000000 
+ 3504 0020 00000000 		.quad	.LC27
+ 3504      00000000 
+ 3505              		.local	_ZL5Empty
+ 3506              		.comm	_ZL5Empty,8,8
+ 3507              		.local	_ZL5Reset
+ 3508              		.comm	_ZL5Reset,8,8
+ 3509              		.local	_ZL3Red
+ 3510              		.comm	_ZL3Red,8,8
+ 3511              		.local	_ZStL8__ioinit
+ 3512              		.comm	_ZStL8__ioinit,1,1
+ 3513              		.local	_ZL11ToEndOfLine
+ 3514              		.comm	_ZL11ToEndOfLine,8,8
+ 3515              		.local	_ZL12GoToColumn60
+ 3516              		.comm	_ZL12GoToColumn60,8,8
+ 3517              		.section	.rodata.cst8,"aM",@progbits,8
+ 3518              		.align 8
+ 3519              	.LC0:
+ 3520 0000 A8F4979B 		.long	2610427048
+ 3521 0004 77E3F93F 		.long	1073341303
+ 3522              		.align 8
+ 3523              	.LC1:
+ 3524 0008 C5EDBFC5 		.long	3317689797
+ 3525 000c 259FDC3F 		.long	1071423269
+ 3526              		.align 8
+ 3527              	.LC2:
+ 3528 0010 00000000 		.long	0
+ 3529 0014 0000E03F 		.long	1071644672
+ 3530              		.align 8
+ 3531              	.LC3:
+ 3532 0018 00000000 		.long	0
+ 3533 001c 0000E043 		.long	1138753536
+ 3534              		.align 8
+ 3535              	.LC9:
+ 3536 0020 00000000 		.long	0
+ 3537 0024 80842E41 		.long	1093567616
+ 3538              		.align 8
+ 3539              	.LC12:
+ 3540 0028 00000000 		.long	0
+ 3541 002c 0000F03F 		.long	1072693248
+ 3542              		.align 8
+ 3543              	.LC15:
+ 3544 0030 00000000 		.long	0
+ 3545 0034 00002440 		.long	1076101120
+ 3546              		.text
+ 3547              	.Letext0:
+ 3548              		.file 21 "/usr/include/libio.h"
+ 3549              		.file 22 "/usr/include/stdio.h"
+ 3550              		.file 23 "<built-in>"
+ 3551              		.file 24 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3552              		.file 25 "/usr/include/wchar.h"
+ 3553              		.file 26 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3554              		.file 27 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3555              		.file 28 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3556              		.file 29 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3557              		.file 30 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3558              		.file 31 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3559              		.file 32 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3560              		.file 33 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3561              		.file 34 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3562              		.file 35 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3563              		.file 36 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3564              		.file 37 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3565              		.file 38 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3566              		.file 39 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3567              		.file 40 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3568              		.file 41 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3569              		.file 42 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3570              		.file 43 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3571              		.file 44 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3572              		.file 45 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3573              		.file 46 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3574              		.file 47 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3575              		.file 48 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3576              		.file 49 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3577              		.file 50 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3578              		.file 51 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3579              		.file 52 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3580              		.file 53 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3581              		.file 54 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3582              		.file 55 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3583              		.file 56 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3584              		.file 57 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3585              		.file 58 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3586              		.file 59 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3587              		.file 60 "/usr/include/time.h"
+ 3588              		.file 61 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3589              		.file 62 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3590              		.file 63 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3591              		.file 64 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3592              		.file 65 "/usr/include/stdint.h"
+ 3593              		.file 66 "/usr/include/locale.h"
+ 3594              		.file 67 "/usr/include/bits/types.h"
+ 3595              		.file 68 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3596              		.file 69 "/usr/include/stdlib.h"
+ 3597              		.file 70 "/usr/include/_G_config.h"
+ 3598              		.file 71 "/usr/include/bits/stdio.h"
+ 3599              		.file 72 "/usr/include/wctype.h"
+ 3600              		.file 73 "/usr/include/bits/mathdef.h"
+ 3601              		.file 74 "LogarithmicFibonacciUsingMatrices.h"
+ 3602              		.file 75 "Performance.h"
+ 3603              		.file 76 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3604              		.file 77 "/usr/libexec/openshift/cartridges/c9-0.1/root/cloud9-gcc-linux-toolchain/bin/../lib/gcc/
+ 3605              		.file 78 "/usr/include/bits/mathcalls.h"

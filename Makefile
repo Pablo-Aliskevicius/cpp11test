@@ -1,14 +1,8 @@
-all: output/hello-cpp-world output/hello-c-world output/hello-chrono output/delegating_constructor output/hello-threads output/Fibonacci 
-
-output/Fibonacci: Fibonacci.cc FibonacciImplementations.h
-	g++ -std=c++11 -O2 $< -o output/$@
+all: hello-cpp-world hello-c-world
 
 %: %.cc
-	g++ -std=c++11 -O2 -Wl,--no-as-needed -lpthread $< -o output/$@
-
-output/%: %.cc
-	g++ -std=c++11 -O2 -Wl,--no-as-needed -lpthread $< -o $@
+	g++ -std=c++11 $< -o $@
 
 %: %.c
-	gcc $< -o output/$@
+	gcc $< -o $@
 

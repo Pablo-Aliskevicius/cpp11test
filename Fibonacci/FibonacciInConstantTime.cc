@@ -1,4 +1,4 @@
-#include <cstdint>
+#include <cstdint> // for uint_fast16_t
 // This header is required, otherwise the compiler optimizes away everything.
 #include "FibonacciInConstantTime.h"
 
@@ -133,8 +133,5 @@ namespace metaprogrammed
         (ull) Fibonacci<91>::Element::value,  
         (ull) Fibonacci<92>::Element::value
     };
-    void bogus()
-    {
-        static_assert(93 == sizeof(Values) / sizeof(Values[0]), "The size of the array is not the expected (93): there may be a duplicate or missing value.");   
-    }
+    static_assert(93 == sizeof(Values) / sizeof(Values[0]), "The size of the array is not the expected (93): there may be a duplicate or missing value.");   
 }

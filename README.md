@@ -57,3 +57,8 @@ as -alhnd test.s > test.lst
 http://stackoverflow.com/questions/137038/how-do-you-get-assembler-output-from-c-c-source-in-gcc
 
 */
+/*
+top 
+cat /proc/cpuinfo
+cat /proc/meminfo
+*/
