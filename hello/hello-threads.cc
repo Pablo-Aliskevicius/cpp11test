@@ -35,7 +35,8 @@ int main() {
     try {
         auto sum = parallel_sum(v.begin(), v.end());
         // Scoped locker, to synchronize access to cout.
-        std::lock_guard<std::mutex> Actually, if we're here, all worker threads have ended their thing, so this is kind of redundant.  lock { g_display_mutex };
+        // Actually, if we're here, all worker threads have ended their thing, so this is kind of redundant.  
+        std::lock_guard<std::mutex> lock { g_display_mutex }; 
         std::cout << "The sum is " << sum << std::endl;
         std::cout << "The sum is also " << std::accumulate(v.begin(), v.end(), 0) << std::endl;
     }   catch (const std::future_error& fe) {
