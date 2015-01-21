@@ -144,6 +144,7 @@ using namespace std;
         cout << "Random order:";
         for (auto r: randomOrder) { cout << " " << r; }
         cout << endl;
+        // Move constructors in C++11 make this practical.
         return randomOrder;
     }
     void Performance::Compare() 

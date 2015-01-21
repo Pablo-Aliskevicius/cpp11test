@@ -5,7 +5,8 @@ using std::ostream;
 
 ostream &operator<<(ostream &o,Disk d)
 {
-    o << "disk " << d.diameter;
+    // The diameter sign, as mentioned in http://en.wikipedia.org/wiki/Diameter
+    o << u8"disk with \u2300 " << d.diameter;
     return o;
 }
 

@@ -29,7 +29,7 @@ namespace metaprogrammed
     // The compiled size of any of the functions (loop, recursion), even if smaller, cannot 'pay' for the run time overhead. 
     // O(1) wins.
     // The array could also have been initialized with literals downloaded from http://ibiblio.org/pub/docs/books/gutenberg/etext01/fbncc10.txt (among many others)
-    const ull  Values [] = {
+    const ull  Values [] = {  
         (ull) Fibonacci<0>::Element::value,  
         (ull) Fibonacci<1>::Element::value,  
         (ull) Fibonacci<2>::Element::value,  

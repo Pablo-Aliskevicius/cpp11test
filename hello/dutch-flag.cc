@@ -2,13 +2,17 @@
 http://en.wikipedia.org/wiki/Dutch_national_flag_problem
 http://www.drdobbs.com/cpp/a-second-try-at-refactoring-dijkstras-ex/240168792
 */
-#include <iostream> // for cout
-#include <string>
-#include <random>  
-#include <chrono>
-#include <algorithm> 
-#include <type_traits> 
-#include <cstring> // for memcpy
+#include <iostream>    // for cout
+#include <string>      // ANSI color escape codes.
+#include <random>      // used for random generating test data
+#include <chrono>      // used for seeding randoms
+#include <algorithm>   // reverse, shuffle
+#include <type_traits> // used to check whether a Ball is move constructible, for good swaps. 
+#include <cstring>     // for memcpy
+
+using std::ostream;
+using std::cout;
+using std::endl;
 
 // The Dutch flag is red, white and blue.
 enum Color
@@ -21,9 +25,9 @@ enum Color
 template <class T>
 void DutchFlagSort(T * arr, size_t size)
 {
-    T* nextRed = arr;
+    T* nextRed   = arr;
     T* firstBlue = arr + size;
-    T* current = arr;
+    T* current   = arr;
     // Ignore blue tails (avoid re-sorting blues in a pre-sorted array)
     while (current < firstBlue && (firstBlue - 1)->GetColor() == Color::Blue)
     {
@@ -48,9 +52,9 @@ void DutchFlagSort(T * arr, size_t size)
     } // while
 }
 
-/*
-From here down, test code. 
-*/
+/* ====================================================================================================================================
+                                 From here down, test code. 
+   ==================================================================================================================================== */
 
 namespace ansi 
 {
@@ -63,7 +67,7 @@ namespace ansi
     static const string Reset = "\033[0m"; // Just reset.
 }
 
-
+// This class complies to the requirements in DutchFlagSort<>(): it exposes a public method GetColor() that returns something convertible to a Color. 
 class Ball 
 {
     private:
@@ -81,8 +85,7 @@ class Ball
 };
 
 
-// Helper operator, to show colored balls in an ANSI console. 
-using std::ostream;
+// Show colored balls in an ANSI console. 
 ostream & operator << (ostream & os, const Ball &b)
 {
     switch (b.GetColor())   
@@ -114,15 +117,17 @@ ostream & operator << (ostream & os, const Ball &b)
 // 14. All three colors, inverted.
 // 15. All three colors, random. 
 
-class TestData
+class Test
 {
     //  Remember: A class that manages a resource should define non-trivial copy and move constructors. 
     Ball *m_arr;
-    size_t count;
+    size_t m_count;
 
     bool IsSorted() const 
     {
-        for (int i = 1; i < count; ++i) {
+        // This here code depends on the color values being in the 'right' order. 
+        // Never do this in production code. 
+        for (int i = 1; i < m_count; ++i) {
             int prev = (int) m_arr[i - 1].GetColor();
             int current = (int) m_arr[i].GetColor();
             if (current < prev) return false;
@@ -132,130 +137,155 @@ class TestData
     // Output, for testing. 
     void Display(ostream & os) const
     {
-        for (size_t i = 0; i < count; ++i) {
+        for (size_t i = 0; i < m_count; ++i) {
             os <<  m_arr[i];
         }
-        os << std::endl;
+        os << endl;
     }
 
+    // Helper classes, to reduce clutter.
+    // C++ 11 Random number generator: another good thing that was added in C++11.
+    class BallDiameterGenerator
+    {
+        std::random_device rd;
+        std::uniform_int_distribution<size_t> diameters;
+    protected:
+        std::default_random_engine generator;
+    public:
+        BallDiameterGenerator(size_t small = 4, size_t big = 10): generator(rd()), diameters(small, big)
+        {
+        }
+        size_t operator()()
+        {
+            return diameters(generator);
+        }
+    };
+    class FullBallGenerator: public BallDiameterGenerator
+    {
+        std::uniform_int_distribution<size_t> distribution;
+    public: 
+        FullBallGenerator(size_t colorsCount, size_t small = 4, size_t big = 10): distribution(0,colorsCount - 1), BallDiameterGenerator(small, big)
+        {
+        }
+        size_t GetColorIndex()
+        {
+            return distribution(generator);
+        }
+    };
 public:    
 
-// Business logic
-    bool Run() // True if succeeded
+    // Run a test. Returns true if succeeded
+    bool Run() 
     {
-        Display(std::cout);
+        Display(cout);
         // Test a basic sort. 
-        DutchFlagSort(m_arr, count);
-        Display(std::cout);
+        DutchFlagSort(m_arr, m_count);
+        Display(cout);
         if (!IsSorted())
         {
             return false;
         }
         // Test that sorting an already sorted array does not break it.
-        DutchFlagSort(m_arr, count);
+        DutchFlagSort(m_arr, m_count);
         if (!IsSorted())
         {
-            Display(std::cout);
+            Display(cout);
             return false;
         }
         //Reverse, resort and retest
-        std::reverse(m_arr, m_arr + count);
-        // Display(std::cout); // Enable this if you want to see that std::reverse actually works. 
-        DutchFlagSort(m_arr, count);
+        std::reverse(m_arr, m_arr + m_count);
+        // Display(cout); // Enable this if you want to see that std::reverse actually works. 
+        DutchFlagSort(m_arr, m_count);
         if (!IsSorted())
         {
-            Display(std::cout);
+            Display(cout);
         }
         return IsSorted();
     }
-    // Constructors
+    ///////////////////////////////////////////////////////
+    // Constructors (test setup)
+    ///////////////////////////////////////////////////////
     // Build an array of size cnt, random colors.
-    TestData(size_t cnt): count(cnt)
+    Test(size_t cnt): m_count(cnt)
     {
         // TODO: Throw if count is zero?
-        m_arr = (Ball *) calloc(count, sizeof(Ball));
+        m_arr = (Ball *) calloc(m_count, sizeof(Ball));
         Color clrArr [] = { Color::Red, Color::White, Color::Blue };
-         // C++ 11 Random number generator: another good thing that was added in C++11.
-        std::random_device rd;
-        std::default_random_engine generator(rd());
-        std::uniform_int_distribution<size_t> distribution(0,2);
-        std::uniform_int_distribution<size_t> diameters(4,10);
-        for (size_t i = 0; i < count; ++i)
+        FullBallGenerator fbg(sizeof(clrArr) / sizeof(clrArr[0]), 1, 9);
+        for (size_t i = 0; i < m_count; ++i)
         {
             // Using placement new, to separate allocation from initialization. 
-            new(m_arr + i) Ball(clrArr[distribution(generator)], diameters(generator));
+            new(m_arr + i) Ball(clrArr[fbg.GetColorIndex()], fbg());
         }
     }
     // Build an array of size cnt, all of color clr.
-    TestData(size_t cnt, Color clr): count(cnt)
+    Test(size_t cnt, Color clr): m_count(cnt)
     {
-        m_arr = (Ball *) calloc(count, sizeof(Ball));
-        std::random_device rd;
-        std::default_random_engine generator(rd());
-        std::uniform_int_distribution<size_t> diameters(4,10);
-        for (size_t i = 0; i < count; ++i)
+        m_arr = (Ball *) calloc(m_count, sizeof(Ball));
+        BallDiameterGenerator bdg(10, 99);
+        for (size_t i = 0; i < m_count; ++i)
         {
             // Placement new again, for the same reason. 
-            new(&m_arr[i]) Ball(clr, diameters(generator));
+            new(&m_arr[i]) Ball(clr, bdg());
         }
     }
     // Build an array with cnt1 items of color clr1 and cnt2 items of color clr2, in random order. 
-    TestData(size_t cnt1, Color clr1, size_t cnt2, Color clr2): count(cnt1 + cnt2)
+    Test(size_t cnt1, Color clr1, size_t cnt2, Color clr2): m_count(cnt1 + cnt2)
     {
-        m_arr = (Ball *) calloc(count, sizeof(Ball));
-        Color clrArr [] = { clr1, clr2 };
+        m_arr = (Ball *) calloc(m_count, sizeof(Ball));
          // C++ 11 Random number generator: another good thing that was added in C++11.
-        std::random_device rd;
-        std::default_random_engine generator(rd());
-        std::uniform_int_distribution<size_t> diameters(4,10);
+        BallDiameterGenerator bdg(3, 9);
         size_t i = 0;
         for (; i < cnt1; ++i)
         {
             // Placement new. 
-            new(&m_arr[i]) Ball(clr1, diameters(generator));
+            new(&m_arr[i]) Ball(clr1, bdg());
         }
-        for (; i < count; ++i)
+        for (; i < m_count; ++i)
         {
             // Placement new. 
-            new(&m_arr[i]) Ball(clr2, diameters(generator));
+            new(&m_arr[i]) Ball(clr2, bdg());
         }
         // Shuffle the 'balls'.
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::shuffle (m_arr, m_arr + count, std::default_random_engine(seed));
+        std::shuffle (m_arr, m_arr + m_count, std::default_random_engine(seed));
     }
-#pragma region resource management    
-    // Resource management, copy and move stuff. There is a raw pointer to a malloc/free block in this class. 
-    
-    TestData(const TestData& that)
+    ///////////////////////////////////////////////////////
+    // Resource management  
+    // Needed to copy and move stuff, because there is a 
+    // raw pointer to a malloc/free block in this class. 
+    ///////////////////////////////////////////////////////
+
+    Test(const Test& that)
     {
-        std::cout << __FUNCTION__ << "(copy)" << std::endl;
-        count = that.count;
-        m_arr = (Ball *) calloc(count, sizeof(Ball));
-        // Faster than std::copy. We don't need deep copy here. 
-        memcpy(m_arr, that.m_arr, count * sizeof(Ball));
+        cout << __FUNCTION__ << "(copy)" << endl;
+        m_count = that.m_count;
+        m_arr = (Ball *) calloc(m_count, sizeof(Ball));
+        // Rather than std::copy. We don't need deep copy here. 
+        memcpy(m_arr, that.m_arr, m_count * sizeof(Ball));
     }
     //move constructor
-    TestData(TestData&& that)
+    Test(Test&& that)
     {
-        std::cout << __FUNCTION__ << "(move)" << std::endl;
-        count = that.count;
+        cout << __FUNCTION__ << "(move)" << endl;
+        m_count = that.m_count;
         m_arr = that.m_arr;
         that.m_arr = nullptr;
     }
     // copy assignment: clean up target and copy. Leave default if possible. 
-    TestData& operator=(const TestData& x)
+    Test& operator=(const Test& x)
     {
         // consider testing (&x != this) to prevent self-assignement, only if you are sure that you need to.     
     
         // standard trick
-        TestData tmp {x};
+        Test tmp {x};
         std::swap(tmp, *this); // std::swap does not use assignement.
         return *this;
     }
     // move assignment: clean up target and move
-    TestData& operator=(TestData&& that)
+    Test& operator=(Test&& that)
     {
-        count = that.count;
+        m_count = that.m_count;
         if (m_arr != nullptr) free(m_arr);
         m_arr = that.m_arr;
         that.m_arr = nullptr;
@@ -263,27 +293,32 @@ public:
     }
     
     // Destructor
-    ~TestData()
+    ~Test()
     {
-      // std::cout << "Destructing [" << count << "]" << std::endl;
+      // cout << "Destructing [" << count << "]" << endl;
         if (m_arr != nullptr) free(m_arr);
     }
-#pragma endregion     
+    ///////////////////////////////////////////////////////
+
 };
 
 
 int main()
 {
     // If Ball does not answer to the requirements of std::swap, no point in trying to do anything.
-    std::cout << std::boolalpha 
-              << "Ball is move-constructible? " << std::is_move_constructible<Ball>::value << std::endl
-              << "Ball is move-assignable? " << std::is_move_assignable<Ball>::value << std::endl
-              ;
+    cout << std::boolalpha 
+         << "Ball is move-constructible? " << std::is_move_constructible<Ball>::value << endl
+         << "Ball is move-assignable? " << std::is_move_assignable<Ball>::value << endl
+         ;
     // 1. Build a bunch of tests. C++11 initializers come handy here. 
-    TestData arr [] = { 
-        // Primes and powers of 2
-        {7}, {9}, {11}, {13}, {16}, {32}, {64},  
-        // Single color, one or ore balls (looking for infinite loops)
+    Test arr [] { 
+        // Primes 
+        {7}, {9}, {11}, {13}, {17}, {19}, {23}, {29}, {37}, {41}, {43}, 
+        // Powers of 2
+        {16}, {32}, {64}, 
+        // Powers of 3
+        {3}, {9}, {27}, {81}, 
+        // Single color, one or more balls (looking for infinite loops)
         {1, Color::Red}, {1, Color::White}, {1, Color::Blue}, 
         {5, Color::Red}, {5, Color::White}, {5, Color::Blue}, 
         // Two colors (looking for infinite loops)
@@ -296,17 +331,17 @@ int main()
     {
         if (td.Run())
         {
-            std::cout << "Succeeded!" << std::endl;
+            cout << "Succeeded!" << endl;
         }
         else
         {
-            std::cout  << ansi::Red << "Failed!" << std::endl;
+            cout  << ansi::Red << "Failed!" << endl;
             failed = true;
         }
     }
     if (failed) 
     {
-        std::cout  << ansi::Red << "****** Failed! ******" << std::endl;
+        cout  << ansi::Red << "****** Failed! ******" << endl;
     }
     return 0;
 }

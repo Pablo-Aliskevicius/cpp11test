@@ -2,6 +2,8 @@
 #include <chrono>
 #include "Tower.h"
 
+#include "MoveOne.h"
+
 const int max_disks = 8;
 
 unsigned int GetRandomNumberOfDisks()
@@ -12,21 +14,12 @@ unsigned int GetRandomNumberOfDisks()
     return ((unsigned int) generator() % max_disks) + 3;
 }
 
-// Count of total moves, to verify that the complexity is O(2^N)
-int glbTotalMoves = 0;
-void moveOne(Tower &source, Tower &destination)
-{
-    auto d = source.GetTopDisk();
-    std::cout << "Move " << d << " from " << source << " to " << destination << std::endl;
-    destination.PushDisk(d);
-    ++glbTotalMoves;
-}
-
 void play(unsigned int n, Tower &source, Tower &tmp, Tower &destination)
 {
     if (n < 1) return;
     play(n - 1, source, destination, tmp);
-    moveOne(source, destination);
+    // How is this for readability? TODO: Check disassambly for efficiency. 
+    MoveOne::From(source).To(destination);
     play(n - 1, tmp, source, destination);
 }
 
@@ -47,7 +40,7 @@ int main()
     {
         std::cout  << destination.GetTopDisk() << ", ";
     }
-    std::cout << std::endl << "Total moves: " << glbTotalMoves << " (should be 2 ^ " << numberOfDisks << " - 1)" << std::endl;
+    std::cout << std::endl << "Total moves: " << MoveOne::TotalMoves << " (should be 2 ^ " << numberOfDisks << " - 1)" << std::endl;
     
     return 0;
 }

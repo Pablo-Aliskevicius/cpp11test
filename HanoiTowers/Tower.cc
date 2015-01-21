@@ -6,7 +6,7 @@ using std::ostream;
 
 ostream &operator<<(ostream &stream,Tower t)
 {
-    stream << "tower " << t.id;
+    stream << "tower #" << t.id;
     return stream;
 }
 
@@ -22,6 +22,7 @@ Disk Tower::GetTopDisk()
 }
 void Tower::PushDisk(Disk d)
 {
+    // Enforce the rules
     if (!disks.empty() && disks.top() < d)
     {
         throw std::logic_error("Cannot put a big disk over a small one");
