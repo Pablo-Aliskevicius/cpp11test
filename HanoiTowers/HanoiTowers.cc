@@ -5,13 +5,14 @@
 #include "MoveOne.h"
 
 const int max_disks = 8;
+const int min_disks = 3; 
 
 unsigned int GetRandomNumberOfDisks()
 {
     // The only interesting new part in C++11 for this particular problem seems to be the random number generator.
     using namespace std;
     minstd_rand0 generator (chrono::system_clock::now().time_since_epoch().count()); 
-    return ((unsigned int) generator() % max_disks) + 3;
+    return ((unsigned int) generator() % (max_disks + 1 - min_disks)) + min_disks;
 }
 
 void play(unsigned int n, Tower &source, Tower &tmp, Tower &destination)

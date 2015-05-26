@@ -11,15 +11,15 @@
  
  std::mutex g_display_mutex;
  
- 
+// Random access iterators.  
 template <typename RAIter>
 int parallel_sum(RAIter beg, RAIter end) {
     typename RAIter::difference_type len = end-beg;
     std::thread::id this_id = std::this_thread::get_id();
     {
         // Scoped locker, to synchronize access to cout.
-        std::lock_guard<std::mutex> lock { g_display_mutex };
-        std::cout << "parallel_sum: len is " << std::setw(9) << len << " in thread " << std::this_thread::get_id() << std::endl;
+     //   std::lock_guard<std::mutex> lock { g_display_mutex };
+      //  std::cout << "parallel_sum: len is " << std::setw(9) << len << " in thread " << std::this_thread::get_id() << std::endl;
     }
     if(len < 1000) {
         return std::accumulate(beg, end, 0);
@@ -31,7 +31,7 @@ int parallel_sum(RAIter beg, RAIter end) {
 }
   
 int main() {
-    std::vector<int> v(100000, 1);
+    std::vector<int> v(1000000, 1);
     try {
         auto sum = parallel_sum(v.begin(), v.end());
         // Scoped locker, to synchronize access to cout.

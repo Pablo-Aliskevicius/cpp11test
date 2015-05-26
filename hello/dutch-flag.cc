@@ -38,7 +38,7 @@ void DutchFlagSort(T * arr, size_t size)
         switch (current->GetColor())   
         {
             case Color::Red:
-                // std::swap is smart enogh to do nothing for the same instance (initial reds)
+                // std::swap is smart enough to do nothing for the same instance (initial reds)
                 std::swap(*nextRed++, *current++); 
                 break;
             case Color::White:

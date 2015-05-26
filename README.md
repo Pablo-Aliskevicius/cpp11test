@@ -44,6 +44,13 @@ git commit -m "First commit"
 
 Push to github: 
 git push -u origin master
+
+Check whether github has stuff not yet in your workspace
+http://www.drdobbs.com/architecture-and-design/git-tracking-relationships-use-the-full/240168881
+git status 
+
+update remote data by performing a simple git fetch <remote-name> from time to time.
+
 */
 
 /*
@@ -61,4 +68,10 @@ http://stackoverflow.com/questions/137038/how-do-you-get-assembler-output-from-c
 top 
 cat /proc/cpuinfo
 cat /proc/meminfo
+*/
+/*
+Static code analysis: 
+1. http://repo.or.cz/w/smatch.git
+2. http://clang-analyzer.llvm.org
+3. http://cppcheck.sourceforge.net
 */

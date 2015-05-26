@@ -12,13 +12,14 @@ long fibonacci(int n)
 void testFibonacci()
 {
     // From http://en.cppreference.com/w/cpp/chrono
-    std::chrono::time_point<std::chrono::high_resolution_clock> start, end; // was system_clock;
-    start = std::chrono::high_resolution_clock::now();
+    using clock_t = std::chrono::high_resolution_clock;
+    std::chrono::time_point<clock_t> start, end; // was system_clock;
+    start = clock_t::now();
     std::cout << "f(42) = " << fibonacci(42) << '\n';
-    end = std::chrono::high_resolution_clock::now();
+    end = clock_t::now();
  
     std::chrono::duration<double> elapsed_seconds = end-start;
-    std::time_t end_time = std::chrono::high_resolution_clock::to_time_t(end);
+    std::time_t end_time = clock_t::to_time_t(end);
  
     std::cout << "finished computation at " << std::ctime(&end_time)
               << "elapsed time: " << elapsed_seconds.count() << "s\n";    
@@ -27,7 +28,7 @@ void testFibonacci()
 void testConversions()
 {
     // From http://en.cppreference.com/w/cpp/chrono/duration   
-      typedef std::chrono::duration<int, std::ratio<1, 100000000>> shakes;
+    typedef std::chrono::duration<int, std::ratio<1, 100000000>> shakes;
     typedef std::chrono::duration<int, std::centi> jiffies;
     typedef std::chrono::duration<float, std::ratio<12096,10000>> microfortnights;
     typedef std::chrono::duration<float, std::ratio<3155,1000>> nanocenturies;
