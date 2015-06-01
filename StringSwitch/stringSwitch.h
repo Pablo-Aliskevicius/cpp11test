@@ -37,7 +37,7 @@ namespace utl
     {
         Functor m_defaultHandler; 
          // std::hash<const char *> just compares pointers.
-        typedef std::unordered_map<const char *, decltype(someFunc)*, QuickStringHash, CStyleStringEquals> dispatcher_t;
+        typedef std::unordered_map<const char *, Functor, QuickStringHash, CStyleStringEquals> dispatcher_t;
         dispatcher_t m_dispatcher;
         Functor DoGet(const char * caseString) const
         {
@@ -52,11 +52,11 @@ namespace utl
             }            
         }
     public:        
-        StringSwitch(Functor defaultHandler, std::initializer_list<dispatcher_t::value_type> initializers):
+        StringSwitch(Functor defaultHandler, std::initializer_list<typename dispatcher_t::value_type> initializers):
             m_defaultHandler(defaultHandler),
             m_dispatcher { initializers }
         {
-            
+            // This constructor is NOT empty.
         }
         Functor Get(const char * caseString) const
         {

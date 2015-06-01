@@ -12,7 +12,7 @@ class StringKey
   // TODO: Make the hashing function and string compare function (strcmp, stricmp) policies (template parameters): if the string compare is CI, so should be the hash.
   // TODO: Make the char type (char or wchar_t) a template parameter
   // Using CONSTEXPR to trick the compiler into computing hashes, whenever possible, at compile time. 
-    static constexpr int Hash(const char * s, int tot) 
+    static int Hash(const char * s, int tot) 
     {
     	// http://stackoverflow.com/questions/98153/whats-the-best-hashing-algorithm-to-use-on-a-stl-string-when-using-hash-map
     	// Could also use http://isthe.com/chongo/tech/comp/fnv/ (public domain), but it looks like overkill. 
@@ -21,15 +21,16 @@ class StringKey
     }
     
 public:
-	constexpr StringKey(const char *p): m_str(p), m_hash (Hash(p, 0))
+	StringKey(const char *p): m_str(p), m_hash (Hash(p, 0))
 	{
 	}
 
-	constexpr bool operator < (const StringKey &that) const
+	bool operator < (const StringKey &that) const
 	{
 		// Collisions, while hopefully rare, are still possible.
 		// Two integer comparisons are cheaper than a strcmp() call.
-		return ( (m_hash == that.m_hash) ? strcmp(m_str, that.m_str): m_hash - that.m_hash ) < 0;
+		// Note the use of '<' for the hashes, instead of '-', due to a buffer overflow.
+		return ( (m_hash == that.m_hash) ? strcmp(m_str, that.m_str): m_hash < that.m_hash ? -1: 1 ) < 0;
 	}
 	// Debugging support: getters
 	int getHash() const {return m_hash;}
@@ -40,9 +41,9 @@ struct Test
 {
     static void testStringKey()
     {
-        StringKey sk1 ("Alpha");
-        StringKey sk2 ("Bravo");
-        StringKey sk3 ("Charlie");
+        const StringKey sk1 ("Alpha");
+        const StringKey sk2 ("Bravo");
+        const StringKey sk3 ("Charlie");
         
         cout << "{ " << setw(11) << right<< sk1.getHash() << ", " << setw(7) << left << sk1.getName() << "}"
              << (sk1 < sk2 ? "<": sk2 < sk1 ? ">" : "eq")

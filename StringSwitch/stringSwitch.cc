@@ -38,7 +38,8 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
 // Dispatcher infrastructure.
 // --------------------------------
 
-
+#define NOT_USING_UNORDERED_MAP 1
+    
 #if NOT_USING_UNORDERED_MAP
     #include <map>
     #include "cpp98style.h"
@@ -58,7 +59,7 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
         
         for (auto d: Dispatcher$)
         {
-            cout << "dispatcher: " << setw(11) << right << d.first << endl;
+            cout << "dispatcher: " << setw(12) << right << d.first.getHash() << " " << d.first.getName() << endl;
         }
         cout << endl;
 
@@ -72,7 +73,7 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
             }
             else 
             {
-	            iter->second(1, cmd, iter->first.getHash(), iter->first.c_str().getName());
+	            iter->second(1, cmd, iter->first.getHash(), iter->first.getName());
             }
         }       
     }
@@ -97,7 +98,7 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
         utl::QuickStringHash qsh;
         for (auto cmd : {"Cuatro", "Tres", "Dos", "Uno"})    
         {
-            // Explicit version
+            // Explicit version 
             // auto funct = stringSwitch$.Get(cmd);
             // funct(qsh(cmd), cmd, 0, "Found!");
             
