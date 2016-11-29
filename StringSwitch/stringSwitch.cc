@@ -3,6 +3,7 @@
 // Headers for the test code
 #include <iostream>
 #include <iomanip>  // std::setw
+#include <cstdint>  // fast int 64
 
 using std::cout;
 using std::endl;
@@ -11,25 +12,25 @@ using std::left;
 using std::right;
 
 // --------------------------------
-// Forward declaration of the _type_ of function we analyze.
+// Forward declaration of the _type_ of function in the 'switch'.
 // --------------------------------
-void someFunc(int cnt1, const char * arr1, int cnt2, const char *arr2);
+void someFunc(int_fast64_t cnt1, const char * arr1, int_fast64_t cnt2, const char *arr2);
 
 // --------------------------------
 // Functions that will handle the actual cases in the switch
 // --------------------------------
 
-void someFunc2(int cnt1, const char * arr1, int cnt2, const char *arr2)
+void someFunc2(int_fast64_t cnt1, const char * arr1, int_fast64_t cnt2, const char *arr2)
 {
     cout << "in someFunc2 " << setw(12) << right<< cnt1 << " " << setw(7) << left << arr1 << " " << setw(12) << right<< cnt2 << " " << arr2 << endl;
 }
 
-void someFunc3(int cnt1, const char * arr1, int cnt2, const char *arr2)
+void someFunc3(int_fast64_t cnt1, const char * arr1, int_fast64_t cnt2, const char *arr2)
 {
     cout << "in someFunc3 " << setw(12) << right<< cnt1 << " " << setw(7) << left << arr1 << " " << setw(12) << right<< cnt2 << " " << arr2 << endl;
 }
 
-void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
+void someFunc4(int_fast64_t cnt1, const char * arr1, int_fast64_t cnt2, const char *arr2)
 {
     cout << "in someFunc4 " << setw(12) << right<< cnt1 << " " << setw(7) << left << arr1 << " " << setw(12) << right<< cnt2 << " " << arr2 << endl;
 }
@@ -38,7 +39,7 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
 // Dispatcher infrastructure.
 // --------------------------------
 
-#define NOT_USING_UNORDERED_MAP 1
+// #define NOT_USING_UNORDERED_MAP 1
     
 #if NOT_USING_UNORDERED_MAP
     #include <map>
@@ -83,8 +84,8 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
     
     // The default error handler is initialized using a lambda. More sophisticated error handling
     // would be likely to require a function. 
-    static const utl::StringSwitch<decltype(someFunc)*> stringSwitch$ {
-        [](int, const char * cmd, int, const char *) { cout << cmd << ": Not found." << endl; }
+    static const utl::StringSwitch<decltype(someFunc)*, int_fast64_t> stringSwitch$ {
+        [](int_fast64_t, const char * cmd, int_fast64_t, const char *) { cout << cmd << ": Not found." << endl; }
         ,
         { 
             {"Dos", someFunc2}, 
@@ -95,7 +96,7 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
 
     void TestStringSwitch()
     {
-        utl::QuickStringHash qsh;
+        utl::QuickStringHash<int_fast64_t> qsh;
         for (auto cmd : {"Cuatro", "Tres", "Dos", "Uno"})    
         {
             // Explicit version 
@@ -107,7 +108,23 @@ void someFunc4(int cnt1, const char * arr1, int cnt2, const char *arr2)
         }
         
     }
-    
+    void TestCodeGeneration()
+    {
+        std::cout << "// Code generation is faster than unordered_map. Basically, you just generate an integer switch, hash the string you receive as parameter, and switch on it." << std::endl <<
+        "// Just make sure you don't get any hash collisions." << std::endl <<
+        "switch(getHash(someVariable)) {" << std::endl;
+        utl::QuickStringHash<int_fast64_t> qsh; // <int> to match someFunc() prototype above. 
+        for (auto cmd : {"Cuatro", "Tres", "Dos", "Uno", "Nobody expects the Spanish Inquisition"})    
+        {
+           std::string s(cmd);
+           auto h = qsh(cmd);
+           std::cout<< "\tcase "<< h << ": // " << s << std::endl << "\tbreak;" << std::endl;
+        }
+        std::cout << "size of int is: " << sizeof(int) << ", sizeof(size_t) is " << sizeof(size_t) << ", size of int_fast64_t is " << sizeof(int_fast64_t) << ", hash returns size " << sizeof(decltype(qsh)::hash_t) << std::endl;
+    }
+    // TODO: What about the equivalent of EVALUATE TRUE? (test several conditions, branch on the first that is true)
+    // Maybe list/vector of pair of functors: [&](){}->bool, [&]()->void?
+    // Makes if...elsif...elsif...else... look good.
 #endif // NOT_USING_UNORDERED_MAP
 
 /*======================================= Tests =======================================*/
@@ -119,6 +136,7 @@ int main ()
     TestTheOldWay();
 #else
     TestStringSwitch();
+    TestCodeGeneration();
 #endif // NOT_USING_UNORDERED_MAP	        
     return 0;
 }

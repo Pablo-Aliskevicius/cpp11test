@@ -45,6 +45,8 @@ struct Test
         const StringKey sk2 ("Bravo");
         const StringKey sk3 ("Charlie");
         
+        // Test that operator less behaves as expected. 
+        
         cout << "{ " << setw(11) << right<< sk1.getHash() << ", " << setw(7) << left << sk1.getName() << "}"
              << (sk1 < sk2 ? "<": sk2 < sk1 ? ">" : "eq")
              << "{ " << setw(11) << right<< sk2.getHash() << ", " << setw(7) << left << sk2.getName() << "}"
