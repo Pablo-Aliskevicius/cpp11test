@@ -20,6 +20,11 @@ namespace utl
         {
             return QuickStringHash<T>::Hash(s, 0);
         }
+ //           We cannot do this, c_str() is not constexpr.
+ /*       constexpr */ hash_t operator()(const std::string &s) const
+        {
+            return QuickStringHash<T>::Hash(s.c_str(), 0);
+        }    
     };
  
  

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>  // std::setw
 #include <cstdint>  // fast int 64
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -137,6 +138,25 @@ int main ()
 #else
     TestStringSwitch();
     TestCodeGeneration();
-#endif // NOT_USING_UNORDERED_MAP	        
+#endif // NOT_USING_UNORDERED_MAP	    
+
+    // constexpr lets you do this.
+    std::vector<std::string> v{"Cero", "Uno", "Dos"};
+    utl::QuickStringHash<size_t>  hash_fn;
+    switch (const auto x = hash_fn(v[abs(rand()) % 3]))
+    {
+        case hash_fn("Cero"):
+        cout << "Cero" <<endl;
+        break;
+        case hash_fn("Uno"):
+        cout << "Uno" <<endl;
+        break;
+        case hash_fn("Dos"):
+        cout << "Dos" <<endl;
+        break;
+        default:
+        cout << std::to_string(x) <<endl;
+        break;
+    }
     return 0;
 }

@@ -38,9 +38,10 @@ git init -- maybe only once?
 git remote add origin git@github.com:Pablo-Aliskevicius/cpp11test 
 
 Add files and commit them:
-git add . 
+git add --all . 
 
-git commit -m "First commit"
+Before pushing, you have to commit your changes to the local database: 
+git commit -m "Commit comment"
 
 Push to github: 
 git push -u origin master
