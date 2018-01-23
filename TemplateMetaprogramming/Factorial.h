@@ -1,5 +1,4 @@
-
-
+#pragma once
 
 template <size_t n>
 struct Factorial

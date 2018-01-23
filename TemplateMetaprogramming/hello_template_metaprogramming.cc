@@ -11,7 +11,7 @@ int main(int argc, char **argv)
      (size_t) pascalTriangle::Combinations<3,1>::Value::Get << ", " << 
      (size_t) pascalTriangle::Combinations<3,0>::Value::Get << std::endl;
     
-    // std::cout << (size_t) pascalTriangle::Combinations<3,4>::Value::Get << std::endl;
+    // std::cout << (size_t) pascalTriangle::Combinations<3,4>::Value::Get << std::endl; // Combinations.h:33:20: error: no type named ‘type’ in ‘struct std::enable_if<false, long unsigned int>’
     
     std::cout << (size_t) pascalTriangle::Combinations<43,4>::Value::Get << std::endl; // Ok, tested manually. 
 

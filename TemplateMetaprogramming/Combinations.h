@@ -1,5 +1,7 @@
-#include "Factorial.h"
+#pragma once
 
+#include <type_traits>
+#include "Factorial.h"
 
 namespace horrible
 {
@@ -28,7 +30,7 @@ namespace pascalTriangle
     template<size_t m, size_t n>
     struct Combinations
     {
-        enum class Value : size_t { Get = (size_t) Combinations<m - 1, n - 1>::Value::Get + (size_t) Combinations<m - 1, n>::Value::Get };
+        enum class Value : typename std::enable_if<(m > n), size_t>::type { Get = (size_t) Combinations<m - 1, n - 1>::Value::Get + (size_t) Combinations<m - 1, n>::Value::Get };
     };
     // Specialization for left side
     template<size_t m>
@@ -42,12 +44,12 @@ namespace pascalTriangle
     {
         enum class Value : size_t { Get = 1ULL }; 
     };
-    template<>
-    struct Combinations<0, 0>
-    {
-        enum class Value : size_t { Get = 1ULL }; 
-    };
-    
+//  template<>
+//  struct Combinations<0, 0>
+//  {
+//      enum class Value : size_t { Get = 1ULL }; 
+//  };
+//  
     
     
 //    template<size_t m, size_t n, typename = std::enable_if<(m < n)>::type >
