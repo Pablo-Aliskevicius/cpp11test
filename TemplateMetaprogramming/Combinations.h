@@ -30,7 +30,7 @@ namespace pascalTriangle
     template<size_t m, size_t n>
     struct Combinations
     {
-        enum class Value : typename std::enable_if<(m > n), size_t>::type { Get = (size_t) Combinations<m - 1, n - 1>::Value::Get + (size_t) Combinations<m - 1, n>::Value::Get };
+        enum class Value : typename std::enable_if<(m > n && n > 0), size_t>::type { Get = (size_t) Combinations<m - 1, n - 1>::Value::Get + (size_t) Combinations<m - 1, n>::Value::Get };
     };
     // Specialization for left side
     template<size_t m>
