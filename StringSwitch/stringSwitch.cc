@@ -121,7 +121,7 @@ void someFunc4(int_fast64_t cnt1, const char * arr1, int_fast64_t cnt2, const ch
            auto h = qsh(cmd);
            std::cout<< "\tcase "<< h << ": // " << s << std::endl << "\tbreak;" << std::endl;
         }
-        std::cout << "size of int is: " << sizeof(int) << ", sizeof(size_t) is " << sizeof(size_t) << ", size of int_fast64_t is " << sizeof(int_fast64_t) << ", hash returns size " << sizeof(decltype(qsh)::hash_t) << std::endl;
+        std::cout << "}" << std::endl << "// size of int is: " << sizeof(int) << ", sizeof(size_t) is " << sizeof(size_t) << ", size of int_fast64_t is " << sizeof(int_fast64_t) << ", hash returns size " << sizeof(decltype(qsh)::hash_t) << std::endl;
     }
     // TODO: What about the equivalent of EVALUATE TRUE? (test several conditions, branch on the first that is true)
     // Maybe list/vector of pair of functors: [&](){}->bool, [&]()->void?
@@ -142,7 +142,7 @@ int main ()
 
     // constexpr lets you do this.
     std::vector<std::string> v{"Cero", "Uno", "Dos"};
-    utl::QuickStringHash<size_t>  hash_fn;
+    utl::QuickStringHash<size_t>  hash_fn; 
     switch (const auto x = hash_fn(v[abs(rand()) % 3]))
     {
         case hash_fn("Cero"):
@@ -153,7 +153,7 @@ int main ()
         break;
         case hash_fn("Dos"):
         cout << "Dos" <<endl;
-        break;
+        break; 
         default:
         cout << std::to_string(x) <<endl;
         break;
