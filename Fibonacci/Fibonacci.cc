@@ -37,11 +37,19 @@ void CompareResults()
     };
     cout << "  ";
     for (auto n: {  
-        "\033[32;1mloop\033[0m", 
-        "\033[31;1mgoodRecursion\033[0m", 
-        "\033[33;1mConstantTime\033[0m", 
+#ifdef _MSC_VER
+        "loop", 
+        "goodRecursion", 
+        "ConstantTime", 
+        "UsingMatrix",
+        "withoutLoopsOrRecursion"
+#else
+        "\033[32;1mloop\033[0m",
+        "\033[31;1mgoodRecursion\033[0m",
+        "\033[33;1mConstantTime\033[0m",
         "\033[36;1mUsingMatrix\033[0m",
         "\033[34;1mwithoutLoopsOrRecursion\033[0m"
+#endif
     }) { 
         cout << setw(37) << n;   
     }

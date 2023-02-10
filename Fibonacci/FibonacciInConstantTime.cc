@@ -1,9 +1,13 @@
 #include <cstdint> // for uint_fast16_t
 // This header is required, otherwise the compiler optimizes away everything.
 #include "FibonacciInConstantTime.h"
+#include <array>
 
 namespace metaprogrammed
 {
+
+#ifdef USE_LEGACY_IMPLEMENTATION
+    // Available before C++ 17.
 
     // Template metaprogramming and class enums allow us to compute the Fibonacci series at compile time: O(1)
     // Before C++11, we couldn't define 64-bit enums. There was a hack (defining a 'static unsigned long long getValue()' function), but it was ugly. 
@@ -24,7 +28,7 @@ namespace metaprogrammed
     {
         enum class Element: ull { value = 1ULL };
     };
-    
+
     // An array of 93 integers, 64 bits each, takes 744 bytes. They are calculated at _compile_ _time_.
     // The compiled size of any of the functions (loop, recursion), even if smaller, cannot 'pay' for the run time overhead. 
     // O(1) wins.
@@ -134,4 +138,23 @@ namespace metaprogrammed
         (ull) Fibonacci<92>::Element::value
     };
     static_assert(93 == sizeof(Values) / sizeof(Values[0]), "The size of the array is not the expected (93): there may be a duplicate or missing value.");   
+#else
+
+    // Compile-time calculation since C++ 17
+    template<typename VALUETYPE, unsigned int TABLE_SIZE>
+    constexpr std::array<VALUETYPE, TABLE_SIZE> table = [] { // OR: constexpr auto table
+        std::array<VALUETYPE, TABLE_SIZE> A = {};
+        A[0] = 1;
+        A[1] = 1;
+        for (unsigned i = 2; i < TABLE_SIZE; i++) {
+            A[i] = A[i - 1] + A[i - 2];
+        }
+        return A;
+    }();
+
+    auto values = table<ull, 93>;
+    const ull* compilerFilledArray = &values[0];
+
+#endif
+   
 }

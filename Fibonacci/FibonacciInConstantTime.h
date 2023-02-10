@@ -10,14 +10,18 @@ namespace metaprogrammed
     // The compiled size of any of the functions (loop, recursion), even if smaller, cannot 'pay' for the run time overhead. 
     // O(1) wins.
     // The array could also have been initialized with literals downloaded from http://ibiblio.org/pub/docs/books/gutenberg/etext01/fbncc10.txt (among many others)
+#ifdef USE_LEGACY_IMPLEMENTATION
     extern const ull Values[];
+#endif // def USE_LEGACY_IMPLEMENTATION
+    extern const ull* compilerFilledArray;
 
     struct ConstantTime 
     {
         static constexpr unsigned long long fibonacci(uint_fast16_t n) noexcept
         {
             // The fastest way to get the result: look it up in a table. 
-            return (n > 92) ? -1: Values[n];
+            // return (n > 92) ? -1 : Values[n];
+            return (n > 92) ? -1 : compilerFilledArray[n];
         }
     }; 
 }

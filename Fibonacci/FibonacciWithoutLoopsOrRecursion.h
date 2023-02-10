@@ -11,7 +11,7 @@ struct withoutLoopsOrRecursion
 #if GCC_VERSION > 40699
     static constexpr unsigned long long fibonacci(uint_fast16_t n) 
 #else
-    static unsigned long long fibonacci(uint_fast16_t n) 
+    static unsigned long long fibonacci(uint_fast16_t n) noexcept
 #endif
     {
         return (unsigned long long) (0.5 + 0.44721359549995682 * pow(1.6180339887498949, n + 1));

@@ -108,7 +108,7 @@ namespace matrixMultiplication
     }
     
     // O(log n)
-    unsigned long long UsingMatrix::fibonacci(uint_fast16_t n) 
+    unsigned long long UsingMatrix::fibonacci(uint_fast16_t n) noexcept
     {
         matrix_t em(0);
         em.At(0, 0, 1);
@@ -120,7 +120,7 @@ namespace matrixMultiplication
     }   
     // O(n), less efficient implementation. 
     // See "Recursive powering", "Algorithm 4" at https://www.ics.uci.edu/~eppstein/161/960109.html
-    unsigned long long UsingMatrix::fibonacciNaive(uint_fast16_t n) 
+    unsigned long long UsingMatrix::fibonacciNaive(uint_fast16_t n) noexcept
     {
         Matrix<2, 2, unsigned long long> em(1);
         em.At(1, 1, 0);
